@@ -1,2 +1,0 @@
-# Voicenest-
-AI Narrator Studio 
