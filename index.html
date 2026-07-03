@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceNest Studio</title>
+    <title>VoiceNest Studio v0.4</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +23,7 @@
             --accent-blue: #3b82f6;
             --active-gradient: linear-gradient(90deg, #a855f7, #6366f1);
             --btn-gradient: linear-gradient(90deg, #9333ea, #ec4899);
+            --text-gradient: linear-gradient(135deg, #ff007f, #7928ca, #b800ff);
         }
 
         * {
@@ -58,6 +59,7 @@
             transform: skewY(-8deg); filter: blur(50px); z-index: -1; pointer-events: none;
         }
 
+        /* Sidebar Component */
         .sidebar {
             width: 260px;
             background-color: var(--sidebar-bg);
@@ -88,12 +90,26 @@
         }
         .menu-item.active a { background: var(--active-gradient); }
 
+        /* ဆောင်ပုဒ်တိုလေး အသစ် */
+        .sidebar-short-motto {
+            padding: 12px 15px;
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: #a855f7;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-left: 2px solid rgba(168, 85, 247, 0.4);
+            background: rgba(168, 85, 247, 0.03);
+            border-radius: 0 8px 8px 0;
+        }
+
         .sidebar-quote {
             background: rgba(147, 51, 234, 0.05); border: 1px solid rgba(147, 51, 234, 0.15);
             border-radius: 12px; padding: 15px; font-size: 0.8rem; color: #d8b4fe; line-height: 1.4;
         }
         .sidebar-quote span { display: block; margin-top: 8px; color: var(--accent-purple); font-weight: 600; }
 
+        /* Main Content */
         .main-content {
             flex-grow: 1; padding: 40px; max-width: 1000px; margin: 0 auto;
             display: flex; flex-direction: column; gap: 25px; width: 100%;
@@ -108,8 +124,19 @@
         }
 
         .top-bar { display: flex; justify-content: space-between; align-items: center; }
-        .welcome-text h2 { font-size: 1.8rem; margin-bottom: 4px; }
-        .welcome-text p { color: var(--text-muted); font-size: 0.9rem; }
+        .welcome-text p { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
+        
+        /* အားရကျေးနပ်စေမည့် Glow Gradient Header စတိုင် */
+        .welcome-text h2 { 
+            font-size: 2.2rem; 
+            font-weight: 800;
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0px 0px 30px rgba(236, 72, 153, 0.15);
+            margin-top: 2px;
+        }
 
         .badge-premium {
             background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3);
@@ -141,6 +168,17 @@
             font-weight: 500; outline: none; cursor: pointer; width: 100%;
         }
 
+        /* V0.4 Advanced Pitch/Speed Control Sliders Panel */
+        .tuning-card {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 25px; padding: 18px 24px;
+            background: rgba(10, 6, 32, 0.7); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px;
+        }
+        .slider-group { display: flex; flex-direction: column; gap: 6px; }
+        .slider-label-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); }
+        .slider-label-row span b { color: #fff; }
+        .tuning-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 5px; background: #161036; border-radius: 3px; outline: none; }
+        .tuning-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent-purple); cursor: pointer; box-shadow: 0 0 8px var(--accent-purple); }
+
         .btn-center-zone { display: flex; justify-content: center; margin: 10px 0; }
         .btn-generate {
             background: var(--btn-gradient); color: white; border: none;
@@ -168,8 +206,10 @@
         .node-info p { font-size: 0.75rem; color: var(--text-muted); }
 
         .audio-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        
+        /* Waveform Active Jumping Animation */
         .waveform-visualizer { display: flex; align-items: center; justify-content: center; gap: 3px; height: 40px; margin-bottom: 15px; }
-        .wave-bar { flex-grow: 1; height: 6px; background-color: rgba(168, 85, 247, 0.2); border-radius: 2px; }
+        .wave-bar { flex-grow: 1; height: 6px; background-color: rgba(168, 85, 247, 0.2); border-radius: 2px; transition: height 0.1s ease; }
         .playing .wave-bar { background-color: var(--accent-purple); box-shadow: 0 0 5px var(--accent-purple); }
 
         .player-row { display: flex; align-items: center; gap: 15px; }
@@ -197,7 +237,7 @@
             .close-sidebar-btn { display: block; }
             .mobile-header { display: flex; }
             .main-content { padding: 20px; }
-            .controls-row, .status-panel-container { grid-template-columns: 1fr; gap: 15px; }
+            .controls-row, .status-panel-container, .tuning-card { grid-template-columns: 1fr; gap: 15px; }
         }
     </style>
 </head>
@@ -215,7 +255,11 @@
             <ul class="menu-list">
                 <li class="menu-item active"><a href="#"><i class="fa-solid fa-house"></i> <span data-lang="m-home">Home</span></a></li>
                 <li class="menu-item"><a href="#"><i class="fa-solid fa-folder"></i> <span data-lang="m-projects">My Projects</span></a></li>
-                <li class="menu-item"><a href="#"><i class="fa-solid fa-heart"></i> <span data-lang="m-fav">Favorites</span></a></li>
+                
+                <!-- တိုတိုနှင့်ထိမိသော ဆောင်ပုဒ်အသစ်လေး နေရာချထားမှု -->
+                <div class="sidebar-short-motto" data-lang="motto-short">One Step Ahead, Every Single Day.</div>
+                
+                <li class="menu-item" style="margin-top: 15px;"><a href="#"><i class="fa-solid fa-heart"></i> <span data-lang="m-fav">Favorites</span></a></li>
                 <li class="menu-item"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> <span data-lang="m-history">History</span></a></li>
                 <li class="menu-item"><a href="#"><i class="fa-solid fa-gear"></i> <span data-lang="m-settings">Settings</span></a></li>
                 <li class="menu-item"><a href="#"><i class="fa-solid fa-circle-info"></i> <span data-lang="m-about">About</span></a></li>
@@ -238,7 +282,7 @@
         <div class="top-bar">
             <div class="welcome-text">
                 <p data-lang="welcome">Welcome to</p>
-                <h2>VoiceNest Studio</h2>
+                <h2 data-lang="studio-title">VoiceNest Studio</h2>
             </div>
             <div class="badge-premium"><i class="fa-solid fa-crown"></i> <span data-lang="free-plan">Free Plan</span></div>
         </div>
@@ -269,10 +313,13 @@
                         <select id="styleSelect">
                             <option value="warm" data-lang="opt-warm">Warm Storyteller</option>
                             <option value="emo" data-lang="opt-emo">Emotional Tone</option>
+                            <option value="suspense" data-lang="opt-susp">Suspense/Mystery</option>
+                            <option value="motive" data-lang="opt-motv">Inspirational</option>
                         </select>
                     </div>
                 </div>
 
+                <!-- Voice Selection Menu (၄ ခုအထိ တိုးမြှင့်ထားသည်) -->
                 <div class="dropdown-box">
                     <i class="fa-solid fa-microphone" style="color: #ec4899;"></i>
                     <div class="dropdown-info">
@@ -280,9 +327,29 @@
                         <select id="voiceSelect">
                             <option value="v1" data-lang="v-male">Aung Aung (Male)</option>
                             <option value="v2" data-lang="v-female">Su Su (Female)</option>
+                            <option value="v3" data-lang="v-deep">Kyaw Kyaw (Deep Voice)</option>
+                            <option value="v4" data-lang="v-insp">Thiri (Inspirational)</option>
                         </select>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Advanced Tuning Sliders Panel -->
+        <div class="tuning-card">
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span data-lang="lbl-speed">Speech Speed</span>
+                    <span><b id="speedVal">1.0</b>x</span>
+                </div>
+                <input type="range" class="tuning-slider" id="speedSlider" min="0.5" max="2.0" step="0.1" value="1.0">
+            </div>
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span data-lang="lbl-pitch">Voice Pitch</span>
+                    <span><b id="pitchVal">0</b></span>
+                </div>
+                <input type="range" class="tuning-slider" id="pitchSlider" min="-5" max="5" step="1" value="0">
             </div>
         </div>
 
@@ -331,15 +398,18 @@
     </div>
 
     <script>
+        // Dictionary Mapping with V0.4 updates
         const translations = {
             en: {
                 "slogan": "Every story deserves a voice.",
+                "motto-short": "One Step Ahead, Every Single Day.",
                 "m-home": "Home", "m-projects": "My Projects", "m-fav": "Favorites", "m-history": "History", "m-settings": "Settings", "m-about": "About",
                 "quote": "\"Bring your stories to life with the power of AI voice.\"",
-                "welcome": "Welcome to", "free-plan": "Free Plan", "your-story": "Your Story",
+                "welcome": "Welcome to", "studio-title": "VoiceNest Studio", "free-plan": "Free Plan", "your-story": "Your Story",
                 "lbl-lang": "Language", "lbl-style": "Narration Style", "lbl-voice": "Voice Library",
-                "opt-warm": "Warm Storyteller", "opt-emo": "Emotional Tone",
-                "v-male": "Aung Aung (Male)", "v-female": "Su Su (Female)",
+                "opt-warm": "Warm Storyteller", "opt-emo": "Emotional Tone", "opt-susp": "Suspense/Mystery", "opt-motv": "Inspirational",
+                "v-male": "Aung Aung (Male)", "v-female": "Su Su (Female)", "v-deep": "Kyaw Kyaw (Deep Voice)", "v-insp": "Thiri (Inspirational)",
+                "lbl-speed": "Speech Speed", "lbl-pitch": "Voice Pitch",
                 "btn-generate": "Generate Voice", "your-audio": "Your Audio", "btn-dl": "Download",
                 "st-ready": "Ready", "st-ready-p": "Waiting for your story.",
                 "st-gen": "Generating...", "st-gen-p": "AI is working on it",
@@ -348,12 +418,14 @@
             },
             mm: {
                 "slogan": "ပုံပြင်တိုင်းမှာ ကိုယ်ပိုင်အသံ ရှိသင့်သည်။",
+                "motto-short": "နေ့စဉ်နေ့တိုင်း ခြေတစ်လှမ်း အမြဲရှေ့သို့။",
                 "m-home": "ပင်မစာမျက်နှာ", "m-projects": "ကျွန်ုပ်၏ ပရောဂျက်များ", "m-fav": "အနှစ်သက်ဆုံးများ", "m-history": "မှတ်တမ်းဟောင်းများ", "m-settings": "ဆက်တင်များ", "m-about": "ဆော့ဖ်ဝဲအကြောင်း",
                 "quote": "\"သင်၏ ပုံပြင်များကို အဆင့်မြင့် AI အသံစနစ်ဖြင့် အသက်သွင်းလိုက်ပါ။\"",
-                "welcome": "မှ ကြိုဆိုပါ၏", "free-plan": "အခမဲ့ဗားရှင်း", "your-story": "သင်၏ ပုံပြင်စာသား",
+                "welcome": "မှ ကြိုဆိုပါ၏", "studio-title": "ဗွိုက်စ်နက်စ် စတူဒီယို", "free-plan": "အခမဲ့ဗားရှင်း", "your-story": "သင်၏ ပုံပြင်စာသား",
                 "lbl-lang": "ဘာသာစကား", "lbl-style": "ပြောပြမည့်ဟန်", "lbl-voice": "အသံအမျိုးအစား",
-                "opt-warm": "နွေးထွေးသော ပုံပြင်ပြောသူ", "opt-emo": "ခံစားချက်အပြည့်ဖြင့်",
-                "v-male": "မောင်အောင်အောင် (အမျိုးသားအသံ)", "v-female": "မစုစု (အမျိုးသမီးအသံ)",
+                "opt-warm": "နွေးထွေးသော ပုံပြင်ပြောသူ", "opt-emo": "ခံစားချက်အပြည့်ဖြင့်", "opt-susp": "သည်းထိတ်ရင်ဖို/နက်နဲသောဟန်", "opt-motv": "စိတ်ဓာတ်ခွန်အားပေးဟန်",
+                "v-male": "မောင်အောင်အောင် (အမျိုးသား)", "v-female": "မစုစု (အမျိုးသမီး)", "v-deep": "ကိုကျော်ကျော် (အသံဩဇာကြီး)", "v-insp": "မသီရိ (ခွန်အားပေးအသံ)",
+                "lbl-speed": "အသံအနှေး/အမြန်", "lbl-pitch": "အသံအနိမ့်/အမြင့်",
                 "btn-generate": "အသံဖန်တီးမည်", "your-audio": "ဖန်တီးပြီးသော အသံဖိုင်", "btn-dl": "ဒေါင်းလုဒ်ဆွဲရန်",
                 "st-ready": "အဆင်သင့်", "st-ready-p": "စာသားထည့်သွင်းရန် စောင့်ဆိုင်းနေပါသည်...",
                 "st-gen": "အသံဖန်တီးနေဆဲ...", "st-gen-p": "AI အင်ဂျင် အလုပ်လုပ်နေပါသည်",
@@ -377,14 +449,42 @@
         });
         tx.placeholder = translations["en"]["holder"];
 
+        // Visualizer Bar Generation
         const visualizer = document.getElementById('waveVisualizer');
-        for (let i = 0; i < 40; i++) {
+        const totalBars = 40;
+        for (let i = 0; i < totalBars; i++) {
             const bar = document.createElement('div');
             bar.classList.add('wave-bar');
-            bar.style.height = (Math.floor(Math.random() * 30) + 6) + 'px';
+            bar.style.height = (Math.floor(Math.random() * 25) + 6) + 'px';
             visualizer.appendChild(bar);
         }
 
+        // Active Animation Loop when Audio is playing
+        let animationInterval;
+        function startWaveAnimation() {
+            animationInterval = setInterval(() => {
+                document.querySelectorAll('.wave-bar').forEach(bar => {
+                    bar.style.height = (Math.floor(Math.random() * 32) + 6) + 'px';
+                });
+            }, 100);
+        }
+        function stopWaveAnimation() {
+            clearInterval(animationInterval);
+            document.querySelectorAll('.wave-bar').forEach(bar => {
+                bar.style.height = (Math.floor(Math.random() * 20) + 6) + 'px';
+            });
+        }
+
+        // Live Slider Badge Updates
+        const speedSlider = document.getElementById('speedSlider');
+        const speedVal = document.getElementById('speedVal');
+        speedSlider.addEventListener('input', () => { speedVal.innerText = speedSlider.value; });
+
+        const pitchSlider = document.getElementById('pitchSlider');
+        const pitchVal = document.getElementById('pitchVal');
+        pitchSlider.addEventListener('input', () => { pitchVal.innerText = (pitchSlider.value > 0 ? '+' : '') + pitchSlider.value; });
+
+        // Sidebar Navigation Toggles
         const burgerBtn = document.getElementById('burgerBtn');
         const closeSidebarBtn = document.getElementById('closeSidebarBtn');
         const sidebar = document.getElementById('sidebarPanel');
@@ -393,6 +493,7 @@
         closeSidebarBtn.addEventListener('click', () => { sidebar.classList.remove('open'); });
         document.addEventListener('click', (e) => { if(!sidebar.contains(e.target) && e.target !== burgerBtn) sidebar.classList.remove('open'); });
 
+        // Processor Event Chain
         const genBtn = document.getElementById('genBtn');
         const sReady = document.getElementById('statusReady');
         const sGen = document.getElementById('statusGen');
@@ -406,7 +507,13 @@
         const playBtn = document.getElementById('playBtn');
         playBtn.addEventListener('click', () => {
             visualizer.classList.toggle('playing');
-            playBtn.innerHTML = visualizer.classList.contains('playing') ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+            if (visualizer.classList.contains('playing')) {
+                playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                startWaveAnimation();
+            } else {
+                playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                stopWaveAnimation();
+            }
         });
 
         const count = document.getElementById('charCount');
