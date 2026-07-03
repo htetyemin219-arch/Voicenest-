@@ -14,8 +14,7 @@
     <style>
         :root {
             --bg-color: #030014;
-            --sidebar-bg: rgba(9, 5, 28, 0.75);
-            --main-content-bg: #050212;
+            --sidebar-bg: rgba(9, 5, 28, 0.85);
             --card-bg: rgba(13, 9, 33, 0.6);
             --card-border: rgba(147, 51, 234, 0.2);
             --text-main: #ffffff;
@@ -42,9 +41,6 @@
             position: relative;
         }
 
-        /* -----------------------------------------
-           GLOWING WAVE BACKGROUND GRAPHICS (လှပသော အလင်းတန်းလှိုင်းလုံးများ)
-        ----------------------------------------- */
         body::before {
             content: '';
             position: absolute;
@@ -57,294 +53,149 @@
 
         .ambient-waves {
             position: absolute;
-            top: 10%;
-            right: -5%;
-            width: 70%;
-            height: 300px;
-            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1), transparent);
-            transform: skewY(-10deg);
-            filter: blur(40px);
-            z-index: -1;
-            pointer-events: none;
+            top: 5%; right: -5%; width: 70%; height: 350px;
+            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.12), rgba(59, 130, 246, 0.12), transparent);
+            transform: skewY(-8deg); filter: blur(50px); z-index: -1; pointer-events: none;
         }
 
-        /* -----------------------------------------
-           SIDEBAR STYLING (ပရိုဂျက်ပုံစံ Sidebar)
-        ----------------------------------------- */
         .sidebar {
             width: 260px;
             background-color: var(--sidebar-bg);
             border-right: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 30px 20px;
-            z-index: 999;
-            transition: transform 0.3s ease;
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .logo-section {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 5px;
-            margin-bottom: 35px;
-            padding-left: 10px;
-        }
-
-        .logo-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .logo-section { padding-left: 10px; margin-bottom: 35px; }
+        .logo-title { font-size: 1.6rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .logo-title span { color: var(--accent-purple); }
+        .logo-section p { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
 
-        .logo-section p { font-size: 0.75rem; color: var(--text-muted); }
-
-        .menu-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        .menu-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
         .menu-item a {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 12px 15px;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            display: flex; align-items: center; gap: 15px; color: var(--text-muted);
+            text-decoration: none; padding: 12px 15px; border-radius: 10px;
+            font-size: 0.95rem; font-weight: 500; transition: all 0.2s ease;
         }
-
         .menu-item a:hover, .menu-item.active a {
-            color: #fff;
-            background: rgba(168, 85, 247, 0.15);
-            box-shadow: inset 0 0 10px rgba(168, 85, 247, 0.1);
+            color: #fff; background: rgba(168, 85, 247, 0.15);
         }
-
         .menu-item.active a { background: var(--active-gradient); }
 
         .sidebar-quote {
-            background: rgba(147, 51, 234, 0.05);
-            border: 1px solid rgba(147, 51, 234, 0.15);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: auto;
-            font-size: 0.8rem;
-            color: #d8b4fe;
-            line-height: 1.4;
+            background: rgba(147, 51, 234, 0.05); border: 1px solid rgba(147, 51, 234, 0.15);
+            border-radius: 12px; padding: 15px; font-size: 0.8rem; color: #d8b4fe; line-height: 1.4;
         }
+        .sidebar-quote span { display: block; margin-top: 8px; color: var(--accent-purple); font-weight: 600; }
 
-        .sidebar-quote span {
-            display: block;
-            margin-top: 8px;
-            color: var(--accent-purple);
-            font-weight: 600;
-        }
-
-        /* -----------------------------------------
-           MAIN CONTENT AREA
-        ----------------------------------------- */
         .main-content {
-            flex-grow: 1;
-            padding: 40px;
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            width: 100%;
+            flex-grow: 1; padding: 40px; max-width: 1000px; margin: 0 auto;
+            display: flex; flex-direction: column; gap: 25px; width: 100%;
         }
 
-        .mobile-nav {
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .mobile-header {
+            display: none; justify-content: space-between; align-items: center;
+            padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        .menu-toggle-btn {
-            background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;
+        .burger-menu-btn {
+            background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 5px;
         }
 
         .top-bar { display: flex; justify-content: space-between; align-items: center; }
-
         .welcome-text h2 { font-size: 1.8rem; margin-bottom: 4px; }
         .welcome-text p { color: var(--text-muted); font-size: 0.9rem; }
 
         .badge-premium {
-            background: rgba(234, 179, 8, 0.1);
-            border: 1px solid rgba(234, 179, 8, 0.3);
-            color: #eab308;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3);
+            color: #eab308; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
         }
 
-        /* Card and Forms */
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 24px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 14px; padding: 24px; backdrop-filter: blur(10px);
         }
-
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-        }
-
+        .form-header { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px; }
+        
         textarea {
-            width: 100%; height: 140px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 10px; padding: 15px;
-            color: #fff; font-size: 0.95rem;
-            resize: none; outline: none;
+            width: 100%; height: 140px; background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 10px;
+            padding: 15px; color: #fff; font-size: 0.95rem; resize: none; outline: none;
         }
 
-        /* Controls Grid */
-        .controls-row {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;
-        }
-
+        .controls-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .dropdown-box {
-            background: rgba(15, 10, 36, 0.8);
-            border: 1px solid var(--card-border);
-            border-radius: 10px; padding: 10px 15px;
-            display: flex; align-items: center; gap: 12px;
+            background: rgba(15, 10, 36, 0.8); border: 1px solid var(--card-border);
+            border-radius: 10px; padding: 10px 15px; display: flex; align-items: center; gap: 12px;
         }
-
         .dropdown-box i { font-size: 1.2rem; color: var(--accent-blue); }
-
         .dropdown-info { display: flex; flex-direction: column; width: 100%; }
-
         .dropdown-info label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px; }
-
         .dropdown-info select {
-            background: transparent; border: none; color: #fff;
-            font-size: 0.9rem; font-weight: 500; outline: none; cursor: pointer; width: 100%;
+            background: transparent; border: none; color: #fff; font-size: 0.9rem;
+            font-weight: 500; outline: none; cursor: pointer; width: 100%;
         }
 
-        /* Action Button */
         .btn-center-zone { display: flex; justify-content: center; margin: 10px 0; }
-
         .btn-generate {
             background: var(--btn-gradient); color: white; border: none;
             padding: 14px 40px; font-size: 1rem; font-weight: 600; border-radius: 30px;
-            cursor: pointer; box-shadow: 0 0 25px rgba(147, 51, 234, 0.5);
+            cursor: pointer; box-shadow: 0 0 25px rgba(147, 51, 234, 0.4);
             display: flex; align-items: center; gap: 10px; transition: all 0.2s ease;
         }
+        .btn-generate:hover { transform: scale(1.02); box-shadow: 0 0 35px rgba(236, 72, 153, 0.5); }
 
-        .btn-generate:hover {
-            transform: scale(1.02); box-shadow: 0 0 35px rgba(236, 72, 153, 0.6);
-        }
-
-        /* -----------------------------------------
-           V0.3 STATUS PANEL STYLING
-        ----------------------------------------- */
         .status-panel-container {
             display: grid; grid-template-columns: repeat(3, 1fr);
-            background: rgba(10, 6, 30, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px; padding: 15px;
+            background: rgba(10, 6, 30, 0.6); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px; padding: 15px; gap: 10px;
         }
-
-        .status-node {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            opacity: 0.25; transition: all 0.3s ease;
-        }
-
+        .status-node { display: flex; align-items: center; justify-content: center; gap: 12px; opacity: 0.25; transition: all 0.3s ease; }
         .status-node.active { opacity: 1; }
-
         .circle-icon {
-            width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.9rem; border: 2px solid var(--text-muted);
+            width: 34px; height: 34px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 0.85rem; border: 2px solid var(--text-muted);
         }
-
-        .node-ready.active .circle-icon { border-color: #10b981; color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
-        .node-gen.active .circle-icon { border-color: #f59e0b; color: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
-        .node-done.active .circle-icon { border-color: #3b82f6; color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
-
+        .node-ready.active .circle-icon { border-color: #10b981; color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+        .node-gen.active .circle-icon { border-color: #f59e0b; color: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+        .node-done.active .circle-icon { border-color: #3b82f6; color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
         .node-info text { font-weight: 600; display: block; font-size: 0.9rem; }
         .node-info p { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* -----------------------------------------
-           AUDIO PLAYER WITH WAVEFORM VISUAL
-        ----------------------------------------- */
-        .audio-title {
-            font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .waveform-visualizer {
-            display: flex; align-items: center; justify-content: center; gap: 3px;
-            height: 40px; margin-bottom: 15px; padding: 0 10px;
-        }
-        .wave-bar {
-            flex-grow: 1; height: 5px; background-color: rgba(168, 85, 247, 0.2);
-            border-radius: 2px; transition: height 0.2s ease;
-        }
-        .playing .wave-bar {
-            background-color: var(--accent-purple); box-shadow: 0 0 5px var(--accent-purple);
-        }
+        .audio-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .waveform-visualizer { display: flex; align-items: center; justify-content: center; gap: 3px; height: 40px; margin-bottom: 15px; }
+        .wave-bar { flex-grow: 1; height: 6px; background-color: rgba(168, 85, 247, 0.2); border-radius: 2px; }
+        .playing .wave-bar { background-color: var(--accent-purple); box-shadow: 0 0 5px var(--accent-purple); }
 
         .player-row { display: flex; align-items: center; gap: 15px; }
-
         .play-btn {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border);
-            color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border); color: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
-
         .play-btn:hover { background: var(--accent-purple); border-color: transparent; }
-
         .time-text { font-size: 0.8rem; color: var(--text-muted); min-width: 38px; }
-
-        .progress-bar {
-            flex-grow: 1; -webkit-appearance: none; appearance: none;
-            height: 4px; background: #1e1938; border-radius: 2px; outline: none;
-        }
-        .progress-bar::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%;
-            background: #fff; cursor: pointer; box-shadow: 0 0 8px var(--accent-purple);
-        }
+        .progress-bar { flex-grow: 1; -webkit-appearance: none; appearance: none; height: 4px; background: #1e1938; border-radius: 2px; outline: none; }
+        .progress-bar::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: #fff; cursor: pointer; }
 
         .btn-download-v3 {
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 18px; border-radius: 8px; color: #fff; font-size: 0.85rem;
-            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            padding: 10px 18px; border-radius: 8px; color: #fff; font-size: 0.85rem; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
         }
 
-        /* -----------------------------------------
-           RESPONSIVE DESIGN (MOBILE VIEW)
-        ----------------------------------------- */
+        .close-sidebar-btn { display: none; background: none; border: none; color: var(--text-muted); font-size: 1.3rem; align-self: flex-end; cursor: pointer; margin-bottom: 10px; }
+
         @media (max-width: 868px) {
-            .sidebar {
-                position: fixed; top: 0; left: 0; bottom: 0;
-                transform: translateX(-100%); box-shadow: 5px 0 25px rgba(0,0,0,0.8);
-            }
+            .sidebar { position: fixed; top: 0; left: 0; bottom: 0; transform: translateX(-100%); box-shadow: 5px 0 25px rgba(0,0,0,0.8); }
             .sidebar.open { transform: translateX(0); }
-            .mobile-nav { display: flex; }
+            .close-sidebar-btn { display: block; }
+            .mobile-header { display: flex; }
             .main-content { padding: 20px; }
             .controls-row, .status-panel-container { grid-template-columns: 1fr; gap: 15px; }
         }
@@ -352,11 +203,10 @@
 </head>
 <body>
 
-    <!-- Ambient Lines Layer -->
     <div class="ambient-waves"></div>
 
-    <!-- Sidebar Panel -->
     <div class="sidebar" id="sidebarPanel">
+        <button class="close-sidebar-btn" id="closeSidebarBtn"><i class="fa-solid fa-xmark"></i></button>
         <div>
             <div class="logo-section">
                 <div class="logo-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Voice<span>Nest</span></div>
@@ -371,35 +221,28 @@
                 <li class="menu-item"><a href="#"><i class="fa-solid fa-circle-info"></i> <span data-lang="m-about">About</span></a></li>
             </ul>
         </div>
-
         <div class="sidebar-quote">
             <span data-lang="quote">"Bring your stories to life with the power of AI voice."</span>
             <span>#OneStepOn</span>
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         
-        <!-- Mobile Navigation Bar -->
-        <div class="mobile-nav">
-            <button class="menu-toggle-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+        <div class="mobile-header">
+            <button class="burger-menu-btn" id="burgerBtn"><i class="fa-solid fa-bars"></i></button>
             <div class="logo-title" style="font-size: 1.2rem;">Voice<span>Nest</span></div>
             <div class="badge-premium" style="padding: 4px 10px; font-size: 0.7rem;">Free</div>
         </div>
 
-        <!-- Top Welcome Row -->
         <div class="top-bar">
             <div class="welcome-text">
                 <p data-lang="welcome">Welcome to</p>
                 <h2>VoiceNest Studio</h2>
             </div>
-            <div class="top-badge-zone">
-                <div class="badge-premium"><i class="fa-solid fa-crown"></i> <span data-lang="free-plan">Free Plan</span></div>
-            </div>
+            <div class="badge-premium"><i class="fa-solid fa-crown"></i> <span data-lang="free-plan">Free Plan</span></div>
         </div>
 
-        <!-- Input Card -->
         <div class="card">
             <div class="form-header">
                 <span><i class="fa-solid fa-comment-dots"></i> <span data-lang="your-story">Your Story</span></span>
@@ -407,10 +250,7 @@
             </div>
             <textarea id="storyText" placeholder="Enter your story here..."></textarea>
 
-            <!-- Dropdowns Selection -->
             <div class="controls-row">
-                
-                <!-- Language Switcher -->
                 <div class="dropdown-box">
                     <i class="fa-solid fa-globe"></i>
                     <div class="dropdown-info">
@@ -428,7 +268,7 @@
                         <label data-lang="lbl-style">Narration Style</label>
                         <select id="styleSelect">
                             <option value="warm" data-lang="opt-warm">Warm Storyteller</option>
-                            <option value="emo" data-lang="opt-emo">Emotional</option>
+                            <option value="emo" data-lang="opt-emo">Emotional Tone</option>
                         </select>
                     </div>
                 </div>
@@ -437,30 +277,27 @@
                     <i class="fa-solid fa-microphone" style="color: #ec4899;"></i>
                     <div class="dropdown-info">
                         <label data-lang="lbl-voice">Voice Library</label>
-                        <select>
-                            <option data-lang="v-male">Male • Deep & Calm</option>
-                            <option data-lang="v-female">Female • Standard</option>
-                            <option data-lang="v-young">Young • Friendly</option>
+                        <select id="voiceSelect">
+                            <option value="v1" data-lang="v-male">Aung Aung (Male)</option>
+                            <option value="v2" data-lang="v-female">Su Su (Female)</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Action Button -->
         <div class="btn-center-zone">
             <button class="btn-generate" id="genBtn">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> <span id="btnText" data-lang="btn-generate">Generate Voice</span>
             </button>
         </div>
 
-        <!-- Status Panel -->
         <div class="status-panel-container">
             <div class="status-node node-ready active" id="statusReady">
                 <div class="circle-icon"><i class="fa-solid fa-check"></i></div>
                 <div class="node-info">
                     <text data-lang="st-ready">Ready</text>
-                    <p data-lang="st-ready-p">Your story is ready</p>
+                    <p data-lang="st-ready-p">Waiting for your story.</p>
                 </div>
             </div>
             <div class="status-node node-gen" id="statusGen">
@@ -479,14 +316,9 @@
             </div>
         </div>
 
-        <!-- Audio Player With Waveform Layout -->
         <div class="card">
             <div class="audio-title"><i class="fa-solid fa-waveform-lines"></i> <span data-lang="your-audio">Your Audio</span></div>
-            
-            <div class="waveform-visualizer" id="waveVisualizer">
-                <!-- Bars will generate automatically -->
-            </div>
-
+            <div class="waveform-visualizer" id="waveVisualizer"></div>
             <div class="player-row">
                 <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
                 <div class="time-text">00:00</div>
@@ -498,22 +330,21 @@
 
     </div>
 
-    <!-- JavaScript Data Dictionary for Dual Language -->
     <script>
-        const languages = {
+        const translations = {
             en: {
                 "slogan": "Every story deserves a voice.",
                 "m-home": "Home", "m-projects": "My Projects", "m-fav": "Favorites", "m-history": "History", "m-settings": "Settings", "m-about": "About",
                 "quote": "\"Bring your stories to life with the power of AI voice.\"",
                 "welcome": "Welcome to", "free-plan": "Free Plan", "your-story": "Your Story",
                 "lbl-lang": "Language", "lbl-style": "Narration Style", "lbl-voice": "Voice Library",
-                "opt-warm": "Warm Storyteller", "opt-emo": "Emotional",
-                "v-male": "Male • Deep & Calm", "v-female": "Female • Standard", "v-young": "Young • Friendly",
+                "opt-warm": "Warm Storyteller", "opt-emo": "Emotional Tone",
+                "v-male": "Aung Aung (Male)", "v-female": "Su Su (Female)",
                 "btn-generate": "Generate Voice", "your-audio": "Your Audio", "btn-dl": "Download",
-                "st-ready": "Ready", "st-ready-p": "Your story is ready",
+                "st-ready": "Ready", "st-ready-p": "Waiting for your story.",
                 "st-gen": "Generating...", "st-gen-p": "AI is working on it",
                 "st-done": "Done", "st-done-p": "Your voice is ready",
-                "holder": "Enter your story here..."
+                "holder": "Type or paste your story here..."
             },
             mm: {
                 "slogan": "ပုံပြင်တိုင်းမှာ ကိုယ်ပိုင်အသံ ရှိသင့်သည်။",
@@ -522,11 +353,11 @@
                 "welcome": "မှ ကြိုဆိုပါ၏", "free-plan": "အခမဲ့ဗားရှင်း", "your-story": "သင်၏ ပုံပြင်စာသား",
                 "lbl-lang": "ဘာသာစကား", "lbl-style": "ပြောပြမည့်ဟန်", "lbl-voice": "အသံအမျိုးအစား",
                 "opt-warm": "နွေးထွေးသော ပုံပြင်ပြောသူ", "opt-emo": "ခံစားချက်အပြည့်ဖြင့်",
-                "v-male": "အမျိုးသား • တည်ငြိမ် လေးနက်", "v-female": "အမျိုးသမီး • စံနှုန်းပြည့်", "v-young": "လူငယ် • ဖော်ရွေသော",
+                "v-male": "မောင်အောင်အောင် (အမျိုးသားအသံ)", "v-female": "မစုစု (အမျိုးသမီးအသံ)",
                 "btn-generate": "အသံဖန်တီးမည်", "your-audio": "ဖန်တီးပြီးသော အသံဖိုင်", "btn-dl": "ဒေါင်းလုဒ်ဆွဲရန်",
-                "st-ready": "အဆင်သင့်", "st-ready-p": "စာသားထည့်သွင်းရန် အဆင်သင့်ဖြစ်ပါသည်",
+                "st-ready": "အဆင်သင့်", "st-ready-p": "စာသားထည့်သွင်းရန် စောင့်ဆိုင်းနေပါသည်...",
                 "st-gen": "အသံဖန်တီးနေဆဲ...", "st-gen-p": "AI အင်ဂျင် အလုပ်လုပ်နေပါသည်",
-                "st-done": "အောင်မြင်သည်", "st-done-p": "အသံဖိုင် ဖန်တီးပြီးပါပြီ",
+                "st-done": "အောင်မြင်သည်", "st-done-p": "အသံဖိုင် ဖန်တီးပြီးပါပြီ။",
                 "holder": "ဤနေရာတွင် သင်၏ပုံပြင်စာသားများကို ရေးသား သို့မဟုတ် ကူးယူထည့်သွင်းပါ..."
             }
         };
@@ -536,65 +367,50 @@
 
         langSelect.addEventListener('change', (e) => {
             const currentLang = e.target.value;
-            const data = languages[currentLang];
+            const dict = translations[currentLang];
             
-            document.querySelectorAll('[data-lang]').forEach(element => {
-                const key = element.getAttribute('data-lang');
-                if(data[key]) element.innerText = data[key];
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if(dict[key]) el.innerText = dict[key];
             });
-            tx.placeholder = data["holder"];
+            tx.placeholder = dict["holder"];
         });
+        tx.placeholder = translations["en"]["holder"];
 
-        tx.placeholder = languages["en"]["holder"];
-
-        // Waveform Bars Creation
         const visualizer = document.getElementById('waveVisualizer');
-        const barCount = 45;
-        for (let i = 0; i < barCount; i++) {
+        for (let i = 0; i < 40; i++) {
             const bar = document.createElement('div');
             bar.classList.add('wave-bar');
-            const randomHeight = Math.floor(Math.random() * 35) + 5;
-            bar.style.height = randomHeight + 'px';
+            bar.style.height = (Math.floor(Math.random() * 30) + 6) + 'px';
             visualizer.appendChild(bar);
         }
 
-        // Mobile Sidebar
-        const menuBtn = document.getElementById('menuBtn');
+        const burgerBtn = document.getElementById('burgerBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
         const sidebar = document.getElementById('sidebarPanel');
-        menuBtn.addEventListener('click', (e) => {
-            sidebar.classList.toggle('open'); e.stopPropagation();
-        });
-        document.addEventListener('click', () => { sidebar.classList.remove('open'); });
+        
+        burgerBtn.addEventListener('click', (e) => { sidebar.classList.add('open'); e.stopPropagation(); });
+        closeSidebarBtn.addEventListener('click', () => { sidebar.classList.remove('open'); });
+        document.addEventListener('click', (e) => { if(!sidebar.contains(e.target) && e.target !== burgerBtn) sidebar.classList.remove('open'); });
 
-        // Status Panel Handler
         const genBtn = document.getElementById('genBtn');
         const sReady = document.getElementById('statusReady');
         const sGen = document.getElementById('statusGen');
         const sDone = document.getElementById('statusDone');
 
         genBtn.addEventListener('click', () => {
-            sReady.classList.remove('active');
-            sGen.classList.add('active');
-            sDone.classList.remove('active');
-            setTimeout(() => {
-                sGen.classList.remove('active');
-                sDone.classList.add('active');
-            }, 3000);
+            sReady.classList.remove('active'); sGen.classList.add('active'); sDone.classList.remove('active');
+            setTimeout(() => { sGen.classList.remove('active'); sDone.classList.add('active'); }, 3000);
         });
 
-        // Audio Player Simulation
         const playBtn = document.getElementById('playBtn');
         playBtn.addEventListener('click', () => {
             visualizer.classList.toggle('playing');
-            const isPlaying = visualizer.classList.contains('playing');
-            playBtn.innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+            playBtn.innerHTML = visualizer.classList.contains('playing') ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
         });
 
-        // Character Counter
         const count = document.getElementById('charCount');
-        tx.addEventListener('input', () => {
-            count.innerText = `${tx.value.length} / 5000`;
-        });
+        tx.addEventListener('input', () => { count.innerText = `${tx.value.length} / 5000`; });
     </script>
 </body>
 </html>
