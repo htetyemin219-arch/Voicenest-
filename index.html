@@ -3,93 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VoiceNest</title>
+<title>VoiceNest v0.3</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#3b82f6,#9333ea);
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-.container{
-background:white;
-width:90%;
-max-width:700px;
-padding:30px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,.2);
+body {
+  background: radial-gradient(circle at top, #050617, #02030a);
+  color: white;
+  overflow-x: hidden;
 }
 
-h1{
-text-align:center;
-color:#2563eb;
+/* ================= BACKGROUND ================= */
+.bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(160,90,255,0.25), transparent 40%),
+    radial-gradient(circle at 75% 75%, rgba(0,200,255,0.15), transparent 40%);
+  animation: move 10s infinite alternate;
+  z-index: -1;
 }
 
-p{
-text-align:center;
-color:#666;
+@keyframes move {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
 
-textarea{
-width:100%;
-height:180px;
-margin-top:15px;
-padding:12px;
-border-radius:10px;
-border:1px solid #ccc;
-box-sizing:border-box;
+/* ================= LAYOUT ================= */
+.container {
+  text-align: center;
+  padding: 40px 20px;
 }
 
-select{
-width:100%;
-padding:12px;
-margin-top:15px;
-border-radius:10px;
+/* ================= HEADER ================= */
+.logo {
+  font-size: 42px;
+  font-weight: bold;
+  color: #c084fc;
 }
 
-button{
-width:100%;
-margin-top:20px;
-padding:15px;
-background:#2563eb;
-color:white;
-border:none;
-border-radius:10px;
-font-size:18px;
+.tagline {
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+/* ================= STUDIO ================= */
+.studio {
+  margin-top: 30px;
+}
+
+textarea {
+  width: 90%;
+  max-width: 700px;
+  height: 160px;
+  border-radius: 14px;
+  padding: 15px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.07);
+  color: white;
+  font-size: 16px;
+}
+
+/* ================= CARDS ================= */
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.08);
+  padding: 12px 18px;
+  border-radius: 12px;
+  min-width: 110px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* ================= BUTTON ================= */
+button {
+  margin-top: 25px;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(45deg, #7c3aed, #06b6d4);
+  box-shadow: 0 0 18px rgba(124,58,237,0.6);
+}
+
+/* ================= STATUS ================= */
+.status {
+  margin-top: 18px;
+  font-size: 18px;
+}
+
+/* ================= AUDIO ================= */
+.audio {
+  margin-top: 25px;
+  width: 90%;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+}
+
+.bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #a855f7, #06b6d4);
+  transition: width 0.2s;
 }
 </style>
 </head>
 
 <body>
 
+<div class="bg"></div>
+
 <div class="container">
 
-<h1>🎙️ VoiceNest</h1>
+  <!-- HEADER -->
+  <div class="logo">🎙 VoiceNest</div>
+  <div class="tagline">Every story deserves a voice.</div>
 
-<p>AI Narrator Studio - Version 0.2</p>
+  <!-- STORY STUDIO -->
+  <div class="studio">
 
-<textarea placeholder="Paste your story here..."></textarea>
+    <textarea placeholder="Write your story here..."></textarea>
 
-<select>
-<option>🇲🇲 Myanmar</option>
-<option>🇺🇸 English</option>
-</select>
+    <!-- VOICE CARDS -->
+    <div class="cards">
+      <div class="card">Male</div>
+      <div class="card">Female</div>
+      <div class="card">Young</div>
+      <div class="card">Deep</div>
+    </div>
 
-<select>
-<option>📖 Storyteller</option>
-<option>🎬 Cinematic</option>
-<option>😌 Calm</option>
-<option>🔥 Epic</option>
-</select>
+    <!-- BUTTON -->
+    <button onclick="generate()">✨ Generate Voice</button>
 
-<button>🎙️ Generate Voice</button>
+    <!-- STATUS -->
+    <div class="status" id="status">🟢 Ready</div>
+
+    <!-- AUDIO PLAYER -->
+    <div class="audio">
+      ▶ Play / Pause
+      <div class="bar">
+        <div class="progress" id="progress"></div>
+      </div>
+      🔊 Volume | ⬇ Download
+    </div>
+
+  </div>
 
 </div>
+
+<script>
+let progress = 0;
+let interval;
+
+function generate() {
+  const status = document.getElementById("status");
+  const bar = document.getElementById("progress");
+
+  status.innerText = "🟠 Generating...";
+
+  progress = 0;
+  bar.style.width = "0%";
+
+  clearInterval(interval);
+
+  interval = setInterval(() => {
+    progress += 4;
+    bar.style.width = progress + "%";
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      status.innerText = "🔵 Finished";
+    }
+  }, 120);
+}
+</script>
 
 </body>
 </html>
