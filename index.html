@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceNest Studio v0.6 </title>
+    <title>VoiceNest Studio v0.7</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,6 +74,8 @@
         .controls-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .dropdown-box { background: rgba(15, 10, 36, 0.8); border: 1px solid var(--card-border); border-radius: 10px; padding: 10px 15px; display: flex; align-items: center; gap: 12px; }
         .dropdown-box i { font-size: 1.2rem; color: var(--accent-blue); }
+        .dropdown-box i.fa-masks-theater { color: #a855f7 !important; }
+        .dropdown-box i.fa-microphone { color: #ec4899 !important; }
         .dropdown-info { display: flex; flex-direction: column; width: 100%; }
         .dropdown-info label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px; }
         .dropdown-info select { background: transparent; border: none; color: #fff; font-size: 0.9rem; font-weight: 500; outline: none; cursor: pointer; width: 100%; }
@@ -112,8 +114,8 @@
         .node-ready.active .circle-icon { border-color: #10b981; color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
         .node-gen.active .circle-icon { border-color: #f59e0b; color: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
         .node-done.active .circle-icon { border-color: #3b82f6; color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
-        .node-info text { font-weight: 600; display: block; font-size: 0.9rem; }
-        .node-info p { font-size: 0.75rem; color: var(--text-muted); }
+        .node-info span.node-title { font-weight: 600; display: block; font-size: 0.9rem; color: #fff; }
+        .node-info p { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
 
         .waveform-visualizer { display: flex; align-items: center; justify-content: center; gap: 3px; height: 40px; margin-bottom: 15px; }
         .wave-bar { flex-grow: 1; height: 6px; background-color: rgba(168, 85, 247, 0.2); border-radius: 2px; transition: height 0.1s ease; }
@@ -207,7 +209,7 @@
                     </div>
                 </div>
                 <div class="dropdown-box">
-                    <i class="fa-solid fa-masks-theater" style="color: #a855f7;"></i>
+                    <i class="fa-solid fa-masks-theater"></i>
                     <div class="dropdown-info">
                         <label data-lang="lbl-style">Narration Style</label>
                         <select id="styleSelect">
@@ -224,7 +226,7 @@
                     </div>
                 </div>
                 <div class="dropdown-box">
-                    <i class="fa-solid fa-microphone" style="color: #ec4899;"></i>
+                    <i class="fa-solid fa-microphone"></i>
                     <div class="dropdown-info">
                         <label data-lang="lbl-voice">Voice Library</label>
                         <select id="voiceSelect">
@@ -274,7 +276,7 @@
             </div>
         </div>
 
-        <!-- Background Track Mixer (Upgraded to 9 Ultimate Tracks) -->
+        <!-- Background Track Mixer -->
         <div class="card" id="mixerCard">
             <div class="card-header-toggle" onclick="toggleCard('mixerCard')">
                 <span><i class="fa-solid fa-sliders" style="color: #ec4899; margin-right: 8px;"></i> Ambient Music Mixer</span>
@@ -316,15 +318,15 @@
         <div class="status-panel-container">
             <div class="status-node node-ready active" id="statusReady">
                 <div class="circle-icon"><i class="fa-solid fa-check"></i></div>
-                <div class="node-info"><text>Ready</text><p>Waiting for story</p></div>
+                <div class="node-info"><span class="node-title">Ready</span><p>Waiting for story</p></div>
             </div>
             <div class="status-node node-gen" id="statusGen">
                 <div class="circle-icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
-                <div class="node-info"><text>Generating...</text><p>AI is crunching</p></div>
+                <div class="node-info"><span class="node-title">Generating...</span><p>AI is crunching</p></div>
             </div>
             <div class="status-node node-done" id="statusDone">
                 <div class="circle-icon"><i class="fa-solid fa-circle-check"></i></div>
-                <div class="node-info"><text>Done</text><p>Audio completed</p></div>
+                <div class="node-info"><span class="node-title">Done</span><p>Audio completed</p></div>
             </div>
         </div>
 
