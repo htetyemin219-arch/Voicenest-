@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceNest Studio v0.6</title>
+    <title>VoiceNest Studio v0.6 </title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,6 +77,7 @@
         .dropdown-info { display: flex; flex-direction: column; width: 100%; }
         .dropdown-info label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px; }
         .dropdown-info select { background: transparent; border: none; color: #fff; font-size: 0.9rem; font-weight: 500; outline: none; cursor: pointer; width: 100%; }
+        .dropdown-info select option { background: #0d0921; color: #fff; }
 
         /* Tuning Advanced Sliders */
         .tuning-card { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; padding: 18px 24px; background: rgba(10, 6, 32, 0.7); border: 1px solid rgba(168, 85, 247, 0.15); border-radius: 12px; }
@@ -198,8 +199,10 @@
                     <div class="dropdown-info">
                         <label data-lang="lbl-lang">Language</label>
                         <select id="langSelect">
-                            <option value="en">English (US)</option>
                             <option value="mm">မြန်မာဘာသာ (🇲🇲)</option>
+                            <option value="en">English (🇺🇸)</option>
+                            <option value="th">ไทย (🇹🇭)</option>
+                            <option value="more">More...</option>
                         </select>
                     </div>
                 </div>
@@ -208,9 +211,15 @@
                     <div class="dropdown-info">
                         <label data-lang="lbl-style">Narration Style</label>
                         <select id="styleSelect">
-                            <option value="warm">Warm Storyteller</option>
-                            <option value="emo">Emotional Tone</option>
-                            <option value="suspense">Suspense/Mystery</option>
+                            <option value="normal">Normal / Plain (ပုံမှန်ရိုးရိုး)</option>
+                            <option value="storyteller">Storyteller (ပုံပြင်ပြောစတိုင်)</option>
+                            <option value="horror">Horror (သည်းထိတ်ရင်ဖို)</option>
+                            <option value="cinematic">Cinematic (ရုပ်ရှင်ဆန်ဆန်)</option>
+                            <option value="bedtime">Bedtime (အိပ်ရာဝင်ပုံပြင်)</option>
+                            <option value="funny">Funny (ဟာသသွက်သွက်)</option>
+                            <option value="emotional">Emotional (ရင်နင့်စရာ)</option>
+                            <option value="inspirational">Inspirational (စိတ်ဓာတ်ခွန်အား)</option>
+                            <option value="scifi">Cyberpunk/Sci-Fi (အနာဂတ်ဆန်ဆန်)</option>
                         </select>
                     </div>
                 </div>
@@ -219,10 +228,7 @@
                     <div class="dropdown-info">
                         <label data-lang="lbl-voice">Voice Library</label>
                         <select id="voiceSelect">
-                            <option value="v1">Aung Aung (Male)</option>
-                            <option value="v2">Su Su (Female)</option>
-                            <option value="v3">Kyaw Kyaw (Deep)</option>
-                            <option value="v4">Thiri (Inspirational)</option>
+                            <!-- Injected dynamically by JavaScript below -->
                         </select>
                     </div>
                 </div>
@@ -241,7 +247,7 @@
             </div>
         </div>
 
-        <!-- V0.6 Video Guide Aspect Section -->
+        <!-- Video Guide Aspect Section -->
         <div class="card" id="videoCard">
             <div class="card-header-toggle" onclick="toggleCard('videoCard')">
                 <span><i class="fa-solid fa-video" style="color: var(--accent-blue); margin-right: 8px;"></i> Video Aspect Guide</span>
@@ -268,7 +274,7 @@
             </div>
         </div>
 
-        <!-- V0.6 Background Track Mixer (With Option-Disabled Logic) -->
+        <!-- Background Track Mixer (Upgraded to 9 Ultimate Tracks) -->
         <div class="card" id="mixerCard">
             <div class="card-header-toggle" onclick="toggleCard('mixerCard')">
                 <span><i class="fa-solid fa-sliders" style="color: #ec4899; margin-right: 8px;"></i> Ambient Music Mixer</span>
@@ -282,8 +288,15 @@
                             <label>Background Music</label>
                             <select id="ambientSelect">
                                 <option value="none">None (မလိုအပ်ပါ)</option>
-                                <option value="piano">Cinematic Piano</option>
-                                <option value="horror">Horror Ambience</option>
+                                <option value="piano">🎹 Cinematic Piano</option>
+                                <option value="horror">👻 Horror Ambience</option>
+                                <option value="lofi">🎧 Lo-Fi Beats</option>
+                                <option value="epic">🔥 Epic Trailer Music</option>
+                                <option value="drone">🌌 Deep Space Drone</option>
+                                <option value="corporate">💼 Upbeat Corporate</option>
+                                <option value="violin">🎻 Sad Violin</option>
+                                <option value="traditional">🎵 Traditional Melodies</option>
+                                <option value="guitar">🎸 Acoustic Guitar</option>
                             </select>
                         </div>
                     </div>
@@ -334,36 +347,84 @@
     <script>
         const translations = {
             en: { "slogan": "Every story deserves a voice.", "motto-short": "One Step Ahead, Every Single Day.", "m-home": "Home", "m-projects": "My Projects", "m-fav": "Favorites", "m-history": "History", "m-settings": "Settings", "quote": "\"Bring your stories to life with the power of AI voice.\"", "welcome": "Welcome to", "studio-title": "VoiceNest Studio", "free-plan": "Free Plan", "p-shorts":"TikTok Shorts","p-ghost":"Ghost Story" },
-            mm: { "slogan": "ပုံပြင်တိုင်းမှာ ကိုယ်ပိုင်အသံ ရှိသင့်သည်။", "motto-short": "နေ့စဉ်နေ့တိုင်း ခြေတစ်လှမ်း အမြဲရှေ့သို့။", "m-home": "ပင်မစာမျက်နှာ", "m-projects": "ကျွန်ုပ်၏ ပရောဂျက်များ", "m-fav": "အနှစ်သက်ဆုံးများ", "m-history": "မှတ်တမ်းဟောင်းများ", "m-settings": "ဆက်တင်များ", "quote": "\"သင်၏ ပုံပြင်များကို အဆင့်မြင့် AI အသံစနစ်ဖြင့် အသက်သွင်းလိုက်ပါ။\"", "welcome": "မှ ကြိုဆိုပါ၏", "studio-title": "ဗွိုက်စ်နက်စ် စတူဒီယို", "free-plan": "အခမဲ့ဗားရှင်း", "p-shorts":"ရှော့ဗီဒီယို","p-ghost":"သရဲဇာတ်လမ်း" }
+            mm: { "slogan": "ပုံပြင်တိုင်းမှာ ကိုယ်ပိုင်အသံ ရှိသင့်သည်။", "motto-short": "နေ့စဉ်နေ့တိုင်း ခြေတစ်လှမ်း အမြဲရှေ့သို့။", "m-home": "ပင်မစာမျက်နှာ", "m-projects": "ကျွန်ုပ်၏ ပရောဂျက်များ", "m-fav": "အနှစ်သက်ဆုံးများ", "m-history": "မှတ်တမ်းဟောင်းများ", "m-settings": "ဆက်တင်များ", "quote": "\"သင်၏ ပုံပြင်များကို အဆင့်မြင့် AI အသံစနစ်ဖြင့် အသက်သွင်းလိုက်ပါ။\"", "welcome": "မှ ကြိုဆိုပါ၏", "studio-title": "ဗွိုက်စ်နက်စ် စတူဒီယို", "free-plan": "အခမဲ့ဗားရှင်း", "p-shorts":"ရှော့ဗီဒီယို","p-ghost":"သရဲဇာတ်လမ်း" },
+            th: { "slogan": "ทุกเรื่องราวควรมีเสียงของตัวเอง", "motto-short": "ก้าวไปข้างหน้าหนึ่งขั้นในทุกๆ วัน", "m-home": "หน้าแรก", "m-projects": "โปรเจกต์ของฉัน", "m-fav": "รายการโปรด", "m-history": "ประวัติการใช้งาน", "m-settings": "ตั้งค่า", "quote": "\"ทำให้เรื่องราวของคุณมีชีวิตด้วยพลังแห่งเสียง AI\"", "welcome": "ยินดีต้อนรับสู่", "studio-title": "VoiceNest Studio", "free-plan": "แผนฟรี", "p-shorts": "TikTok Shorts", "p-ghost": "เรื่องผี" }
         };
 
-        // Language Switching Engine
-        document.getElementById('langSelect').addEventListener('change', (e) => {
-            const dict = translations[e.target.value];
+        const voiceDatabase = {
+            mm: [
+                { value: "aung", text: "Aung Aung (Acoustic Male - လူငယ်အသံ)" },
+                { value: "susu", text: "Su Su (Bright Female - ချက်ချာကြည်လင်)" },
+                { value: "kyaw", text: "Kyaw Kyaw (Deep Narrator - သြဇာရှိအသံကြီး)" }
+            ],
+            en: [
+                { value: "david", text: "David (Professional Male)" },
+                { value: "emma", text: "Emma (Narrator Female)" },
+                { value: "brian", text: "Brian (Deep Storyteller)" }
+            ],
+            th: [
+                { value: "somchai", text: "Somchai (Soft Male - นายสมชาย)" },
+                { value: "kanya", text: "Kanya (Sweet Female - นางสาวกันยา)" }
+            ],
+            more: [
+                { value: "global", text: "Coming Soon (နောက်ထပ်ထပ်လာမည်...)" }
+            ]
+        };
+
+        const langSelect = document.getElementById('langSelect');
+        const voiceSelect = document.getElementById('voiceSelect');
+
+        // Smart Voice Switcher Engine
+        function updateVoiceDropdown(langKey) {
+            voiceSelect.innerHTML = "";
+            const voices = voiceDatabase[langKey] || voiceDatabase['mm'];
+            voices.forEach(voice => {
+                const opt = document.createElement('option');
+                opt.value = voice.value;
+                opt.innerText = voice.text;
+                voiceSelect.appendChild(opt);
+            });
+        }
+
+        langSelect.addEventListener('change', (e) => {
+            const selectedLang = e.target.value;
+            
+            if(selectedLang === 'more') {
+                alert("More languages will be integrated into the upcoming updates! 🚀");
+                updateVoiceDropdown('more');
+                return;
+            }
+
+            // Language Pack UI Localization Switch
+            const dict = translations[selectedLang] || translations['en'];
             document.querySelectorAll('[data-lang]').forEach(el => {
                 const key = el.getAttribute('data-lang');
                 if(dict[key]) el.innerText = dict[key];
             });
+
+            // Trigger Voice Linkage Logic
+            updateVoiceDropdown(selectedLang);
         });
 
-        // V0.5 Presets Injection Code Logic
+        // Initialize Default Voices on Launch
+        updateVoiceDropdown('mm');
+
+        // Presets Engine Trigger Points
         document.getElementById('presetShorts').addEventListener('click', () => {
-            document.getElementById('langSelect').value = 'mm';
-            document.getElementById('styleSelect').value = 'emo';
-            document.getElementById('voiceSelect').value = 'v4';
-            document.getElementById('speedSlider').value = 1.1;
+            langSelect.value = 'mm';
+            document.getElementById('styleSelect').value = 'emotional';
+            speedSlider.value = 1.1;
             document.getElementById('speedVal').innerText = '1.1';
-            document.getElementById('langSelect').dispatchEvent(new Event('change'));
+            langSelect.dispatchEvent(new Event('change'));
         });
         document.getElementById('presetGhost').addEventListener('click', () => {
-            document.getElementById('langSelect').value = 'mm';
-            document.getElementById('styleSelect').value = 'suspense';
-            document.getElementById('voiceSelect').value = 'v3';
-            document.getElementById('speedSlider').value = 0.9;
+            langSelect.value = 'mm';
+            document.getElementById('styleSelect').value = 'horror';
+            speedSlider.value = 0.9;
             document.getElementById('speedVal').innerText = '0.9';
-            document.getElementById('pitchSlider').value = -1;
+            pitchSlider.value = -1;
             document.getElementById('pitchVal').innerText = '-1';
-            document.getElementById('langSelect').dispatchEvent(new Event('change'));
+            langSelect.dispatchEvent(new Event('change'));
         });
 
         // Focus Fullscreen System
