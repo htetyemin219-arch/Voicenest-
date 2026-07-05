@@ -48,6 +48,20 @@
             <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-crown text-[9px]"></i> เกรดพรี</span>
         </div>
 
+        <!-- Reallocated Quick Preset Badges -->
+        <div class="flex flex-wrap items-center gap-2">
+            <button onclick="applyPreset('tiktok')" id="preset-tiktok" class="px-4 py-1.5 rounded-lg bg-[#141424] border border-[#222236] text-xs font-medium flex items-center gap-1.5 text-gray-300 hover:border-violet-500 transition">
+                <i class="fa-brands fa-tiktok text-fuchsia-400"></i> TtShort
+            </button>
+            <button onclick="applyPreset('ghost')" id="preset-ghost" class="px-4 py-1.5 rounded-lg bg-[#141424] border border-[#222236] text-xs font-medium flex items-center gap-1.5 text-gray-300 hover:border-violet-500 transition">
+                <i class="fa-solid fa-ghost text-violet-400"></i> <span id="label-preset-ghost">ghost story</span>
+            </button>
+            <button onclick="applyPreset('recap')" id="preset-recap" class="px-4 py-1.5 rounded-lg bg-[#141424] border border-[#222236] text-xs font-medium flex items-center gap-1.5 text-gray-300 hover:border-violet-500 transition">
+                <i class="fa-solid fa-clapperboard text-amber-400"></i> <span id="label-preset-recap">movie recap</span>
+            </button>
+        </div>
+
+        <!-- Core Component Box -->
         <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-2xl p-4 space-y-4">
             <textarea id="text-input" oninput="updateCounter()" placeholder="Enter your story here..." class="w-full h-44 bg-transparent text-sm resize-none focus:outline-none leading-relaxed placeholder-gray-600 custom-scrollbar"></textarea>
             <div class="flex justify-between items-center text-[10px] text-gray-500 font-mono">
@@ -55,18 +69,74 @@
                 <button class="text-gray-400 hover:text-white"><i class="fa-solid fa-expand"></i> Focus Mode</button>
             </div>
             <hr class="border-[#1a1a2e]">
+            
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <select id="lang-select" onchange="changeLanguage()" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300">
-                    <option value="th" selected>ไทย (TH)</option>
-                    <option value="my">မြန်မာ (MM)</option>
-                    <option value="en">English (US)</option>
+                    <option value="th" selected>ไทย (TH) 🇹🇭</option>
+                    <option value="my">မြန်မာ (MM) 🇲🇲</option>
+                    <option value="en">English (US) 🇺🇸</option>
                 </select>
-                <select id="style-select" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300"><option>Normal / Plain</option></select>
-                <select id="voice-select" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300"></select>
+                <!-- Voice Selector (3 Actors Per Country) -->
+                <select id="voice-select" onchange="syncVoiceStyle()" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300"></select>
+                
+                <!-- Emotions Dropdown List -->
+                <select id="style-select" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300">
+                    <option value="normal" id="opt-style-normal">Normal / Plain</option>
+                    <option value="emotional" id="opt-style-emotional">Emotional / Deep</option>
+                    <option value="whisper" id="opt-style-whisper">Whisper / Suspenseful</option>
+                    <option value="energetic" id="opt-style-energetic">High Energy / Aggressive</option>
+                    <option value="sad" id="opt-style-sad">Melancholic / Sad</option>
+                </select>
+            </div>
+
+            <!-- Tuning Row -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+                <div>
+                    <div class="flex justify-between items-center mb-1.5 text-[11px] text-gray-400">
+                        <span id="label-speed">Speech Speed</span>
+                        <span id="speed-val" class="font-bold text-violet-400">1.0x</span>
+                    </div>
+                    <input type="range" id="speed-slider" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('speed-val').innerText = this.value + 'x'" class="w-full h-1 bg-[#222236] rounded-lg appearance-none cursor-pointer accent-violet-500">
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1.5 text-[11px] text-gray-400">
+                        <span id="label-pitch">Voice Pitch</span>
+                        <span id="pitch-val" class="font-bold text-violet-400">0</span>
+                    </div>
+                    <input type="range" id="pitch-slider" min="-10" max="10" step="1" value="0" oninput="document.getElementById('pitch-val').innerText = this.value" class="w-full h-1 bg-[#222236] rounded-lg appearance-none cursor-pointer accent-violet-500">
+                </div>
             </div>
         </div>
 
-        <!-- Gemini Tips Section -->
+        <!-- Advanced Panels -->
+        <div class="space-y-3">
+            <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-xl px-4 py-3 flex items-center justify-between cursor-pointer hover:border-gray-700 transition">
+                <span class="text-xs font-semibold text-gray-300 flex items-center gap-2"><i class="fa-solid fa-clapperboard text-gray-500"></i> <span id="label-aspect">Video Aspect Guide</span></span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+            </div>
+            <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-xl px-4 py-3 flex flex-col space-y-2">
+                <div class="flex items-center justify-between cursor-pointer">
+                    <span class="text-xs font-semibold text-gray-300 flex items-center gap-2"><i class="fa-solid fa-sliders text-gray-500"></i> <span id="label-ambient">Ambient Music Mixer</span></span>
+                    <i class="fa-solid fa-chevron-down text-xs text-violet-400"></i>
+                </div>
+                <div class="grid grid-cols-2 gap-4 pt-1">
+                    <div>
+                        <span class="text-[10px] text-gray-500 block mb-1" id="label-bgm">Background Music</span>
+                        <select class="w-full bg-[#141424] border border-[#222236] rounded-lg p-2 text-xs text-gray-400 focus:outline-none">
+                            <option id="opt-bgm-none">None (မပါဝင်ပါ)</option>
+                            <option>Horror Soundscape</option>
+                            <option>Cinematic Beat</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[10px] text-gray-500 mb-1"><span id="label-bgm-vol">Music Volume</span><span>0%</span></div>
+                        <input type="range" value="0" class="w-full h-1 bg-[#222236] appearance-none cursor-pointer accent-violet-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gemini Pro Tips Section -->
         <div class="bg-gradient-to-br from-[#121222] to-[#0a0a1a] border border-[#1f1f2e] rounded-xl p-5">
             <div class="flex items-center gap-2 mb-3">
                 <i class="fa-solid fa-robot text-violet-400 text-sm"></i>
@@ -79,39 +149,149 @@
             </ul>
         </div>
 
+        <!-- Submit Button -->
         <button onclick="triggerVoiceProcess()" class="w-full py-3.5 rounded-full font-bold text-sm bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white shadow-lg shadow-purple-600/20">
             <span id="btn-generate">Generate Voice</span>
         </button>
+
+        <!-- Live Audio Output Tracker Panel -->
+        <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-xl p-4">
+            <div class="grid grid-cols-3 gap-2 text-center border-b border-[#1a1a2e] pb-3 mb-4">
+                <div id="step-ready" class="text-xs font-semibold text-violet-400 flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> <span id="track-ready">Ready</span></div>
+                <div id="step-generating" class="text-xs font-semibold text-gray-600 flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-notch"></i> <span id="track-gen">Generating...</span></div>
+                <div id="step-done" class="text-xs font-semibold text-gray-600 flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle"></i> <span id="track-done">Done</span></div>
+            </div>
+            <div class="space-y-4">
+                <div class="h-6 bg-[#141424] rounded flex items-center justify-center text-[10px] text-gray-600 tracking-widest font-mono">||||| | |||| ||| ||||| | |||| ||| ||||| | |||| ||| |||||</div>
+                <div class="flex items-center justify-between gap-4">
+                    <button class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-play text-sm"></i></button>
+                    <input type="range" value="35" class="flex-1 h-1 bg-[#222236] appearance-none accent-fuchsia-500 rounded">
+                    <div class="flex gap-2">
+                        <button class="bg-[#141424] border border-[#222236] text-[10px] px-2.5 py-1 rounded text-gray-300"><i class="fa-solid fa-file-lines"></i> Script</button>
+                        <button class="bg-fuchsia-600 text-[10px] px-2.5 py-1 rounded text-white font-medium"><i class="fa-solid fa-download"></i> Audio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
+    <!-- Logic Engine Script -->
     <script>
-        const voicesData = { th: [{id:"s", name:"Somchai"}], my: [{id:"m", name:"ဦးမင်းခန့်"}], en: [{id:"a", name:"Aria"}] };
+        // 3 Dedicated Voice Actors per Country Reinstated
+        const voicesData = {
+            th: [
+                {id:"s1", name:"Somchai (Soft Male) 🇹🇭", defaultStyle:"normal"},
+                {id:"s2", name:"Pim (Storyteller) 🇹🇭", defaultStyle:"emotional"},
+                {id:"s3", name:"Kitti (Dramatic Radio) 🇹🇭", defaultStyle:"whisper"}
+            ],
+            my: [
+                {id:"m1", name:"ဦးမင်းခန့် (ကြည်လင်ပြတ်သား) 🇲🇲", defaultStyle:"normal"},
+                {id:"m2", name:"မေသူဇာ (သဘာဝဆန်ဆန်) 🇲🇲", defaultStyle:"emotional"},
+                {id:"m3", name:"သော်ဇင် (ရုပ်ရှင်နောက်ခံသံ) 🇲🇲", defaultStyle:"whisper"}
+            ],
+            en: [
+                {id:"e1", name:"Aria (Deep Narrative) 🇺🇸", defaultStyle:"emotional"},
+                {id:"e2", name:"Ethan (High Energy) 🇺🇸", defaultStyle:"energetic"},
+                {id:"e3", name:"Oliver (Classic Reader) 🇺🇸", defaultStyle:"normal"}
+            ]
+        };
+
         const translationDict = {
-            th: { home:"หน้าแรก", projects:"โปรเจกต์ของฉัน", subtitle:"สร้างเรื่องราวหมော်เบดของตัวเอง", favorites:"รายการโปรด", history:"ประวัติการใช้งาน", settings:"ตั้งค่า", welcomeSub:"ยินดีต้อนรับสู่", tipsTitle:"คำแนะนำจาก Gemini", t1:"ใช้ 'สไตล์อารมณ์' สำหรับเรื่องผี", t2:"ปรับความเร็วการพูดเป็น 0.8x", t3:"เขียนสคริปต์น้อยกว่า 1500 คำ", generate:"สร้างเสียง" },
-            my: { home:"ပင်မစာမျက်နှာ", projects:"ကျွန်ုပ်၏ ပရောဂျက်များ", subtitle:"ကိုယ်ပိုင် အသံဖန်တီးမှု", favorites:"အနှစ်သက်ဆုံး", history:"မှတ်တမ်း", settings:"ဆက်တင်", welcomeSub:"ကြိုဆိုပါ၏", tipsTitle:"ဂျမနိုင်း၏ အကြံပြုချက်များ", t1:"သရဲပုံပြင်အတွက် 'Emotional Style' ကိုသုံးပါ", t2:"အသံအတွက် 0.8x ကိုသုံးပါ", t3:"စကားလုံး ၁၅၀၀ အောက် ရေးသားပါ", generate:"အသံထုတ်လုပ်မည်" },
-            en: { home:"Home", projects:"My Projects", subtitle:"Create stories", favorites:"Favorites", history:"History", settings:"Settings", welcomeSub:"Welcome to", tipsTitle:"Gemini's Pro Tips", t1:"Use Emotional Style for stories", t2:"Adjust speed to 0.8x", t3:"Keep script under 1500 words", generate:"Generate Voice" }
+            th: { home:"หน้าแรก", projects:"โปรเจกต์ของฉัน", subtitle:"สร้างเรื่องราวหมော်เบดของตัวเอง", favorites:"รายการโปรด", history:"ประวัติการใช้งาน", settings:"ตั้งค่า", welcomeSub:"ยินดีต้อนรับสู่", tipsTitle:"คำแนะนำจาก Gemini", t1:"ใช้ 'สไตล์อารมณ์' สำหรับเรื่องผีเพื่อให้ได้น้ำเสียงที่ดียิ่งขึ้น", t2:"ปรับความเร็วการพูดเป็น 0.8x เพื่อการบรรยายที่เป็นธรรมชาติ", t3:"ตรวจสอบให้แน่ใจว่าความยาวของสคริปต์น้อยกว่า 1500 คำ", generate:"สร้างเสียง", styleNormal:"Normal / Plain (ปกติ)", styleEmo:"Emotional / Deep (เน้นอารมณ์)", styleWhisper:"Whisper / Suspenseful (กระซิบ/ระทึกขวัญ)", styleEnergy:"High Energy (ทรงพลัง)", styleSad:"Melancholic / Sad (เศร้าสร้อย)", aspect:"Video Aspect Guide", ambient:"Ambient Music Mixer", bgm:"Background Music", bgmNone:"None (ไม่ใส่)", bgmVol:"Music Volume", trackReady:"Ready", trackGen:"Generating...", trackDone:"Done" },
+            my: { home:"ပင်မစာမျက်နှာ", projects:"ကျွန်ုပ်၏ ပရောဂျက်များ", subtitle:"ကိုယ်ပိုင် အသံဖန်တီးမှု စုန်းကဝေ အတတ်ပညာ", favorites:"အနှစ်သက်ဆုံးများ", history:"အသုံးပြုမှု မှတ်တမ်း", settings:"ဆက်တင်များ", welcomeSub:"မှ ကြိုဆိုပါ၏", tipsTitle:"ဂျမနိုင်း၏ အကြံပြုချက်များ", t1:"သရဲပုံပြင်များအတွက် အသံပိုကောင်းစေရန် 'Emotional Style' ကို အသုံးပြုပါ", t2:"ပိုမိုသဘာဝကျသော အသံအတွက် Speech Speed ကို 0.8x သို့ ချိန်ညှိပါ", t3:"အကောင်းဆုံး အရည်အသွေးရရှိရန် စာသားများကို Сကားလုံး ၁၅၀၀ အောက်သာ ရေးသားပါ", generate:"အသံထုတ်လုပ်မည်", styleNormal:"Normal / Plain (ပုံမှန်)", styleEmo:"Emotional / Deep (စိတ်ခံစားမှုပါသော)", styleWhisper:"Whisper / Suspenseful (သည်းထိတ်ရင်ဖို ခြောက်ခြားဖွယ်)", styleEnergy:"High Energy / Aggressive (တက်ကြွပြတ်သားသော)", styleSad:"Melancholic / Sad (ဝမ်းနည်းကြေကွဲဖွယ်)", aspect:"ဗီဒီယို အချိုးအစား လမ်းညွှန်", ambient:"နောက်ခံဆူညံသံ ရောစပ်စနစ်", bgm:"နောက်ခံတေးဂီတ", bgmNone:"None (မပါဝင်ပါ)", bgmVol:"အော်ဒီယို ပမာဏ", trackReady:"အသင့်ဖြစ်ပြီ", trackGen:"ထုတ်လုပ်နေဆဲ...", trackDone:"ပြီးမြောက်ပြီ" },
+            en: { home:"Home", projects:"My Projects", subtitle:"Create your own magical stories", favorites:"Favorites", history:"History Log", settings:"Settings", welcomeSub:"Welcome to", tipsTitle:"Gemini's Pro Tips", t1:"Use 'Emotional Style' for ghost stories to get better tone.", t2:"Adjust Speech Speed to 0.8x for a more natural narration flow.", t3:"Ensure your script length is under 1500 words for the best quality.", generate:"Generate Voice", styleNormal:"Normal / Plain", styleEmo:"Emotional / Deep", styleWhisper:"Whisper / Suspenseful", styleEnergy:"High Energy / Aggressive", styleSad:"Melancholic / Sad", aspect:"Video Aspect Guide", ambient:"Ambient Music Mixer Panel", bgm:"Background Sound Track", bgmNone:"None", bgmVol:"Music Audio Volume", trackReady:"Ready Status", trackGen:"Generating...", trackDone:"Audio Completed" }
         };
 
         function changeLanguage() {
             const lang = document.getElementById('lang-select').value;
             const dict = translationDict[lang];
+
             document.getElementById('menu-home').innerText = dict.home;
             document.getElementById('menu-projects').innerText = dict.projects;
             document.getElementById('menu-sub-title').innerText = dict.subtitle;
             document.getElementById('menu-favorites').innerText = dict.favorites;
             document.getElementById('menu-history').innerText = dict.history;
             document.getElementById('menu-settings').innerText = dict.settings;
+
             document.getElementById('welcome-sub').innerText = dict.welcomeSub;
             document.getElementById('label-tips-title').innerText = dict.tipsTitle;
             document.getElementById('tip-1').innerText = dict.t1;
             document.getElementById('tip-2').innerText = dict.t2;
             document.getElementById('tip-3').innerText = dict.t3;
             document.getElementById('btn-generate').innerText = dict.generate;
+
+            document.getElementById('opt-style-normal').innerText = dict.styleNormal;
+            document.getElementById('opt-style-emotional').innerText = dict.styleEmo;
+            document.getElementById('opt-style-whisper').innerText = dict.styleWhisper;
+            document.getElementById('opt-style-energetic').innerText = dict.styleEnergy;
+            document.getElementById('opt-style-sad').innerText = dict.styleSad;
+
+            document.getElementById('label-aspect').innerText = dict.aspect;
+            document.getElementById('label-ambient').innerText = dict.ambient;
+            document.getElementById('label-bgm').innerText = dict.bgm;
+            document.getElementById('opt-bgm-none').innerText = dict.bgmNone;
+            document.getElementById('label-bgm-vol').innerText = dict.bgmVol;
+
+            document.getElementById('track-ready').innerText = dict.trackReady;
+            document.getElementById('track-gen').innerText = dict.trackGen;
+            document.getElementById('track-done').innerText = dict.trackDone;
+
+            const voiceSelect = document.getElementById('voice-select');
+            voiceSelect.innerHTML = '';
+            voicesData[lang].forEach(voice => {
+                const opt = document.createElement('option');
+                opt.value = voice.id;
+                opt.innerText = voice.name;
+                voiceSelect.appendChild(opt);
+            });
+            syncVoiceStyle();
+        }
+
+        // Auto-switch style according to Voice Actor capability rules
+        function syncVoiceStyle() {
+            const lang = document.getElementById('lang-select').value;
+            const currentVoiceId = document.getElementById('voice-select').value;
+            const voiceObj = voicesData[lang].find(v => v.id === currentVoiceId);
+            if(voiceObj) {
+                document.getElementById('style-select').value = voiceObj.defaultStyle;
+            }
         }
 
         function updateCounter() {
-            const words = document.getElementById('text-input').value.split(/\s+/).filter(w => w.length > 0).length;
+            const words = document.getElementById('text-input').value.trim().split(/\s+/).filter(w => w.length > 0).length;
             document.getElementById('word-counter').innerText = `${words} / 3000 words`;
+        }
+
+        // Updated Preset Mapping for New Badges
+        function applyPreset(type) {
+            const styleSelect = document.getElementById('style-select');
+            if (type === 'tiktok') {
+                document.getElementById('speed-slider').value = 1.2;
+                document.getElementById('pitch-slider').value = 1;
+                styleSelect.value = "energetic";
+            } else if (type === 'ghost') {
+                document.getElementById('speed-slider').value = 0.8;
+                document.getElementById('pitch-slider').value = -2;
+                styleSelect.value = "whisper";
+            } else if (type === 'recap') {
+                document.getElementById('speed-slider').value = 1.1;
+                document.getElementById('pitch-slider').value = 0;
+                styleSelect.value = "emotional";
+            }
+            document.getElementById('speed-val').innerText = document.getElementById('speed-slider').value + 'x';
+            document.getElementById('pitch-val').innerText = document.getElementById('pitch-slider').value;
+        }
+
+        function triggerVoiceProcess() {
+            const ready = document.getElementById('step-ready');
+            const gen = document.getElementById('step-generating');
+            const done = document.getElementById('step-done');
+            ready.className = "text-xs font-semibold text-gray-600 flex items-center justify-center gap-1.5";
+            gen.className = "text-xs font-semibold text-amber-400 flex items-center justify-center gap-1.5 animate-pulse";
+            setTimeout(() => {
+                gen.className = "text-xs font-semibold text-gray-600 flex items-center justify-center gap-1.5";
+                done.className = "text-xs font-semibold text-emerald-400 flex items-center justify-center gap-1.5";
+            }, 2000);
         }
 
         window.onload = changeLanguage;
