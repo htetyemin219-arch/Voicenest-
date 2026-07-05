@@ -3,383 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneStepOn - Voice Workspace</title>
+    <title>VoiceNest Studio - OneStepOn</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; background-color: #06060c; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #1e1e2e; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3f3f56; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0c0c14; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #252538; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-[#0f0f16] text-gray-200 min-h-screen flex flex-col">
+<body class="text-gray-200 min-h-screen flex">
 
-    <!-- Header -->
-    <header class="border-b border-[#1f1f2e] bg-[#14141f] px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 bg-gradient-to-tr from-violet-600 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20">
-                <i class="fa-solid fa-wand-magic-sparkles text-white text-sm"></i>
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-64 bg-[#0a0a12] border-r border-[#161626] flex flex-col justify-between p-4 shrink-0 hidden md:flex">
+        <div class="space-y-6">
+            <div class="flex items-center space-x-2 px-2 py-2">
+                <i class="fa-solid fa-wand-magic-sparkles text-lg text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400"></i>
+                <span class="font-bold text-base tracking-wide text-white">Voice Nest</span>
             </div>
+            <nav class="space-y-1">
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-xs font-medium"><i class="fa-solid fa-house text-sm"></i> <span id="menu-home">หน้าแรก</span></a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#121222] text-xs font-medium"><i class="fa-solid fa-folder text-sm"></i> <span id="menu-projects">โปรเจกต์ของฉัน</span></a>
+                <div class="px-3 py-2 text-[10px] uppercase font-bold tracking-wider text-fuchsia-500/70" id="menu-sub-title">สร้างเรื่องราวမှော်ဗေဒของตัวเอง</div>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#121222] text-xs font-medium"><i class="fa-solid fa-heart text-sm"></i> <span id="menu-favorites">รายการโปรด</span></a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#121222] text-xs font-medium"><i class="fa-solid fa-clock-rotate-left text-sm"></i> <span id="menu-history">ประวัติการใช้งาน</span></a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#121222] text-xs font-medium"><i class="fa-solid fa-gear text-sm"></i> <span id="menu-settings">ตั้งค่า</span></a>
+            </nav>
+        </div>
+        <div class="p-3 bg-[#0e0e1a] border border-[#1a1a2e] rounded-xl text-center">
+            <p class="text-[10px] text-gray-500 italic">"ทำให้เรื่องราวของคุณ มีชีวิตด้วยเสียงแต่งเสียง AI"</p>
+            <span class="text-xs font-semibold text-violet-400 block mt-1">#OneStepOn</span>
+        </div>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="flex-1 flex flex-col max-h-screen overflow-y-auto custom-scrollbar p-4 md:p-8 space-y-6">
+        <div class="flex items-center justify-between">
             <div>
-                <span class="font-bold text-lg tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">OneStepOn</span>
-                <span class="text-xs block text-violet-400 font-medium">Studio v0.8.0</span>
+                <span class="text-[11px] font-medium text-gray-400 tracking-wider block mb-1" id="welcome-sub">ยินดีต้อนรับสู่</span>
+                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-violet-400 to-white">VoiceNest Studio</h1>
+            </div>
+            <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-crown text-[9px]"></i> เกรดพรี</span>
+        </div>
+
+        <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-2xl p-4 space-y-4">
+            <textarea id="text-input" oninput="updateCounter()" placeholder="Enter your story here..." class="w-full h-44 bg-transparent text-sm resize-none focus:outline-none leading-relaxed placeholder-gray-600 custom-scrollbar"></textarea>
+            <div class="flex justify-between items-center text-[10px] text-gray-500 font-mono">
+                <span id="word-counter">0 / 3000 words</span>
+                <button class="text-gray-400 hover:text-white"><i class="fa-solid fa-expand"></i> Focus Mode</button>
+            </div>
+            <hr class="border-[#1a1a2e]">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <select id="lang-select" onchange="changeLanguage()" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300">
+                    <option value="th" selected>ไทย (TH)</option>
+                    <option value="my">မြန်မာ (MM)</option>
+                    <option value="en">English (US)</option>
+                </select>
+                <select id="style-select" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300"><option>Normal / Plain</option></select>
+                <select id="voice-select" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300"></select>
             </div>
         </div>
-        <div class="flex items-center space-x-4">
-            <button class="text-gray-400 hover:text-white transition text-sm flex items-center space-x-2 bg-[#1e1e2e] px-3 py-1.5 rounded-lg border border-[#2d2d3f]">
-                <i class="fa-solid fa-book text-xs"></i>
-                <span>Docs</span>
-            </button>
-            <div class="w-8 h-8 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 flex items-center justify-center font-bold text-xs text-white">
-                U
+
+        <!-- Gemini Tips Section -->
+        <div class="bg-gradient-to-br from-[#121222] to-[#0a0a1a] border border-[#1f1f2e] rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-robot text-violet-400 text-sm"></i>
+                <h3 class="text-xs font-bold text-gray-200" id="label-tips-title">Gemini's Pro Tips</h3>
             </div>
+            <ul class="space-y-2 text-[10px] text-gray-400 list-disc list-inside">
+                <li id="tip-1">Use "Emotional Style" for ghost stories to get better tone.</li>
+                <li id="tip-2">Adjust Speech Speed to 0.8x for a more natural narration flow.</li>
+                <li id="tip-3">Ensure your script length is under 1500 words for the best quality.</li>
+            </ul>
         </div>
-    </header>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
-        
-        <!-- Left Side: Input & Settings -->
-        <section class="lg:col-span-7 border-r border-[#1f1f2e] p-6 flex flex-col space-y-6 overflow-y-auto custom-scrollbar">
-            
-            <!-- Quick Presets -->
-            <div>
-                <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-3">Content Presets</label>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <button onclick="applyPreset('tiktok')" id="preset-tiktok" class="preset-btn bg-[#14141f] border border-[#1f1f2e] hover:border-violet-500/50 p-3 rounded-xl flex flex-col items-center justify-center transition group">
-                        <i class="fa-brands fa-tiktok text-lg mb-1.5 text-gray-400 group-hover:text-violet-400"></i>
-                        <span class="text-xs font-medium">TikTok Shorts</span>
-                    </button>
-                    <button onclick="applyPreset('ghost')" id="preset-ghost" class="preset-btn bg-[#14141f] border border-[#1f1f2e] hover:border-violet-500/50 p-3 rounded-xl flex flex-col items-center justify-center transition group">
-                        <i class="fa-solid fa-ghost text-lg mb-1.5 text-gray-400 group-hover:text-violet-400"></i>
-                        <span class="text-xs font-medium">Ghost Story</span>
-                    </button>
-                    <button onclick="applyPreset('news')" id="preset-news" class="preset-btn bg-[#14141f] border border-[#1f1f2e] hover:border-violet-500/50 p-3 rounded-xl flex flex-col items-center justify-center transition group">
-                        <i class="fa-solid fa-newspaper text-lg mb-1.5 text-gray-400 group-hover:text-violet-400"></i>
-                        <span class="text-xs font-medium">News Narration</span>
-                    </button>
-                    <button onclick="applyPreset('custom')" id="preset-custom" class="preset-btn bg-violet-600/10 border border-violet-500/30 p-3 rounded-xl flex flex-col items-center justify-center transition text-violet-400">
-                        <i class="fa-solid fa-sliders text-lg mb-1.5"></i>
-                        <span class="text-xs font-medium">Custom</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Text Input Area -->
-            <div class="flex-1 flex flex-col min-h-[280px]">
-                <div class="flex items-center justify-between mb-2">
-                    <label for="text-input" class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Script / Text Input</label>
-                    <span id="word-counter" class="text-xs text-gray-500 font-medium bg-[#14141f] px-2 py-1 rounded border border-[#1f1f2e]">0 / 3000 words</span>
-                </div>
-                <div class="relative flex-1 flex flex-col">
-                    <textarea id="text-input" oninput="updateCounter()" placeholder="ဒီနေရာမှာ အသံပြောင်းချင်တဲ့ စာသားတွေကို ရေးထည့်ပါ..." 
-                        class="w-full flex-1 bg-[#14141f] border border-[#1f1f2e] focus:border-violet-500 focus:ring-1 focus:ring-violet-500 rounded-xl p-4 text-sm resize-none focus:outline-none transition leading-relaxed placeholder-gray-600 custom-scrollbar"></textarea>
-                    <button onclick="clearText()" class="absolute bottom-3 right-3 text-gray-500 hover:text-gray-300 transition p-1.5 bg-[#1e1e2e]/80 backdrop-blur rounded-lg border border-[#2d2d3f]">
-                        <i class="fa-solid fa-trash-can text-xs"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Voice Tuning Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-[#14141f] p-4 rounded-xl border border-[#1f1f2e]">
-                <div>
-                    <div class="flex justify-between items-center mb-1.5">
-                        <label class="text-xs font-medium text-gray-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-gauge-high text-gray-500"></i> Speed Rate
-                        </label>
-                        <span id="speed-val" class="text-xs text-violet-400 font-bold bg-[#1e1e2e] px-1.5 py-0.5 rounded">1.0x</span>
-                    </div>
-                    <input type="range" id="speed-slider" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('speed-val').innerText = this.value + 'x'"
-                        class="w-full h-1.5 bg-[#2d2d3f] rounded-lg appearance-none cursor-pointer accent-violet-500">
-                </div>
-                <div>
-                    <div class="flex justify-between items-center mb-1.5">
-                        <label class="text-xs font-medium text-gray-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-wave-square text-gray-500"></i> Pitch Tuning
-                        </label>
-                        <span id="pitch-val" class="text-xs text-fuchsia-400 font-bold bg-[#1e1e2e] px-1.5 py-0.5 rounded">0</span>
-                    </div>
-                    <input type="range" id="pitch-slider" min="-10" max="10" step="1" value="0" oninput="document.getElementById('pitch-val').innerText = (this.value > 0 ? '+' : '') + this.value"
-                        class="w-full h-1.5 bg-[#2d2d3f] rounded-lg appearance-none cursor-pointer accent-fuchsia-500">
-                </div>
-            </div>
-
-            <!-- Action Button -->
-            <button onclick="generateVoice()" class="w-full py-4 rounded-xl font-semibold text-sm tracking-wide bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white shadow-lg shadow-violet-600/20 active:scale-[0.99] transition flex items-center justify-center space-x-2 group">
-                <i class="fa-solid fa-circle-nodes group-hover:rotate-180 transition duration-500 text-base"></i>
-                <span>Generate Professional AI Voice</span>
-            </button>
-
-        </section>
-
-        <!-- Right Side: Library & Settings -->
-        <section class="lg:col-span-5 p-6 flex flex-col space-y-6 overflow-y-auto custom-scrollbar bg-[#0c0c12]">
-            
-            <!-- Target Language & Model Section -->
-            <div class="space-y-4">
-                <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider block">Language & Studio Voice</label>
-                
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="space-y-1.5">
-                        <span class="text-[11px] text-gray-500 font-medium block">Language</span>
-                        <select id="lang-select" onchange="filterVoices()" class="w-full bg-[#14141f] border border-[#1f1f2e] rounded-xl px-3 py-2.5 text-xs font-medium focus:outline-none focus:border-violet-500 text-gray-300">
-                            <option value="my">Myanmar (မြန်မာ)</option>
-                            <option value="en" selected>English (US/UK)</option>
-                            <option value="th">Thai (ไทย)</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1.5">
-                        <span class="text-[11px] text-gray-500 font-medium block">Engine Model</span>
-                        <select class="w-full bg-[#14141f] border border-[#1f1f2e] rounded-xl px-3 py-2.5 text-xs font-medium focus:outline-none focus:border-violet-500 text-gray-300">
-                            <option>OneStepOn Engine v2.5</option>
-                            <option>Expressive Neural v1</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Voice Selection List -->
-                <div class="space-y-2 max-h-[190px] overflow-y-auto custom-scrollbar pr-1" id="voice-container">
-                    <!-- English Voices -->
-                    <div class="voice-item lang-en border border-violet-500/40 bg-violet-600/5 p-3 rounded-xl flex items-center justify-between cursor-pointer transition hover:bg-[#14141f]" onclick="selectVoice(this)">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-full bg-[#1e1e2e] flex items-center justify-center border border-[#2d2d3f] text-violet-400">
-                                <i class="fa-solid fa-microphone-lines text-xs"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-gray-200">Aria (Emotional Storyteller)</h4>
-                                <span class="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>Female • Deep Narrative</span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-circle-check text-violet-500 text-sm"></i>
-                    </div>
-
-                    <div class="voice-item lang-en border border-[#1f1f2e] bg-[#14141f] p-3 rounded-xl flex items-center justify-between cursor-pointer transition hover:border-[#2d2d3f]" onclick="selectVoice(this)">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-full bg-[#1e1e2e] flex items-center justify-center border border-[#2d2d3f] text-gray-400">
-                                <i class="fa-solid fa-microphone text-xs"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-gray-300">Ethan (Energetic Promo)</h4>
-                                <span class="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Male • High Energy</span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-circle text-[#1e1e2e] text-sm"></i>
-                    </div>
-
-                    <!-- Myanmar Voices -->
-                    <div class="voice-item lang-my hidden border border-[#1f1f2e] bg-[#14141f] p-3 rounded-xl flex items-center justify-between cursor-pointer transition hover:border-[#2d2d3f]" onclick="selectVoice(this)">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-full bg-[#1e1e2e] flex items-center justify-center border border-[#2d2d3f] text-gray-400">
-                                <i class="fa-solid fa-microphone text-xs"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-gray-300">ဦးမင်းခန့် (ကြည်လင်ပြတ်သား)</h4>
-                                <span class="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>Male • News & AudioBook</span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-circle text-[#1e1e2e] text-sm"></i>
-                    </div>
-
-                    <div class="voice-item lang-my hidden border border-[#1f1f2e] bg-[#14141f] p-3 rounded-xl flex items-center justify-between cursor-pointer transition hover:border-[#2d2d3f]" onclick="selectVoice(this)">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-full bg-[#1e1e2e] flex items-center justify-center border border-[#2d2d3f] text-gray-400">
-                                <i class="fa-solid fa-microphone text-xs"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-gray-300">မေသူဇာ (သဘာဝဆန်ဆန်)</h4>
-                                <span class="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span>Female • Soft Narrative</span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-circle text-[#1e1e2e] text-sm"></i>
-                    </div>
-
-                    <!-- Thai Voices -->
-                    <div class="voice-item lang-th hidden border border-[#1f1f2e] bg-[#14141f] p-3 rounded-xl flex items-center justify-between cursor-pointer transition hover:border-[#2d2d3f]" onclick="selectVoice(this)">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-full bg-[#1e1e2e] flex items-center justify-center border border-[#2d2d3f] text-gray-400">
-                                <i class="fa-solid fa-microphone text-xs"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-gray-300">Somchai (Commercial)</h4>
-                                <span class="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Male • Professional</span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-circle text-[#1e1e2e] text-sm"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Audio Output History / Player Box -->
-            <div class="flex-1 flex flex-col min-h-[220px]">
-                <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-3">Generated Output Player</label>
-                <div class="flex-1 bg-[#14141f] border border-[#1f1f2e] rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden">
-                    
-                    <!-- Player Background Glow -->
-                    <div class="absolute -right-16 -top-16 w-36 h-36 bg-gradient-to-br from-violet-600/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-                    
-                    <!-- Top Info Track -->
-                    <div class="flex items-start justify-between relative z-10">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-violet-600/10 border border-violet-500/20 flex items-center justify-center text-violet-400 animate-pulse">
-                                <i class="fa-solid fa-waveform"></i>
-                            </div>
-                            <div>
-                                <h3 id="player-title" class="text-xs font-bold text-gray-200">onestepon_aria_speech.mp3</h3>
-                                <p class="text-[10px] text-gray-500 mt-0.5">Format: MP3 (44.1kHz) • Size: 1.2 MB</p>
-                            </div>
-                        </div>
-                        <button class="text-gray-400 hover:text-white p-2 rounded-lg bg-[#1e1e2e] border border-[#2d2d3f] transition">
-                            <i class="fa-solid fa-download text-xs"></i>
-                        </button>
-                    </div>
-
-                    <!-- Waveform/Seekbar Simulation -->
-                    <div class="my-6">
-                        <div class="relative w-full h-1.5 bg-[#1e1e2e] rounded-full cursor-pointer group" onclick="seekAudio(event)">
-                            <div id="player-progress" class="absolute top-0 left-0 h-full w-[35%] bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full transition-all duration-300"></div>
-                            <div id="player-handle" class="absolute top-1/2 -translate-y-1/2 left-[35%] w-3 h-3 bg-white rounded-full shadow-lg scale-0 group-hover:scale-100 transition-transform duration-200"></div>
-                        </div>
-                        <div class="flex justify-between items-center mt-2 text-[10px] text-gray-500 font-medium">
-                            <span id="player-current-time">0:12</span>
-                            <span id="player-total-time">0:45</span>
-                        </div>
-                    </div>
-
-                    <!-- Audio Interface Action Controls -->
-                    <div class="flex items-center justify-center space-x-4">
-                        <button class="text-gray-400 hover:text-white transition w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#1e1e2e]">
-                            <i class="fa-solid fa-backward-step text-xs"></i>
-                        </button>
-                        <button onclick="togglePlay()" id="play-btn" class="w-11 h-11 rounded-full bg-violet-600 hover:bg-violet-500 text-white flex items-center justify-center shadow-lg shadow-violet-600/20 transition active:scale-95">
-                            <i class="fa-solid fa-play text-sm ml-0.5" id="play-icon"></i>
-                        </button>
-                        <button class="text-gray-400 hover:text-white transition w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#1e1e2e]">
-                            <i class="fa-solid fa-forward-step text-xs"></i>
-                        </button>
-                    </div>
-                    
-                </div>
-            </div>
-
-        </section>
+        <button onclick="triggerVoiceProcess()" class="w-full py-3.5 rounded-full font-bold text-sm bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white shadow-lg shadow-purple-600/20">
+            <span id="btn-generate">Generate Voice</span>
+        </button>
     </main>
 
-    <!-- Interactive Logic Scripts -->
     <script>
-        let isPlaying = false;
+        const voicesData = { th: [{id:"s", name:"Somchai"}], my: [{id:"m", name:"ဦးမင်းခန့်"}], en: [{id:"a", name:"Aria"}] };
+        const translationDict = {
+            th: { home:"หน้าแรก", projects:"โปรเจกต์ของฉัน", subtitle:"สร้างเรื่องราวหมော်เบดของตัวเอง", favorites:"รายการโปรด", history:"ประวัติการใช้งาน", settings:"ตั้งค่า", welcomeSub:"ยินดีต้อนรับสู่", tipsTitle:"คำแนะนำจาก Gemini", t1:"ใช้ 'สไตล์อารมณ์' สำหรับเรื่องผี", t2:"ปรับความเร็วการพูดเป็น 0.8x", t3:"เขียนสคริปต์น้อยกว่า 1500 คำ", generate:"สร้างเสียง" },
+            my: { home:"ပင်မစာမျက်နှာ", projects:"ကျွန်ုပ်၏ ပရောဂျက်များ", subtitle:"ကိုယ်ပိုင် အသံဖန်တီးမှု", favorites:"အနှစ်သက်ဆုံး", history:"မှတ်တမ်း", settings:"ဆက်တင်", welcomeSub:"ကြိုဆိုပါ၏", tipsTitle:"ဂျမနိုင်း၏ အကြံပြုချက်များ", t1:"သရဲပုံပြင်အတွက် 'Emotional Style' ကိုသုံးပါ", t2:"အသံအတွက် 0.8x ကိုသုံးပါ", t3:"စကားလုံး ၁၅၀၀ အောက် ရေးသားပါ", generate:"အသံထုတ်လုပ်မည်" },
+            en: { home:"Home", projects:"My Projects", subtitle:"Create stories", favorites:"Favorites", history:"History", settings:"Settings", welcomeSub:"Welcome to", tipsTitle:"Gemini's Pro Tips", t1:"Use Emotional Style for stories", t2:"Adjust speed to 0.8x", t3:"Keep script under 1500 words", generate:"Generate Voice" }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById('lang-select').value;
+            const dict = translationDict[lang];
+            document.getElementById('menu-home').innerText = dict.home;
+            document.getElementById('menu-projects').innerText = dict.projects;
+            document.getElementById('menu-sub-title').innerText = dict.subtitle;
+            document.getElementById('menu-favorites').innerText = dict.favorites;
+            document.getElementById('menu-history').innerText = dict.history;
+            document.getElementById('menu-settings').innerText = dict.settings;
+            document.getElementById('welcome-sub').innerText = dict.welcomeSub;
+            document.getElementById('label-tips-title').innerText = dict.tipsTitle;
+            document.getElementById('tip-1').innerText = dict.t1;
+            document.getElementById('tip-2').innerText = dict.t2;
+            document.getElementById('tip-3').innerText = dict.t3;
+            document.getElementById('btn-generate').innerText = dict.generate;
+        }
 
         function updateCounter() {
-            const textarea = document.getElementById('text-input');
-            const counter = document.getElementById('word-counter');
-            const words = textarea.value.trim().split(/\s+/).filter(w => w.length > 0).length;
-            counter.innerText = `${words} / 3000 words`;
-            
-            if(words > 3000) {
-                counter.classList.add('text-rose-500', 'border-rose-500/30');
-            } else {
-                counter.classList.remove('text-rose-500', 'border-rose-500/30');
-            }
+            const words = document.getElementById('text-input').value.split(/\s+/).filter(w => w.length > 0).length;
+            document.getElementById('word-counter').innerText = `${words} / 3000 words`;
         }
 
-        function clearText() {
-            document.getElementById('text-input').value = '';
-            updateCounter();
-        }
-
-        function filterVoices() {
-            const selectedLang = document.getElementById('lang-select').value;
-            const items = document.querySelectorAll('.voice-item');
-            
-            items.forEach(item => {
-                if(item.classList.contains(`lang-${selectedLang}`)) {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-        }
-
-        function selectVoice(element) {
-            document.querySelectorAll('.voice-item').forEach(item => {
-                item.classList.remove('border-violet-500/40', 'bg-violet-600/5');
-                item.classList.add('border-[#1f1f2e]', 'bg-[#14141f]');
-                const check = item.querySelector('.fa-circle-check, .fa-circle');
-                if(check) {
-                    check.className = 'fa-solid fa-circle text-[#1e1e2e] text-sm';
-                }
-            });
-
-            element.classList.remove('border-[#1f1f2e]', 'bg-[#14141f]');
-            element.classList.add('border-violet-500/40', 'bg-violet-600/5');
-            const icon = element.querySelector('.fa-circle');
-            if(icon) {
-                icon.className = 'fa-solid fa-circle-check text-violet-500 text-sm';
-            }
-        }
-
-        function applyPreset(type) {
-            document.querySelectorAll('.preset-btn').forEach(btn => {
-                btn.classList.remove('bg-violet-600/10', 'border-violet-500/30', 'text-violet-400');
-                btn.classList.add('bg-[#14141f]', 'border-[#1f1f2e]', 'text-gray-200');
-            });
-
-            const activeBtn = document.getElementById(`preset-${type}`);
-            if(activeBtn) {
-                activeBtn.classList.remove('bg-[#14141f]', 'border-[#1f1f2e]', 'text-gray-200');
-                activeBtn.classList.add('bg-violet-600/10', 'border-violet-500/30', 'text-violet-400');
-            }
-
-            if(type === 'tiktok') {
-                document.getElementById('speed-slider').value = 1.2;
-                document.getElementById('pitch-slider').value = 1;
-            } else if(type === 'ghost') {
-                document.getElementById('speed-slider').value = 0.85;
-                document.getElementById('pitch-slider').value = -3;
-            } else if(type === 'news') {
-                document.getElementById('speed-slider').value = 1.0;
-                document.getElementById('pitch-slider').value = 0;
-            }
-            
-            document.getElementById('speed-val').innerText = document.getElementById('speed-slider').value + 'x';
-            document.getElementById('pitch-val').innerText = (document.getElementById('pitch-slider').value > 0 ? '+' : '') + document.getElementById('pitch-slider').value;
-        }
-
-        function togglePlay() {
-            isPlaying = !isPlaying;
-            const icon = document.getElementById('play-icon');
-            const btn = document.getElementById('play-btn');
-            
-            if(isPlaying) {
-                icon.className = 'fa-solid fa-pause text-sm';
-                btn.classList.remove('bg-violet-600');
-                btn.classList.add('bg-fuchsia-600');
-            } else {
-                icon.className = 'fa-solid fa-play text-sm ml-0.5';
-                btn.classList.remove('bg-fuchsia-600');
-                btn.classList.add('bg-violet-600');
-            }
-        }
-
-        function seekAudio(event) {
-            const rect = event.currentTarget.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const percentage = Math.min(Math.max((x / rect.width) * 100, 0), 100);
-            
-            document.getElementById('player-progress').style.width = `${percentage}%`;
-            document.getElementById('player-handle').style.left = `${percentage}%`;
-            
-            const totalSec = 45; 
-            const currentSec = Math.floor((percentage / 100) * totalSec);
-            document.getElementById('player-current-time').innerText = `0:${currentSec < 10 ? '0' : ''}${currentSec}`;
-        }
-
-        function generateVoice() {
-            alert("OneStepOn Simulation Note: Professional AI Processing requires backend server integrations. Coming in v0.9.0!");
-        }
-
-        window.onload = filterVoices;
+        window.onload = changeLanguage;
     </script>
 </body>
 </html>
