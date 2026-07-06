@@ -1,351 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceNest Studio - OneStepOn</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #06060c; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #0c0c14; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #252538; border-radius: 3px; }
-    </style>
-</head>
-<body class="text-gray-200 min-h-screen flex">
+// စာသားပြောင်းလဲတိုင်း တွက်ချက်မည့် Event
+scriptTextArea.addEventListener('input', () => {
+    const text = scriptTextArea.value.trim();
+    const selectedLang = languageSelect.value; // User ရွေးထားတဲ့ ဘာသာစကား (ဥပမာ - 'MM', 'EN')
+    
+    let totalCount = 0;
 
-    <!-- FIXED FULL-HEIGHT SIDEBAR -->
-    <aside class="w-64 bg-[#0a0a12] border-r border-[#161626] flex flex-col justify-between p-4 shrink-0 hidden md:flex sticky top-0 h-screen">
-        <div class="space-y-6">
-            <div class="flex items-center space-x-2 px-2 py-2">
-                <i class="fa-solid fa-wand-magic-sparkles text-lg text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400"></i>
-                <span class="font-bold text-base tracking-wide text-white">Voice Nest</span>
-            </div>
-            <nav class="space-y-1">
-                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-xs font-medium">
-                    <i class="fa-solid fa-house text-sm"></i> 
-                    <span id="menu-home">Home</span>
-                </nav>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#121222] text-xs font-medium">
-                    <i class="fa-solid fa-folder text-sm"></i> 
-                    <span id="menu-projects">My Projects</span>
-                </a>
-                <div class="px-3 py-2 text-[10px] uppercase font-bold tracking-wider text-fuchsia-500/70" id="menu-sub-title">Create Stories</div>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#121222] text-xs font-medium">
-                    <i class="fa-solid fa-heart text-sm"></i> 
-                    <span id="menu-favorites">Favorites</span>
-                </a>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#121222] text-xs font-medium">
-                    <i class="fa-solid fa-clock-rotate-left text-sm"></i> 
-                    <span id="menu-history">History Log</span>
-                </a>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-[#121222] text-xs font-medium">
-                    <i class="fa-solid fa-gear text-sm"></i> 
-                    <span id="menu-settings">Settings</span>
-                </a>
-            </nav>
-        </div>
-        <!-- Branding Card Locked with Full Height -->
-        <div class="p-3 bg-[#0e0e1a] border border-[#1a1a2e] rounded-xl text-center mt-auto">
-            <p class="text-[10px] text-gray-500 italic" id="sidebar-footer-quote">"Make your stories come alive with AI voices."</p>
-            <span class="text-xs font-semibold text-violet-400 block mt-1">#OneStepOn</span>
-        </div>
-    </aside>
+    if (text === "") {
+        totalCount = 0;
+    } 
+    // ၁။ မြန်မာစာ (MM) ဖြစ်ခဲ့လျှင် - အက္ခရာ + ဗျည်းဗျဉ် (Characters) ကို အခြေခံပြီး တွက်ချက်ခြင်း
+    else if (selectedLang === 'MM' || selectedLang === 'မြန်မာ') {
+        // မြန်မာစာတွင် Space မခြားတတ်သဖြင့် စာလုံးရေ (Words) ထက် စာသားအရှည် (Length) ဖြင့် တွက်မှ တိကျပါမည်
+        totalCount = text.length; 
+    } 
+    // ၂။ အင်္ဂလိပ်စာ (EN) ဖြစ်ခဲ့လျှင် - စာလုံးရေ (Words) ကို Space ဖြင့် ခွဲတွက်ခြင်း
+    else if (selectedLang === 'EN' || selectedLang === 'English') {
+        totalCount = text.split(/\s+/).length;
+    } 
+    // ၃။ တခြား ဘာသာစကားများ (ဥပမာ - တရုတ်/ဂျပန် စာလုံးများ) အတွက် Character အလိုက်တွက်ခြင်း
+    else {
+        // Space ပါသော အနောက်တိုင်းဘာသာစကားဆိုလျှင် Words တွက်ပြီး၊ စာလုံးကပ်ရေးသော အရှေ့တိုင်းစာဆိုလျှင် Length တွက်ရန်
+        totalCount = text.includes(' ') ? text.split(/\s+/).length : text.length;
+    }
 
-    <!-- MAIN WORKSPACE -->
-    <main class="flex-1 flex flex-col max-h-screen overflow-y-auto custom-scrollbar p-4 md:p-8 space-y-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <span class="text-[11px] font-medium text-gray-400 tracking-wider block mb-1" id="welcome-sub">Welcome to</span>
-                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-violet-400 to-white">VoiceNest Studio</h1>
-            </div>
-            <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
-                <i class="fa-solid fa-crown text-[9px]"></i> Premium
-            </span>
-        </div>
+    // UI တွင် Dynamic ပြောင်းလဲပြသခြင်း
+    wordCounter.textContent = `${totalCount} / 3000 words`;
 
-        <!-- Preset Badges -->
-        <div class="flex flex-wrap items-center gap-2">
-            <button onclick="applyPreset('tiktok')" id="preset-tiktok" class="px-4 py-1.5 rounded-lg bg-[#141424] border border-[#222236] text-xs font-medium flex items-center gap-1.5 text-gray-300 hover:border-violet-500 transition">
-                <i class="fa-brands fa-tiktok text-fuchsia-400"></i> TtShort
-            </button>
-            <button onclick="applyPreset('ghost')" id="preset-ghost" class="px-4 py-1.5 rounded-lg bg-[#141424] border border-[#222236] text-xs font-medium flex items-center gap-1.5 text-gray-300 hover:border-violet-500 transition">
-                <i class="fa-solid fa-ghost text-violet-400"></i> <span id="badge-ghost">ghost story</span>
-            </button>
-            <button onclick="applyPreset('recap')" id="preset-recap" class="px-4 py-1.5 rounded-lg bg-[#141424] border border-[#222236] text-xs font-medium flex items-center gap-1.5 text-gray-300 hover:border-violet-500 transition">
-                <i class="fa-solid fa-clapperboard text-amber-400"></i> <span id="badge-recap">movie recap</span>
-            </button>
-        </div>
-
-        <!-- Main Input Block -->
-        <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-2xl p-4 space-y-4">
-            <textarea id="text-input" oninput="updateCounter()" placeholder="Enter your story here..." class="w-full h-44 bg-transparent text-sm resize-none focus:outline-none leading-relaxed placeholder-gray-600 custom-scrollbar"></textarea>
-            <div class="flex justify-between items-center text-[10px] text-gray-500 font-mono">
-                <span id="word-counter">0 / 3000 words</span>
-                <button class="text-gray-400 hover:text-white flex items-center gap-1"><i class="fa-solid fa-expand"></i> <span id="label-focus">Focus Mode</span></button>
-            </div>
-            <hr class="border-[#1a1a2e]">
-            
-            <!-- Language, Voiceover & Narration Style Selectors -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                    <label class="text-[10px] text-gray-500 block mb-1 font-medium" id="title-lang-select">Language</label>
-                    <select id="lang-select" onchange="handleLanguageChange()" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300 focus:border-violet-500 focus:outline-none">
-                        <option value="en" selected>English (US) 🇺🇸</option>
-                        <option value="th">ไทย (TH) 🇹🇭</option>
-                        <option value="my">မြန်မာ (MM) 🇲🇲</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="text-[10px] text-gray-500 block mb-1 font-medium" id="title-voice-select">Voiceover Artist</label>
-                    <select id="voice-select" onchange="syncDefaultStyle()" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300 focus:border-violet-500 focus:outline-none"></select>
-                </div>
-                <div>
-                    <label class="text-[10px] text-gray-500 block mb-1 font-medium" id="title-style-select">Narration Style</label>
-                    <select id="style-select" class="w-full bg-[#141424] border border-[#222236] rounded-xl px-3 py-2.5 text-xs text-gray-300 focus:border-violet-500 focus:outline-none"></select>
-                </div>
-            </div>
-
-            <!-- Tuning Controls -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
-                <div>
-                    <div class="flex justify-between items-center mb-1.5 text-[11px] text-gray-400">
-                        <span id="label-speed">Speech Speed</span>
-                        <span id="speed-val" class="font-bold text-violet-400">1.0x</span>
-                    </div>
-                    <input type="range" id="speed-slider" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('speed-val').innerText = this.value + 'x'" class="w-full h-1 bg-[#222236] rounded-lg appearance-none cursor-pointer accent-violet-500">
-                </div>
-                <div>
-                    <div class="flex justify-between items-center mb-1.5 text-[11px] text-gray-400">
-                        <span id="label-pitch">Voice Pitch</span>
-                        <span id="pitch-val" class="font-bold text-violet-400">0</span>
-                    </div>
-                    <input type="range" id="pitch-slider" min="-10" max="10" step="1" value="0" oninput="document.getElementById('pitch-val').innerText = this.value" class="w-full h-1 bg-[#222236] rounded-lg appearance-none cursor-pointer accent-violet-500">
-                </div>
-            </div>
-        </div>
-
-        <!-- Advanced Accordions -->
-        <div class="space-y-3">
-            <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-xl px-4 py-3 flex items-center justify-between cursor-pointer hover:border-gray-700 transition">
-                <span class="text-xs font-semibold text-gray-300 flex items-center gap-2"><i class="fa-solid fa-clapperboard text-gray-500"></i> <span id="label-aspect">Video Aspect Guide</span></span>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
-            </div>
-            <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-xl px-4 py-3 flex flex-col space-y-2">
-                <div class="flex items-center justify-between cursor-pointer">
-                    <span class="text-xs font-semibold text-gray-300 flex items-center gap-2"><i class="fa-solid fa-sliders text-gray-500"></i> <span id="label-ambient">Ambient Music Mixer</span></span>
-                    <i class="fa-solid fa-chevron-down text-xs text-violet-400"></i>
-                </div>
-                <div class="grid grid-cols-2 gap-4 pt-1">
-                    <div>
-                        <span class="text-[10px] text-gray-500 block mb-1" id="label-bgm">Background Music</span>
-                        <select class="w-full bg-[#141424] border border-[#222236] rounded-lg p-2 text-xs text-gray-400 focus:outline-none">
-                            <option id="opt-bgm-none">None</option>
-                            <option>Horror Soundscape</option>
-                            <option>Cinematic Beat</option>
-                        </select>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-[10px] text-gray-500 mb-1"><span id="label-bgm-vol">Music Volume</span><span>0%</span></div>
-                        <input type="range" value="0" class="w-full h-1 bg-[#222236] appearance-none cursor-pointer accent-violet-500">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gemini Tips Section -->
-        <div class="bg-gradient-to-br from-[#121222] to-[#0a0a1a] border border-[#1f1f2e] rounded-xl p-5">
-            <div class="flex items-center gap-2 mb-3">
-                <i class="fa-solid fa-robot text-violet-400 text-sm"></i>
-                <h3 class="text-xs font-bold text-gray-200" id="label-tips-title">Gemini's Pro Tips</h3>
-            </div>
-            <ul class="space-y-2 text-[10px] text-gray-400 list-disc list-inside">
-                <li id="tip-1">Use "Emotional Style" for ghost stories to get better tone.</li>
-                <li id="tip-2">Adjust Speech Speed to 0.8x for a more natural narration flow.</li>
-                <li id="tip-3">Ensure your script length is under 1500 words for the best quality.</li>
-            </ul>
-        </div>
-
-        <!-- Submit Action Button -->
-        <button onclick="triggerVoiceProcess()" class="w-full py-3.5 rounded-full font-bold text-sm bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white shadow-lg shadow-purple-600/20">
-            <span id="btn-generate">Generate Voice</span>
-        </button>
-
-        <!-- Live Audio Track Panel -->
-        <div class="bg-[#0f0f1c] border border-[#1a1a2e] rounded-xl p-4">
-            <div class="grid grid-cols-3 gap-2 text-center border-b border-[#1a1a2e] pb-3 mb-4">
-                <div id="step-ready" class="text-xs font-semibold text-violet-400 flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> <span id="track-ready">Ready</span></div>
-                <div id="step-generating" class="text-xs font-semibold text-gray-600 flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-notch"></i> <span id="track-gen">Generating...</span></div>
-                <div id="step-done" class="text-xs font-semibold text-gray-600 flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle"></i> <span id="track-done">Done</span></div>
-            </div>
-            <div class="space-y-4">
-                <div class="h-6 bg-[#141424] rounded flex items-center justify-center text-[10px] text-gray-600 tracking-widest font-mono">||||| | |||| ||| ||||| | |||| ||| ||||| | |||| ||| |||||</div>
-                <div class="flex items-center justify-between gap-4">
-                    <button class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-play text-sm"></i></button>
-                    <input type="range" value="35" class="flex-1 h-1 bg-[#222236] appearance-none accent-fuchsia-500 rounded">
-                    <div class="flex gap-2">
-                        <button class="bg-[#141424] border border-[#222236] text-[10px] px-2.5 py-1 rounded text-gray-300" id="btn-script-txt">Script</button>
-                        <button class="bg-fuchsia-600 text-[10px] px-2.5 py-1 rounded text-white font-medium" id="btn-audio-txt">Audio</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- JAVA SCRIPT ENGINE LOGIC -->
-    <script>
-        // 1. VOICEOVER ARTISTS & STYLES DATA (ဘာသာစကားအလိုက် အသံနှင့် စတိုင်များကို ဤနေရာတွင် Dynamic တိုးနိုင်သည်)
-        const localizationData = {
-            en: {
-                voices: [
-                    { id: "e1", name: "Aria (Deep Narrative) 🇺🇸", allowedStyles: [{v:"normal", t:"Normal / Plain"}, {v:"emotional", t:"Emotional / Deep"}, {v:"whisper", t:"Whisper / Suspenseful"}] },
-                    { id: "e2", name: "Ethan (High Energy) 🇺🇸", allowedStyles: [{v:"energetic", t:"High Energy / Aggressive"}, {v:"normal", t:"Normal / Plain"}] },
-                    { id: "e3", name: "Oliver (Classic Reader) 🇺🇸", allowedStyles: [{v:"normal", t:"Normal / Plain"}, {v:"sad", t:"Melancholic / Sad"}] }
-                ],
-                ui: { home:"Home", projects:"My Projects", subtitle:"CREATE YOUR OWN MAGICAL STORIES", favorites:"Favorites", history:"History Log", settings:"Settings", welcomeSub:"Welcome to", tipsTitle:"Gemini's Pro Tips", t1:"Use 'Emotional Style' for ghost stories to get better tone.", t2:"Adjust Speech Speed to 0.8x for a more natural narration flow.", t3:"Ensure your script length is under 1500 words for the best quality.", generate:"Generate Voice", aspect:"Video Aspect Guide", ambient:"Ambient Music Mixer Panel", bgm:"Background Sound Track", bgmNone:"None", bgmVol:"Music Audio Volume", trackReady:"Ready Status", trackGen:"Generating...", trackDone:"Audio Completed", footerQuote:'"Make your stories come alive with AI voices."', placeholder:"Enter your story here...", focus:"Focus Mode", labelLang:"Language", labelVoice:"Voiceover Artist", labelStyle:"Narration Style", ghostBadge:"ghost story", recapBadge:"movie recap", btnScript:"Script", btnAudio:"Audio" }
-            },
-            th: {
-                voices: [
-                    { id: "t1", name: "สมชาย (Somchai - Soft Male) 🇹🇭", allowedStyles: [{v:"normal", t:"ปกติ / Plain"}, {v:"emotional", t:"เน้นอารมณ์ / Deep"}] },
-                    { id: "t2", name: "พิม (Pim - Storyteller) 🇹🇭", allowedStyles: [{v:"emotional", t:"เล่าเรื่อง / Storytelling"}, {v:"whisper", t:"กระซิบ / Suspenseful"}, {v:"sad", t:"เศร้า / Sad"}] },
-                    { id: "t3", name: "กิตติ (Kitti - Radio Host) 🇹🇭", allowedStyles: [{v:"energetic", t:"ทรงพลัง / High Energy"}, {v:"normal", t:"ปกติ / Plain"}] }
-                ],
-                ui: { home:"หน้าแรก", projects:"โปรเจกต์ของฉัน", subtitle:"สร้างเรื่องราวอันน่าทึ่งของตัวเอง", favorites:"รายการโปรด", history:"ประวัติการใช้งาน", settings:"ตั้งค่า", welcomeSub:"ยินดีต้อนรับสู่", tipsTitle:"คำแนะนำจาก Gemini", t1:"ใช้ 'สไตล์อารมณ์' สำหรับเรื่องผีเพื่อให้ได้น้ำเสียงที่ดียิ่งขึ้น", t2:"ปรับความเร็วการพูดเป็น 0.8x เพื่อการบรรยายที่เป็นธรรมชาติ", t3:"ตรวจสอบให้แน่ใจว่าความยาวของสคริปต์น้อยกว่า 1500 คำ", generate:"สร้างเสียง", aspect:"คู่มืออัตราส่วนวิดีโอ", ambient:"มิกเซอร์เสียงบรรยากาศ", bgm:"เพลงพื้นหลัง", bgmNone:"ไม่ใส่ (None)", bgmVol:"ระดับเสียงเพลง", trackReady:"สถานะพร้อม", trackGen:"กำลังสร้างเสียง...", trackDone:"เสร็จสิ้น", footerQuote:'"ทำให้เรื่องราวของคุณ มีชีวิตด้วยเสียงแต่งเสียง AI"', placeholder:"กรอกเรื่องราวของคุณที่นี่...", focus:"โหมดโฟกัส", labelLang:"ภาษา", labelVoice:"นักพากย์เสียง", labelStyle:"สไตล์การบรรยาย", ghostBadge:"เรื่องผี", recapBadge:"สปอยหนัง", btnScript:"สคริปต์", btnAudio:"ออดิโอ" }
-            },
-            my: {
-                voices: [
-                    { id: "m1", name: "ဦးမင်းခန့် (ကြည်လင်ပြတ်သား) 🇲🇲", allowedStyles: [{v:"normal", t:"ပုံမှန် / Plain"}, {v:"energetic", t:"တက်ကြွပြတ်သားသော"}] },
-                    { id: "m2", name: "မေသူဇာ (သဘာဝဆန်ဆန်) 🇲🇲", allowedStyles: [{v:"emotional", t:"စိတ်ခံစားမှုပါသော / Deep"}, {v:"sad", t:"ဝမ်းနည်းကြေကွဲဖွယ်"}] },
-                    { id: "m3", name: "သော်ဇင် (ရုပ်ရှင်နောက်ခံသံ) 🇲🇲", allowedStyles: [{v:"whisper", t:"သည်းထိတ်ရင်ဖို / Suspense"}, {v:"normal", t:"ပုံမှန်သံ"}] }
-                ],
-                ui: { home:"ပင်မစာမျက်နှာ", projects:"ကျွန်ုပ်၏ ပရောဂျက်များ", subtitle:"ကိုယ်ပိုင် ဖန်တီးမှု ဇာတ်လမ်းများ", favorites:"အနှစ်သက်ဆုံးများ", history:"အသုံးပြုမှု မှတ်တမ်း", settings:"ဆက်တင်များ", welcomeSub:"ကြိုဆိုပါ၏", tipsTitle:"ဂျမနိုင်း၏ အကြံပြုချက်များ", t1:"သရဲပုံပြင်များအတွက် အသံပိုကောင်းစေရန် 'Emotional Style' ကို အသုံးပြုပါ", t2:"ပိုမိုသဘာဝကျသော အသံအတွက် Speech Speed ကို 0.8x သို့ ချိန်ညှိပါ", t3:"အကောင်းဆုံး အရည်အသွေးရရှိရန် စာသားများကို စကားလုံး ၁၅၀၀ အောက်သာ ရေးသားပါ", generate:"အသံထုတ်လုပ်မည်", aspect:"ဗီဒီယို အချိုးအစား လမ်းညွှန်", ambient:"နောက်ခံဆူညံသံ ရောစပ်စနစ်", bgm:"နောက်ခံတေးဂီတ", bgmNone:"မပါဝင်ပါ (None)", bgmVol:"အော်ဒီယို ပမာဏ", trackReady:"အသင့်ဖြစ်ပြီ", trackGen:"ထုတ်လုပ်နေဆဲ...", trackDone:"ပြီးမြောက်ပြီ", footerQuote:'"သင်၏ပုံပြင်များကို AI အသံများဖြင့် အသက်သွင်းလိုက်ပါ။"', placeholder:"သင်၏ ဇာတ်လမ်းကို ဤနေရာတွင် ရေးသားပါ...", focus:"အာရုံစိုက်မုဒ်", labelLang:"ဘာသာစကား", labelVoice:"အသံရှင် ရွေးချယ်ရန်", labelStyle:"ပြောဆိုမှု စတိုင်", ghostBadge:"သရဲပုံပြင်", recapBadge:"ရုပ်ရှင်ပြန်ပြော", btnScript:"စာသား", btnAudio:"အသံဖိုင်" }
-            }
-        };
-
-        // 2. LANGUAGE CHANGE HANDLING (ဘာသာစကားပြောင်းလဲမှု အလုံးစုံကို ထိန်းချုပ်သည့် Function)
-        function handleLanguageChange() {
-            const currentLang = document.getElementById('lang-select').value;
-            const data = localizationData[currentLang];
-
-            if (!data) return;
-
-            // 2A. Update UI Texts One-by-One (စာသားအားလုံးကို လဲလှယ်ခြင်း)
-            document.getElementById('menu-home').innerText = data.ui.home;
-            document.getElementById('menu-projects').innerText = data.ui.projects;
-            document.getElementById('menu-sub-title').innerText = data.ui.subtitle;
-            document.getElementById('menu-favorites').innerText = data.ui.favorites;
-            document.getElementById('menu-history').innerText = data.ui.history;
-            document.getElementById('menu-settings').innerText = data.ui.settings;
-            document.getElementById('sidebar-footer-quote').innerText = data.ui.footerQuote;
-
-            document.getElementById('welcome-sub').innerText = data.ui.welcomeSub;
-            document.getElementById('badge-ghost').innerText = data.ui.ghostBadge;
-            document.getElementById('badge-recap').innerText = data.ui.recapBadge;
-            
-            document.getElementById('text-input').placeholder = data.ui.placeholder;
-            document.getElementById('label-focus').innerText = data.ui.focus;
-
-            document.getElementById('title-lang-select').innerText = data.ui.labelLang;
-            document.getElementById('title-voice-select').innerText = data.ui.labelVoice;
-            document.getElementById('title-style-select').innerText = data.ui.labelStyle;
-
-            document.getElementById('label-aspect').innerText = data.ui.aspect;
-            document.getElementById('label-ambient').innerText = data.ui.ambient;
-            document.getElementById('label-bgm').innerText = data.ui.bgm;
-            document.getElementById('opt-bgm-none').innerText = data.ui.bgmNone;
-            document.getElementById('label-bgm-vol').innerText = data.ui.bgmVol;
-
-            document.getElementById('label-tips-title').innerText = data.ui.tipsTitle;
-            document.getElementById('tip-1').innerText = data.ui.t1;
-            document.getElementById('tip-2').innerText = data.ui.t2;
-            document.getElementById('tip-3').innerText = data.ui.t3;
-
-            document.getElementById('btn-generate').innerText = data.ui.generate;
-            document.getElementById('track-ready').innerText = data.ui.trackReady;
-            document.getElementById('track-gen').innerText = data.ui.trackGen;
-            document.getElementById('track-done').innerText = data.ui.trackDone;
-            
-            document.getElementById('btn-script-txt').innerText = data.ui.btnScript;
-            document.getElementById('btn-audio-txt').innerText = data.ui.btnAudio;
-
-            // 2B. Dynamic Voiceover List Sync (ရွေးချယ်ထားသော ဘာသာစကား၏ အသံရှင်များကို ထည့်သွင်းခြင်း)
-            const voiceSelect = document.getElementById('voice-select');
-            voiceSelect.innerHTML = ''; // Clear Old Options
-            
-            data.voices.forEach(voice => {
-                const opt = document.createElement('option');
-                opt.value = voice.id;
-                opt.innerText = voice.name;
-                voiceSelect.appendChild(opt);
-            });
-
-            // 2C. Dynamic Style Trigger
-            syncDefaultStyle();
+    // ဥပမာ Milestone ဖြစ်တဲ့ ၁၅၀၀ ကျော်ရင် Warning ပြောင်းမယ်
+    if (totalCount >= 1500 && totalCount < 3000) {
+        wordCounter.style.color = '#eab308'; // ဝါဂွမ်းရောင် (Warning)
+    } else if (totalCount >= 3000) {
+        wordCounter.style.color = '#ef4444'; // အနီရောင် (Limit ပြည့်ပြီ)
+        
+        // Limit ထက်ကျော်သွားပါက ဖြတ်တောက်ရန်
+        if (selectedLang === 'MM' || selectedLang === 'မြန်မာ') {
+            scriptTextArea.value = text.substring(0, 3000); // မြန်မာစာကို Character ၃၀၀၀ တွင် ဖြတ်မည်
+        } else {
+            scriptTextArea.value = text.split(/\s+/).slice(0, 3000).join(" "); // English ကို စာလုံး ၃၀၀၀ တွင် ဖြတ်မည်
         }
-
-        // 3. VOICE TO STYLE INTERACTION SYNC (အသံရှင်အလိုက် ရနိုင်သော စတိုင်များကိုသာ ပြောင်းလဲပေးခြင်း)
-        function syncDefaultStyle() {
-            const currentLang = document.getElementById('lang-select').value;
-            const selectedVoiceId = document.getElementById('voice-select').value;
-            const voiceObj = localizationData[currentLang].voices.find(v => v.id === selectedVoiceId);
-
-            const styleSelect = document.getElementById('style-select');
-            styleSelect.innerHTML = ''; // Clear old styles
-
-            if (voiceObj && voiceObj.allowedStyles) {
-                voiceObj.allowedStyles.forEach(style => {
-                    const opt = document.createElement('option');
-                    opt.value = style.v;
-                    opt.innerText = style.t;
-                    styleSelect.appendChild(opt);
-                });
-            }
-        }
-
-        // 4. PRESETS VALUE ENGINE
-        function applyPreset(type) {
-            const styleSelect = document.getElementById('style-select');
-            if (type === 'tiktok') {
-                document.getElementById('speed-slider').value = 1.2;
-                document.getElementById('pitch-slider').value = 1;
-            } else if (type === 'ghost') {
-                document.getElementById('speed-slider').value = 0.8;
-                document.getElementById('pitch-slider').value = -2;
-            } else if (type === 'recap') {
-                document.getElementById('speed-slider').value = 1.1;
-                document.getElementById('pitch-slider').value = 0;
-            }
-            document.getElementById('speed-val').innerText = document.getElementById('speed-slider').value + 'x';
-            document.getElementById('pitch-val').innerText = document.getElementById('pitch-slider').value;
-        }
-
-        function updateCounter() {
-            const text = document.getElementById('text-input').value.trim();
-            const words = text ? text.split(/\s+/).length : 0;
-            document.getElementById('word-counter').innerText = `${words} / 3000 words`;
-        }
-
-        function triggerVoiceProcess() {
-            const ready = document.getElementById('step-ready');
-            const gen = document.getElementById('step-generating');
-            const done = document.getElementById('step-done');
-            
-            ready.className = "text-xs font-semibold text-gray-600 flex items-center justify-center gap-1.5";
-            gen.className = "text-xs font-semibold text-amber-400 flex items-center justify-center gap-1.5 animate-pulse";
-            
-            setTimeout(() => {
-                gen.className = "text-xs font-semibold text-gray-600 flex items-center justify-center gap-1.5";
-                done.className = "text-xs font-semibold text-emerald-400 flex items-center justify-center gap-1.5";
-            }, 2000);
-        }
-
-        // Initialize Web Application in English Mode
-        window.onload = function() {
-            document.getElementById('lang-select').value = "en";
-            handleLanguageChange();
-        }
-    </script>
-</body>
-</html>
+    } else {
+        wordCounter.style.color = ''; // ပုံမှန်အရောင်
+    }
+});
