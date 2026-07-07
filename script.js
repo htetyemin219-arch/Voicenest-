@@ -38,7 +38,6 @@ function handleLanguageChange() {
     const lang = langSelect.value;
     const currentData = localizationData[lang];
 
-    // Dynamic UI Text Update Logic
     document.getElementById('menu-home').textContent = currentData.ui.home;
     document.getElementById('menu-projects').textContent = currentData.ui.projects;
     document.getElementById('menu-sub-title').textContent = currentData.ui.subtitle;
@@ -70,7 +69,6 @@ function handleLanguageChange() {
     document.getElementById('btn-audio-txt').textContent = currentData.ui.btnAudio;
     textInput.placeholder = currentData.ui.placeholder;
 
-    // Render Voices Selection List Dynamically
     voiceSelect.innerHTML = '';
     currentData.voices.forEach(voice => {
         const option = document.createElement('option');
@@ -109,14 +107,13 @@ function updateCounter() {
     if (text === "") {
         totalCount = 0;
     } else if (lang === 'my') {
-        totalCount = text.length; // မြန်မာစာအတွက် Character ဖြင့်တွက်ချက်ခြင်း
+        totalCount = text.length; 
     } else {
-        totalCount = text.split(/\s+/).length; // အင်္ဂလိပ်နှင့် ထိုင်းစာအတွက် Words ဖြင့်တွက်ချက်ခြင်း
+        totalCount = text.split(/\s+/).length; 
     }
 
     wordCounter.textContent = `${totalCount} / 3000 words`;
 
-    // Limit warning styles indicator
     if (totalCount >= 1500 && totalCount < 3000) {
         wordCounter.style.color = '#eab308';
     } else if (totalCount >= 3000) {
@@ -131,18 +128,89 @@ function updateCounter() {
     }
 }
 
-// 6. QUICK PRESET HANDLER
+// 6. DYNAMIC PRESET BUTTONS FOR AUTO-SYNC (TtShort, သရဲဇာတ်လမ်း၊ ရုပ်ရှင်အကျဉ်းချုပ် ခလုတ်များ Logic)
 function applyPreset(type) {
+    const lang = langSelect.value;
+    
     if (type === 'tiktok') {
-        textInput.value = "Welcome to TtShort editing preset text!";
+        if (lang === 'my') {
+            textInput.value = "TtShort အတွက် ဗီဒီယိုတို ဖန်တီးမှု ပုံစံငယ် စာသား ဖြစ်ပါတယ်။";
+        } else if (lang === 'th') {
+            textInput.value = "ข้อความตัวอย่างสำหรับทำคลิปสั้น TtShort!";
+        } else {
+            textInput.value = "Welcome to TtShort editing preset text! Let's make a great short video.";
+        }
+        
+        if (lang === 'en') { voiceSelect.value = "e3"; }
+        else if (lang === 'th') { voiceSelect.value = "t1"; }
+        else if (lang === 'my') { voiceSelect.value = "m1"; }
+        
     } else if (type === 'ghost') {
-        textInput.value = "The house was perfectly dark, and the silence was deep...";
+        if (lang === 'my') {
+            textInput.value = "ညဉ့်နက်သန်းခေါင်အချိန်... ပတ်ဝန်းကျင်တစ်ခုလုံး တိတ်ဆိတ်ခြောက်ခြားလို့နေတယ်။";
+        } else if (lang === 'th') {
+            textInput.value = "ในคืนที่มืดมิดและเงียบสงัด... มีบางสิ่งกำลังจ้องมองคุณอยู่";
+        } else {
+            textInput.value = "The house was perfectly dark, and the silence was deep and terrifying...";
+        }
+        
+        if (lang === 'en') { voiceSelect.value = "e1"; }
+        else if (lang === 'th') { voiceSelect.value = "t2"; }
+        else if (lang === 'my') { voiceSelect.value = "m3"; } // သော်ဇင် (ရုပ်ရှင်နောက်ခံသံ) ပြောင်းပေးခြင်း
+        
+    } else if (type === 'recap') {
+        if (lang === 'my') {
+            textInput.value = "ဒီလူကတော့ ကမ္ဘာပေါ်မှာ အဆန်းပြားဆုံး စွမ်းအားတွေကို ပိုင်ဆိုင်ထားတဲ့သူပဲ ဖြစ်ပါတယ်။";
+        } else if (lang === 'th') {
+            textInput.value = "ชายคนนี้คือผู้ครอบครองพลังที่ทรงพลังที่สุดในโลก!";
+        } else {
+            textInput.value = "In a world where everything changed in just a single second...";
+        }
+        
+        if (lang === 'en') { voiceSelect.value = "e2"; }
+        else if (lang === 'th') { voiceSelect.value = "t3"; }
+        else if (lang === 'my') { voiceSelect.value = "m3"; } 
+    }
+    
+    syncDefaultStyle();
+    
+    if (type === 'ghost') {
         styleSelect.value = "whisper";
     } else if (type === 'recap') {
-        textInput.value = "In a world where everything changed in just a second...";
         styleSelect.value = "energetic";
+    } else {
+        styleSelect.value = "normal";
     }
+    
     updateCounter();
+}
+
+// 7. SIMULATE VOICE GENERATION PROCESS (အသံဖန်တီးခြင်း လုပ်ဆောင်ချက် စနစ်)
+function triggerVoiceProcess() {
+    const text = textInput.value.trim();
+    if (text === "") {
+        alert(langSelect.value === 'my' ? "ကျေးဇူးပြု၍ စာသားအရင်ရိုက်ထည့်ပါဗျာ။" : "Please enter some text first!");
+        return;
+    }
+
+    const stepReady = document.getElementById('step-ready');
+    const stepGen = document.getElementById('step-gen');
+    const stepDone = document.getElementById('step-done');
+
+    stepReady.classList.remove('text-violet-400');
+    stepReady.classList.add('text-gray-600');
+    stepGen.classList.remove('text-gray-600');
+    stepGen.classList.add('text-amber-400', 'animate-pulse');
+
+    setTimeout(() => {
+        stepGen.classList.remove('text-amber-400', 'animate-pulse');
+        stepGen.classList.add('text-gray-600');
+        
+        stepDone.classList.remove('text-gray-600');
+        stepDone.classList.add('text-green-400');
+        
+        alert(langSelect.value === 'my' ? "အော်ဒီယို အောင်မြင်စွာ ဖန်တီးပြီးပါပြီ ဆရာကြီး!" : "Audio Generation Completed!");
+    }, 3000);
 }
 
 // INITIAL STARTUP EVENT TRIGGERS
