@@ -1,171 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceNest Studio</title>
-    <!-- Tailwind CSS & Google Fonts -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>VoiceNest Studio v2.0 - OneStepOn Project</title>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .neon-glow { box-shadow: 0 0 20px rgba(168, 85, 247, 0.15); }
-        .btn-glow:hover { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+        :root {
+            --primary-color: #2b6cb0;
+            --secondary-color: #3182ce;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+
+        /* Flex Container for Voice Selector and Play Preview Button to avoid overlap */
+        .voice-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            width: 100%;
+        }
+
+        select {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            background-color: #fff;
+            min-width: 0; /* Prevents overflow in flex items */
+        }
+
+        /* Preview Button Style */
+        .btn-preview {
+            background-color: #edf2f7;
+            color: #2b6cb0;
+            border: 1px solid #cbd5e0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .btn-preview:hover {
+            background-color: #e2e8f0;
+            border-color: #a0aec0;
+        }
+
+        .btn-preview.playing {
+            background-color: #feebc8;
+            color: #dd6b20;
+            border-color: #fbd38d;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            accent-color: var(--primary-color);
+        }
+
+        .btn-generate {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: background 0.2s;
+        }
+
+        .btn-generate:hover {
+            background-color: var(--secondary-color);
+        }
     </style>
 </head>
-<body class="bg-[#060713] text-[#f3f4f6] min-h-screen">
+<body>
 
-    <div class="flex">
-        <!-- 1. SIDEBAR NAVIGATION -->
-        <div class="w-72 bg-[#0d0e26]/80 h-screen p-6 fixed hidden lg:flex flex-col justify-between border-r border-purple-900/20 backdrop-blur-md">
-            <div class="space-y-8">
-                <!-- Logo Zone -->
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-tr from-purple-600 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-purple-500/30">VN</div>
-                    <div>
-                        <h1 id="ui-title" class="text-lg font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">VoiceNest</h1>
-                        <p id="ui-subtitle" class="text-[10px] text-purple-400 tracking-wider">STUDIO ENGINE</p>
-                    </div>
-                </div>
-                <!-- Nav Links -->
-                <nav class="space-y-1.5 text-sm">
-                    <a href="#" class="flex items-center gap-3 p-3 rounded-xl bg-purple-600/10 border border-purple-500/20 text-white font-medium">✨ Home</a>
-                    <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition">📁 My Projects</a>
-                    <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition">❤️ Favorites</a>
-                    <a href="#" id="ui-history-title" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition">📜 Production Log</a>
-                    <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition">⚙️ Settings</a>
-                </nav>
-            </div>
-            <!-- Footer OneStepOn Branding Tag -->
-            <div class="bg-gradient-to-r from-purple-950/40 to-blue-950/40 border border-purple-500/10 p-4 rounded-xl text-center">
-                <p class="text-xs text-purple-300 font-medium italic">"Bring your stories to life with the power of AI voice."</p>
-                <span class="text-[10px] text-purple-400 block mt-2 font-bold tracking-widest">#OneStepOn</span>
-            </div>
-        </div>
+<div class="studio-container">
+    <h1>🎙️ VoiceNest Studio <span style="font-size: 14px; color:#a0aec0;">v2.0</span></h1>
 
-        <!-- MAIN MAIN CONTAINER -->
-        <div class="flex-1 lg:ml-72 p-4 md:p-8 max-w-5xl mx-auto space-y-6 w-full">
-            
-            <!-- Top Dashboard Bar -->
-            <div class="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between bg-[#0d0e26]/40 p-4 rounded-2xl border border-white/5 backdrop-blur-md">
-                <div class="flex items-center gap-2 text-sm">
-                    <span class="text-gray-400">Application UI:</span>
-                    <select id="language-select" class="bg-[#060713] border border-purple-500/30 text-white px-3 py-1.5 rounded-xl text-xs focus:outline-none focus:border-purple-500 transition">
-                        <option value="my">မြန်မာဘာသာ (MY) 🇲🇲</option>
-                        <option value="en">English (EN) 🇺🇸</option>
-                        <option value="th">ไทย (TH) 🇹🇭</option>
-                    </select>
-                </div>
-                <div class="flex items-center justify-end gap-3">
-                    <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] uppercase font-bold px-3 py-1 rounded-full">👑 Free Plan</span>
-                </div>
-            </div>
+    <!-- 1. Language Selection -->
+    <div class="control-group">
+        <label>🌍 Language (ဘာသာစကား)</label>
+        <select id="langSelect">
+            <option value="mm">မြန်မာ (Myanmar 🇲🇲)</option>
+            <option value="en">English (USA 🇺🇸)</option>
+            <option value="th">ไทย (Thailand 🇹🇭)</option>
+        </select>
+    </div>
 
-            <!-- CORE WORKSPACE (Your Story Card) -->
-            <div class="bg-[#0d0e26]/60 border border-white/5 rounded-2xl p-5 md:p-6 shadow-xl neon-glow space-y-5">
-                
-                <!-- Content Presets Row -->
-                <div class="space-y-2">
-                    <h3 id="ui-preset-title" class="text-xs font-semibold text-purple-400 tracking-wider uppercase">Content Presets</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <button id="btn-preset-ttshort" class="bg-white/5 border border-white/5 text-xs px-3.5 py-2 rounded-xl hover:border-purple-500/50 hover:bg-purple-500/5 transition">🎵 TtShort</button>
-                        <button id="btn-preset-ghost" class="bg-white/5 border border-white/5 text-xs px-3.5 py-2 rounded-xl hover:border-purple-500/50 hover:bg-purple-500/5 transition">👻 Ghost Story</button>
-                        <button id="btn-preset-recap" class="bg-white/5 border border-white/5 text-xs px-3.5 py-2 rounded-xl hover:border-purple-500/50 hover:bg-purple-500/5 transition">🎬 Movie Recap</button>
-                        <button id="btn-preset-story" class="bg-white/5 border border-white/5 text-xs px-3.5 py-2 rounded-xl hover:border-purple-500/50 hover:bg-purple-500/5 transition">📚 Storyteller</button>
-                    </div>
-                </div>
-
-                <!-- Textarea Area -->
-                <div class="space-y-1.5 relative">
-                    <textarea id="text-input" rows="6" class="w-full bg-[#060713]/80 border border-white/5 rounded-xl p-4 text-white text-sm focus:outline-none focus:border-purple-500/50 transition resize-none placeholder-gray-600 shadow-inner" placeholder="Enter your script here..."></textarea>
-                    <div id="word-count-label" class="text-[10px] text-gray-500 text-right absolute bottom-3 ညာဘက်-4 bg-[#060713] px-2 py-0.5 rounded border border-white/5">0 / 5000 words</div>
-                </div>
-
-                <!-- Primary Dropdowns Configuration -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label id="ui-voice-title" class="block text-xs text-purple-300 font-medium mb-2">🎙️ Select Voice Actor</label>
-                        <select id="voice-select" class="w-full bg-[#060713] border border-white/5 text-white p-3 rounded-xl text-sm focus:outline-none focus:border-purple-500/50 transition"></select>
-                    </div>
-                    <div>
-                        <label id="ui-style-title" class="block text-xs text-purple-300 font-medium mb-2">🎭 Voice Style & Emotion</label>
-                        <select id="style-select" class="w-full bg-[#060713] border border-white/5 text-white p-3 rounded-xl text-sm focus:outline-none focus:border-purple-500/50 transition"></select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FLOATING PARAMETERS (Sliders, BGM, and Aspects) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- 1. Voice Controllers (Sliders) -->
-                <div class="bg-[#0d0e26]/40 border border-white/5 p-4 rounded-2xl space-y-4">
-                    <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Voice Controls</h4>
-                    <div class="space-y-3">
-                        <div>
-                            <div class="flex justify-between text-xs text-gray-400 mb-1"><span>Speech Speed</span><span id="val-speed">1.0x</span></div>
-                            <input type="range" id="slider-speed" min="0.5" max="2.0" step="0.1" value="1.0" class="w-full accent-purple-500 bg-gray-800 h-1.5 rounded-lg appearance-none">
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs text-gray-400 mb-1"><span>Voice Pitch</span><span id="val-pitch">0</span></div>
-                            <input type="range" id="slider-pitch" min="-5" max="5" step="1" value="0" class="w-full accent-purple-500 bg-gray-800 h-1.5 rounded-lg appearance-none">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. Video Aspect Guide Selector -->
-                <div class="bg-[#0d0e26]/40 border border-white/5 p-4 rounded-2xl space-y-3">
-                    <label id="ui-ratio-title" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Video Aspect Guide</label>
-                    <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
-                        <button id="ratio-916" class="p-2 bg-white/5 border border-white/5 rounded-xl hover:border-purple-500/40 transition">📱<br>9:16 Shorts</button>
-                        <button id="ratio-169" class="p-2 bg-white/5 border border-white/5 rounded-xl hover:border-purple-500/40 transition">🖥️<br>16:9 Movie</button>
-                        <button id="ratio-11" class="p-2 bg-white/5 border border-white/5 rounded-xl hover:border-purple-500/40 transition">🟩<br>1:1 Square</button>
-                    </div>
-                    <div id="ratio-suggestion-text" class="text-[10px] text-purple-400/80 italic line-clamp-1">Auto suggested ratio based on flow...</div>
-                </div>
-
-                <!-- 3. Ambient Music Mixer -->
-                <div class="bg-[#0d0e26]/40 border border-white/5 p-4 rounded-2xl space-y-3">
-                    <label id="ui-bgm-title" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Ambient Music Mixer</label>
-                    <select id="bgm-select" class="w-full bg-[#060713] border border-white/5 text-white p-2 rounded-xl text-xs focus:outline-none">
-                        <option id="opt-bgm-none" value="none">None</option>
-                        <option value="cinematic">Cinematic Beat</option>
-                        <option value="dark">Dark Ambient Pad</option>
-                        <option value="cyberpunk">Cinematic Cyberpunk Beat</option>
-                        <option value="magic">Magic Harp & Flute</option>
-                    </select>
-                    <div>
-                        <div class="flex justify-between text-[10px] text-gray-500 mb-0.5"><span>Music Volume</span><span id="val-vol">20%</span></div>
-                        <input type="range" id="slider-vol" min="0" max="100" step="5" value="20" class="w-full accent-purple-500 bg-gray-800 h-1 rounded-lg appearance-none">
-                    </div>
-                </div>
-            </div>
-
-            <!-- ACTION & OUTPUT RESULT CONTAINER -->
-            <div class="space-y-4">
-                <button id="btn-generate" class="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-2xl transition btn-glow shadow-lg shadow-purple-600/20 text-sm tracking-wide">
-                    ✨ Generate Voice
-                </button>
-
-                <!-- Processing Timeline -->
-                <div class="grid grid-cols-3 gap-2 bg-[#0d0e26]/30 border border-white/5 p-3 rounded-xl text-center text-xs text-gray-500">
-                    <div id="step-ready" class="text-emerald-400 font-medium">🟢 Ready</div>
-                    <div id="step-generating">🟡 Generating...</div>
-                    <div id="step-done">🔵 Done</div>
-                </div>
-
-                <!-- Audio Output Panel -->
-                <div class="bg-[#0d0e26]/80 border border-purple-500/10 rounded-2xl p-4 space-y-3">
-                    <div class="flex items-center justify-between text-xs text-gray-400">
-                        <span>🔊 Generated Audio Results</span>
-                        <button class="text-purple-400 hover:underline text-[11px]">⬇️ Download (.MP3 & .SRT)</button>
-                    </div>
-                    <!-- Waveform Animation -->
-                    <div class="flex items-center justify-center h-12 bg-[#060713]/60 rounded-xl px-4" id="waveform-container"></div>
-                </div>
-            </div>
-
+    <!-- 2. Voice Selection with Audio Preview (Fixed Overlap Layout) -->
+    <div class="control-group">
+        <label>🗣️ Voice Actor (အသံရှင်)</label>
+        <div class="voice-row">
+            <select id="voiceSelect">
+                <!-- Javascript will dynamically inject 24 voices per language here -->
+            </select>
+            <button id="previewBtn" class="btn-preview" type="button">
+                <span id="previewIcon">▶️</span> <span id="previewText">Listen Preview</span>
+            </button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- 3. Narration Style Selection -->
+    <div class="control-group">
+        <label>🎭 Narration Style (ခံစားချက်စတိုင်)</label>
+        <select id="styleSelect">
+            <!-- Will be dynamically updated based on voice characteristics -->
+        </select>
+    </div>
+
+    <!-- 4. Background Ambient Music Mixer -->
+    <div class="control-group">
+        <label>🎵 Ambient Music Mixer (နောက်ခံတေးဂီတ)</label>
+        <select id="musicSelect">
+            <option value="none">မသုံးပါ (None)</option>
+            <option value="cyberpunk">Cinematic Cyberpunk Beat</option>
+            <option value="dark_ambient">Dark Ambient Pad</option>
+            <option value="cinematic">Cinematic Beat</option>
+            <option value="harp_flute">Magic Harp & Flute</option>
+            <option value="piano">Inspiring Piano Uplift 🌟</option>
+            <option value="violin">Sad Violin & Cello 🌟</option>
+            <option value="lofi">Lofi Chill Hop 🌟</option>
+            <option value="orchestral">Fierce Orchestral War 🌟</option>
+            <option value="synthwave">Retro Synthwave 8-Bit 🌟</option>
+        </select>
+        <div class="volume-container">
+            <span style="font-size: 13px; color:#718096;">Music Volume:</span>
+            <input type="range" id="musicVolume" class="volume-slider" min="0" max="100" value="30">
+            <span id="volLabel" style="font-size: 13px; width: 35px; text-align: right;">30%</span>
+        </div>
+    </div>
+
+    <button id="generateBtn" class="btn-generate">🚀 Generate Voiceover Video</button>
+</div>
+
+<!-- Hidden HTML5 Audio Tags for Previews & Background Music Processing -->
+<audio id="previewAudioPlayer" style="display: none;"></audio>
+
+<script src="script.js"></script>
 </body>
 </html>
