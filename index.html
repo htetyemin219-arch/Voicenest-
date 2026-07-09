@@ -3,195 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceNest Studio v2.0 - OneStepOn Project</title>
-    <style>
-        :root {
-            --primary-color: #2b6cb0;
-            --secondary-color: #3182ce;
-            --bg-color: #f7fafc;
-            --card-bg: #ffffff;
-            --text-color: #2d3748;
-            --border-color: #e2e8f0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .studio-container {
-            width: 100%;
-            max-width: 800px;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        h1 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-        }
-
-        .control-group {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #4a5568;
-        }
-
-        /* Flex Container for Voice Selector and Play Preview Button to avoid overlap */
-        .voice-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            width: 100%;
-        }
-
-        select {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 15px;
-            background-color: #fff;
-            min-width: 0; /* Prevents overflow in flex items */
-        }
-
-        /* Preview Button Style */
-        .btn-preview {
-            background-color: #edf2f7;
-            color: #2b6cb0;
-            border: 1px solid #cbd5e0;
-            padding: 12px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-
-        .btn-preview:hover {
-            background-color: #e2e8f0;
-            border-color: #a0aec0;
-        }
-
-        .btn-preview.playing {
-            background-color: #feebc8;
-            color: #dd6b20;
-            border-color: #fbd38d;
-        }
-
-        .volume-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 5px;
-        }
-
-        .volume-slider {
-            flex: 1;
-            accent-color: var(--primary-color);
-        }
-
-        .btn-generate {
-            width: 100%;
-            background-color: var(--primary-color);
-            color: #fff;
-            border: none;
-            padding: 15px;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: background 0.2s;
-        }
-
-        .btn-generate:hover {
-            background-color: var(--secondary-color);
-        }
-    </style>
+    <title>VoiceNest Studio v2.0 - OneStepOn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="studio-container">
-    <h1>🎙️ VoiceNest Studio <span style="font-size: 14px; color:#a0aec0;">v2.0</span></h1>
-
-    <!-- 1. Language Selection -->
-    <div class="control-group">
-        <label>🌍 Language (ဘာသာစကား)</label>
-        <select id="langSelect">
-            <option value="mm">မြန်မာ (Myanmar 🇲🇲)</option>
-            <option value="en">English (USA 🇺🇸)</option>
-            <option value="th">ไทย (Thailand 🇹🇭)</option>
-        </select>
-    </div>
-
-    <!-- 2. Voice Selection with Audio Preview (Fixed Overlap Layout) -->
-    <div class="control-group">
-        <label>🗣️ Voice Actor (အသံရှင်)</label>
-        <div class="voice-row">
-            <select id="voiceSelect">
-                <!-- Javascript will dynamically inject 24 voices per language here -->
-            </select>
-            <button id="previewBtn" class="btn-preview" type="button">
-                <span id="previewIcon">▶️</span> <span id="previewText">Listen Preview</span>
-            </button>
+    <!-- 1. LEFT SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">🎙️</span>
+            <div>
+                <h2>VoiceNest</h2>
+                <p id="subBrandTxt">Every story deserves a voice.</p>
+            </div>
         </div>
-    </div>
+        
+        <nav class="sidebar-menu">
+            <a href="#" class="menu-item active" id="menuHome">🏠 Home</a>
+            <a href="#" class="menu-item" id="menuProjects">📁 My Projects</a>
+            <a href="#" class="menu-item" id="menuFavorites">💜 Favorites</a>
+            <a href="#" class="menu-item" id="menuHistory">⏳ History Log</a>
+            <a href="#" class="menu-item" id="menuSettings">⚙️ Settings</a>
+        </nav>
 
-    <!-- 3. Narration Style Selection -->
-    <div class="control-group">
-        <label>🎭 Narration Style (ခံစားချက်စတိုင်)</label>
-        <select id="styleSelect">
-            <!-- Will be dynamically updated based on voice characteristics -->
-        </select>
-    </div>
-
-    <!-- 4. Background Ambient Music Mixer -->
-    <div class="control-group">
-        <label>🎵 Ambient Music Mixer (နောက်ခံတေးဂီတ)</label>
-        <select id="musicSelect">
-            <option value="none">မသုံးပါ (None)</option>
-            <option value="cyberpunk">Cinematic Cyberpunk Beat</option>
-            <option value="dark_ambient">Dark Ambient Pad</option>
-            <option value="cinematic">Cinematic Beat</option>
-            <option value="harp_flute">Magic Harp & Flute</option>
-            <option value="piano">Inspiring Piano Uplift 🌟</option>
-            <option value="violin">Sad Violin & Cello 🌟</option>
-            <option value="lofi">Lofi Chill Hop 🌟</option>
-            <option value="orchestral">Fierce Orchestral War 🌟</option>
-            <option value="synthwave">Retro Synthwave 8-Bit 🌟</option>
-        </select>
-        <div class="volume-container">
-            <span style="font-size: 13px; color:#718096;">Music Volume:</span>
-            <input type="range" id="musicVolume" class="volume-slider" min="0" max="100" value="30">
-            <span id="volLabel" style="font-size: 13px; width: 35px; text-align: right;">30%</span>
+        <div class="sidebar-footer">
+            <p id="sidebarQuote">"Bring your stories to life with the power of AI voice."</p>
+            <span class="brand-tag">#OneStepOn</span>
         </div>
-    </div>
+    </aside>
 
-    <button id="generateBtn" class="btn-generate">🚀 Generate Voiceover Video</button>
-</div>
+    <!-- 2. MAIN CONTENT AREA -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="app-header">
+            <div>
+                <span class="welcome-tag" id="welcomeTxt">Welcome to</span>
+                <h1 class="app-title">VoiceNest Studio <span class="version-badge">v2.0</span></h1>
+            </div>
+            <div class="header-right">
+                <!-- Custom App UI Language Selector (Professional Floating Dropdown) -->
+                <div class="custom-dropdown-container">
+                    <button class="dropdown-trigger" id="langTriggerBtn">🌐 မြန်မာ (MY) 🇲🇲</button>
+                    <div class="dropdown-menu-box" id="langMenuBox">
+                        <div class="dropdown-item" data-value="mm">မြန်မာ (MY) 🇲🇲</div>
+                        <div class="dropdown-item" data-value="en">English (US) 🇺🇸</div>
+                        <div class="dropdown-item" data-value="th">ไทย (TH) 🇹🇭</div>
+                    </div>
+                </div>
+                <span class="plan-badge">👑 FREE PLAN</span>
+            </div>
+        </header>
 
-<!-- Hidden HTML5 Audio Tags for Previews & Background Music Processing -->
-<audio id="previewAudioPlayer" style="display: none;"></audio>
+        <!-- Content Presets Section -->
+        <section class="presets-section">
+            <span class="section-mini-title" id="presetLabel">CONTENT PRESETS</span>
+            <div class="presets-row">
+                <button class="preset-btn" data-preset="ttshort">🎵 TtShort</button>
+                <button class="preset-btn" data-preset="ghost">👻 Ghost Story</button>
+                <button class="preset-btn" data-preset="recap">🎬 Movie Recap</button>
+                <button class="preset-btn" data-preset="story">📚 Storyteller</button>
+            </div>
+        </section>
 
-<script src="script.js"></script>
+        <!-- Story Input -->
+        <section class="input-section">
+            <textarea id="storyInput" placeholder="ဤနေရာတွင် သင့်ဗီဒီယိုဇာတ်ညွှန်းကို ရိုက်ထည့်ပါ..."></textarea>
+            <div class="char-count" id="charCountLabel">0 / 5000 စာလုံး</div>
+        </section>
+
+        <!-- Grid Selectors Area -->
+        <section class="selectors-grid">
+            <!-- Voice Actor Selector -->
+            <div class="control-card">
+                <label id="lblVoiceActor">🗣️ အသံရှင် ရွေးချယ်ရန်</label>
+                <div class="custom-dropdown-container w-100">
+                    <button class="dropdown-trigger select-trigger" id="voiceTriggerBtn">ရွေးချယ်ရန်...</button>
+                    <!-- Floating Window Picker (MX Player Style Elements Inside) -->
+                    <div class="dropdown-menu-box custom-picker-window" id="voiceMenuBox">
+                        <!-- Javascript will dynamic inject voice list card with Play and Select buttons -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Narration Style Selector -->
+            <div class="control-card">
+                <label id="lblNarrationStyle">🎭 အသံစတိုင်နှင့် ခံစားချက်ပုံစံများ</label>
+                <div class="custom-dropdown-container w-100">
+                    <button class="dropdown-trigger select-trigger" id="styleTriggerBtn">ပုံမှန် / Plain</button>
+                    <div class="dropdown-menu-box" id="styleMenuBox">
+                        <!-- Javascript will dynamic inject styles based on language -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Middle Configurations Row (Sliders, Aspect Guide, Music Mixer) -->
+        <section class="config-flex-container">
+            <!-- Voice Controls (Sliders) -->
+            <div class="config-card flex-1">
+                <h3 id="cardVoiceCtrl">VOICE CONTROLS</h3>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span id="lblSpeed">Speech Speed</span>
+                        <span id="speedVal">1.0x</span>
+                    </div>
+                    <input type="range" id="speedSlider" min="0.5" max="2.0" step="0.1" value="1.0">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span id="lblPitch">Voice Pitch</span>
+                        <span id="pitchVal">0</span>
+                    </div>
+                    <input type="range" id="pitchSlider" min="-10" max="10" step="1" value="0">
+                </div>
+            </div>
+
+            <!-- Video Aspect Guide -->
+            <div class="config-card flex-1">
+                <h3 id="cardAspect">VIDEO ASPECT GUIDE</h3>
+                <div class="aspect-grid">
+                    <div class="aspect-box active" data-aspect="9:16">
+                        <span class="aspect-icon">📱</span>
+                        <span class="aspect-name">9:16 Shorts</span>
+                    </div>
+                    <div class="aspect-box" data-aspect="16:9">
+                        <span class="aspect-icon">💻</span>
+                        <span class="aspect-name">16:9 Movie</span>
+                    </div>
+                    <div class="aspect-box" data-aspect="1:1">
+                        <span class="aspect-icon">🟩</span>
+                        <span class="aspect-name">1:1 Square</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ambient Music Mixer -->
+            <div class="config-card flex-1">
+                <h3 id="cardMixer">AMBIENT MUSIC MIXER</h3>
+                <div class="custom-dropdown-container w-100 mb-15">
+                    <button class="dropdown-trigger select-trigger" id="musicTriggerBtn">မသုံးပါ (None)</button>
+                    <div class="dropdown-menu-box" id="musicMenuBox">
+                        <!-- Javascript will inject 10 ambient tracks -->
+                    </div>
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span id="lblMusicVol">Music Volume</span>
+                        <span id="musicVolVal">30%</span>
+                    </div>
+                    <input type="range" id="musicVolSlider" min="0" max="100" value="30">
+                </div>
+            </div>
+        </section>
+
+        <!-- Gemini Pro Tips -->
+        <section class="tips-card">
+            <div class="tips-title">💡 Gemini's Pro Tips</div>
+            <ul id="tipsList">
+                <li>သရဲပြင်ပြင် ဇာတ်လမ်းများအတွက် "Emotional / Deep" စတိုင်ကို သုံးပါက ပိုမိုကောင်းမွန်သော အသံထွက် ရရှိနိုင်ပါသည်။</li>
+                <li>ပိုမိုသဘာဝကျသော အပြောဟန် ရရှိစေရန် Speech Speed ကို 0.9x သို့မဟုတ် 1.0x တွင် ထားညှိပေးပါ။</li>
+                <li>အသံထွက်အရည်အသွေး အကောင်းဆုံးဖြစ်စေရန် သင့်စာသားကို စာလုံးရေ ၁၅၀၀ အောက်သာ ထားရှိပေးပါ။</li>
+            </ul>
+        </section>
+
+        <!-- Action Button -->
+        <button id="generateBtn" class="btn-generate">✨ AI Audio ထုတ်လုပ်မည်</button>
+
+        <!-- Status & Audio Output Area -->
+        <section class="output-section">
+            <div class="status-bar">
+                <div class="status-node active" id="nodeReady">● Ready</div>
+                <div class="status-node" id="nodeGenerating">● Generating...</div>
+                <div class="status-node" id="nodeDone">● Done</div>
+            </div>
+
+            <div class="audio-result-box">
+                <div class="audio-header">
+                    <span id="lblAudioResult">🎵 Generated Audio Results</span>
+                    <button class="btn-download" id="downloadBtn" disabled>📥 Download (.MP3 & .SRT)</button>
+                </div>
+                <div class="waveform-placeholder">
+                    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- HTML5 Audio for Previews -->
+    <audio id="globalAudioPlayer" style="display: none;"></audio>
+
+    <script src="script.js"></script>
 </body>
 </html>
