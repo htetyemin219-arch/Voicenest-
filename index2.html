@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceNest Studio v2.1 - OneStepOn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ဒီမှာ style2.css နဲ့ ချိတ်ပေးထားပါတယ် -->
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">🎙️</span>
+            <div>
+                <h2>VoiceNest</h2>
+                <p id="subBrandTxt">Every story deserves a voice.</p>
+            </div>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="#" class="menu-item active" id="menuHome">🏠 Home</a>
+            <a href="#" class="menu-item" id="menuProjects">📁 My Projects</a>
+            <a href="#" class="menu-item" id="menuFavorites">💜 Favorites</a>
+            <a href="#" class="menu-item" id="menuHistory">⏳ History Log</a>
+            <a href="#" class="menu-item" id="menuSettings">⚙️ Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <p id="sidebarQuote">"Bring your stories to life with the power of AI voice."</p>
+            <span class="brand-tag">#OneStepOn</span>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+        <header class="app-header">
+            <div>
+                <span class="welcome-tag" id="welcomeTxt">Welcome to</span>
+                <h1 class="app-title">VoiceNest Studio <span class="version-badge">v2.1</span></h1>
+            </div>
+            <div class="header-right">
+                <div class="custom-dropdown-container">
+                    <button class="dropdown-trigger" id="langTriggerBtn">🌐 မြန်မာ (MY) 🇲🇲</button>
+                    <div class="dropdown-menu-box" id="langMenuBox">
+                        <div class="dropdown-item" data-value="mm">မြန်မာ (MY) 🇲🇲</div>
+                        <div class="dropdown-item" data-value="en">English (US) 🇺🇸</div>
+                        <div class="dropdown-item" data-value="th">ไทย (TH) 🇹🇭</div>
+                    </div>
+                </div>
+                <span class="plan-badge">👑 FREE PLAN</span>
+            </div>
+        </header>
+
+        <!-- Content Presets Section -->
+        <section class="presets-section">
+            <span class="section-mini-title" id="presetLabel">CONTENT PRESETS</span>
+            <div class="presets-row" id="presetsContainer"></div>
+        </section>
+
+        <!-- Story Input -->
+        <section class="input-section">
+            <textarea id="storyInput" placeholder="ဤနေရာတွင် သင့်ဗီဒီယိုဇာတ်ညွှန်းကို ရိုက်ထည့်ပါ..."></textarea>
+            <div class="char-count" id="charCountLabel">0 / 5000 စာလုံး</div>
+        </section>
+
+        <!-- Grid Selectors Area -->
+        <section class="selectors-grid">
+            <div class="control-card">
+                <label id="lblVoiceActor">🗣️ အသံရှင် ရွေးချယ်ရန်</label>
+                <div class="custom-dropdown-container w-100">
+                    <button class="dropdown-trigger select-trigger" id="voiceTriggerBtn">ရွေးချယ်ရန်...</button>
+                    <div class="dropdown-menu-box custom-picker-window" id="voiceMenuBox"></div>
+                </div>
+            </div>
+
+            <div class="control-card">
+                <label id="lblNarrationStyle">🎭 အသံစတိုင်နှင့် ခံစားချက်ပုံစံများ</label>
+                <div class="custom-dropdown-container w-100">
+                    <button class="dropdown-trigger select-trigger" id="styleTriggerBtn">ပုံမှန် / Plain</button>
+                    <div class="dropdown-menu-box" id="styleMenuBox"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Middle Configurations Row -->
+        <section class="config-flex-container">
+            <!-- Voice Controls with Listen Preview Button -->
+            <div class="config-card flex-1 position-relative">
+                <h3 id="cardVoiceCtrl">VOICE CONTROLS</h3>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span id="lblSpeed">Speech Speed</span>
+                        <span id="speedVal">1.0x</span>
+                    </div>
+                    <input type="range" id="speedSlider" min="0.5" max="2.5" step="0.1" value="1.0">
+                </div>
+                <div class="slider-group mb-15">
+                    <div class="slider-header">
+                        <span id="lblPitch">Voice Pitch</span>
+                        <span id="pitchVal">0</span>
+                    </div>
+                    <input type="range" id="pitchSlider" min="-10" max="10" step="1" value="0">
+                </div>
+                <button type="button" class="btn-ctrl-preview" id="btnCtrlPreview">▶️ Listen Preview</button>
+            </div>
+
+            <!-- Video Aspect Guide -->
+            <div class="config-card flex-1">
+                <h3 id="cardAspect">VIDEO ASPECT GUIDE</h3>
+                <div class="aspect-grid">
+                    <div class="aspect-box active" data-aspect="9:16">
+                        <span class="aspect-icon">📱</span>
+                        <span class="aspect-name">9:16 Shorts</span>
+                    </div>
+                    <div class="aspect-box" data-aspect="16:9">
+                        <span class="aspect-icon">💻</span>
+                        <span class="aspect-name">16:9 Movie</span>
+                    </div>
+                    <div class="aspect-box" data-aspect="1:1">
+                        <span class="aspect-icon">🟩</span>
+                        <span class="aspect-name">1:1 Square</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ambient Music Mixer -->
+            <div class="config-card flex-1">
+                <h3 id="cardMixer">AMBIENT MUSIC MIXER</h3>
+                <div class="custom-dropdown-container w-100 mb-15">
+                    <button class="dropdown-trigger select-trigger" id="musicTriggerBtn">မသုံးပါ (None)</button>
+                    <div class="dropdown-menu-box" id="musicMenuBox"></div>
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span id="lblMusicVol">Music Volume</span>
+                        <span id="musicVolVal">30%</span>
+                    </div>
+                    <input type="range" id="musicVolSlider" min="0" max="100" value="30">
+                </div>
+            </div>
+        </section>
+
+        <!-- Gemini Pro Tips -->
+        <section class="tips-card">
+            <div class="tips-title">💡 Gemini's Pro Tips</div>
+            <ul id="tipsList"></ul>
+        </section>
+
+        <!-- Action Button -->
+        <button id="generateBtn" class="btn-generate">✨ AI Audio ထုတ်လုပ်မည်</button>
+
+        <!-- Status & Audio Output Area -->
+        <section class="output-section">
+            <!-- Professional Progress Status Timeline -->
+            <div class="timeline-container">
+                <div class="timeline-progress-line" id="timelineLine"></div>
+                <div class="timeline-step active" id="stepReady">
+                    <div class="step-dot"></div>
+                    <span id="txtStepReady">Ready</span>
+                </div>
+                <div class="timeline-step" id="stepGen">
+                    <div class="step-dot"></div>
+                    <span id="txtStepGen">Generating...</span>
+                </div>
+                <div class="timeline-step" id="stepDone">
+                    <div class="step-dot"></div>
+                    <span id="txtStepDone">Done</span>
+                </div>
+            </div>
+
+            <div class="audio-result-box">
+                <div class="audio-header">
+                    <span id="lblAudioResult">🎵 Generated Audio Results</span>
+                    
+                    <!-- Split Download Box Options -->
+                    <div class="custom-dropdown-container">
+                        <button class="btn-download" id="downloadTriggerBtn" disabled>📥 Download Options</button>
+                        <div class="dropdown-menu-box" id="downloadMenuBox" style="bottom: 100%; top: auto; margin-bottom: 6px;">
+                            <div class="dropdown-item" id="dlMp3">🎵 Download Audio (.MP3)</div>
+                            <div class="dropdown-item" id="dlSrt">📄 Download Subtitles (.SRT)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-wrapper">
+                    <!-- Playable Play/Pause Button Inside Results Card -->
+                    <button type="button" class="result-play-btn" id="resultPlayBtn" disabled>▶️</button>
+                    
+                    <div class="waveform-placeholder" id="waveformContainer">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <audio id="globalAudioPlayer" style="display: none;"></audio>
+    <!-- ဒီမှာ script2.js နဲ့ ချိတ်ပေးထားပါတယ် -->
+    <script src="script2.js"></script>
+</body>
+</html>
