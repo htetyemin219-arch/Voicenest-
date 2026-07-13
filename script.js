@@ -1,307 +1,382 @@
-// --- MULTI-LANGUAGE DICTIONARY ---
-const langData = {
+// ==========================================
+// VoiceNest Studio v2.3 - OneStepOn
+// Core Script Configuration (Perfect Balanced Version)
+// ==========================================
+
+// 1. Fully Balanced Languages Data (8 Styles Each)
+const languages = {
     mm: {
-        subBrand: "Every story deserves a voice.",
-        menuHome: "🏠 ပင်မစာမျက်နှာ", menuProjects: "📁 ပရောဂျက်များ", menuFavorites: "💜 စိတ်ကြိုက်များ", menuHistory: "⏳ မှတ်တမ်းဟောင်း", menuSettings: "⚙️ ဆက်တင်များ",
-        welcome: "Welcome to", presetLabel: "CONTENT PRESETS", storyPlaceholder: "ဤနေရာတွင် သင့်ဗီဒီယိုဇာတ်ညွှန်းကို ရိုက်ထည့်ပါ...", charCount: " စာလုံး",
-        lblVoiceActor: "🗣️ အသံရှင် ရွေးချယ်ရန်", lblNarrationStyle: "🎭 အသံစတိုင်နှင့် ခံစားချက်ပုံစံများ",
-        cardVoiceCtrl: "VOICE CONTROLS", cardAspect: "VIDEO ASPECT GUIDE", cardMixer: "AMBIENT MUSIC MIXER",
-        lblSpeed: "Speech Speed (အမြန်နှုန်း)", lblPitch: "Voice Pitch (အသံတုန်ခါမှု)", lblMusicVol: "Music Volume (နောက်ခံအသံကျယ်နှုန်း)",
-        generateBtn: "✨ AI Audio ထုတ်လုပ်မည်", lblAudioResult: "🎵 ထွက်ရှိလာသော အသံရလဒ်များ", btnDownload: "📥 Download (.MP3 & .SRT)",
+        welcome: "Welcome to",
+        presetLabel: "CONTENT PRESETS",
+        lblVoiceActor: "🗣️ အသံရှင် ရွေးချယ်ရန်",
+        lblNarrationStyle: "🎭 အသံစတိုင်နှင့် ခံစားချက်ပုံစံများ",
+        cardVoiceCtrl: "VOICE CONTROLS",
+        lblSpeed: "Speech Speed",
+        lblPitch: "Voice Pitch",
+        cardAspect: "VIDEO ASPECT GUIDE",
+        cardMixer: "AMBIENT MUSIC MIXER",
+        lblMusicVol: "Music Volume",
+        btnGenerate: "✨ AI Audio ထုတ်လုပ်မည်",
+        lblAudioResult: "🎵 Generated Audio Results",
+        btnDownload: "📥 Download Options",
+        placeholder: "ဤနေရာတွင် သင့်ဗီဒီယိုဇာတ်ညွှန်းကို ရိုက်ထည့်ပါ...",
+        tipsTitle: "💡 Gemini's Pro Tips",
         tips: [
-            "သရဲပြင်ပြင် ဇာတ်လမ်းများအတွက် 'Emotional / Deep' စတိုင်ကို သုံးပါက ပိုမိုကောင်းမွန်သော အသံထွက် ရရှိနိုင်ပါသည်။",
-            "ပိုမိုသဘာဝကျသော အပြောဟန် ရရှိစေရန် Speech Speed ကို 0.9x သို့မဟုတ် 1.0x တွင် ထားညှိပေးပါ။",
+            "သရုပ်ပြပြင် တာတ်လမ်းများအတွက် Emotional / Deep စတိုင်ကို သုံးပါက ပိုမိုကောင်းမွန်သော အသံထွက်ကို ရရှိနိုင်ပါသည်။",
+            "ပိုမိုသဘာဝကျသော အပြောဟန် ရရှိစေရန် Speech Speed ကို 0.9x သို့မဟုတ် 1.0x တွင် ထားရှိပေးပါ။",
             "အသံထွက်အရည်အသွေး အကောင်းဆုံးဖြစ်စေရန် သင့်စာသားကို စာလုံးရေ ၁၅၀၀ အောက်သာ ထားရှိပေးပါ။"
-        ],
-        styles: ["ပုံမှန် / Plain", "ဝမ်းနည်းကြေကွဲ / Sad", "စိတ်လှုပ်ရှားဖွယ် / Suspenseful", "တည်ငြိမ်ပြတ်သား / Formal", "နွေးထွေးဆွဲဆောင် / Warm", "အားအင်အပြည့် / Energetic", "ဟာသနှော / Playful"]
+        ]
     },
     en: {
-        subBrand: "Every story deserves a voice.",
-        menuHome: "🏠 Home", menuProjects: "📁 My Projects", menuFavorites: "💜 Favorites", menuHistory: "⏳ History Log", menuSettings: "⚙️ Settings",
-        welcome: "Welcome to", presetLabel: "CONTENT PRESETS", storyPlaceholder: "Enter your story script here...", charCount: " words",
-        lblVoiceActor: "🗣️ Voice Actor Selection", lblNarrationStyle: "🎭 Narration Style & Emotion",
-        cardVoiceCtrl: "VOICE CONTROLS", cardAspect: "VIDEO ASPECT GUIDE", cardMixer: "AMBIENT MUSIC MIXER",
-        lblSpeed: "Speech Speed", lblPitch: "Voice Pitch", lblMusicVol: "Music Volume",
-        generateBtn: "✨ Generate AI Audio", lblAudioResult: "🎵 Generated Audio Results", btnDownload: "📥 Download (.MP3 & .SRT)",
+        welcome: "Welcome to",
+        presetLabel: "CONTENT PRESETS",
+        lblVoiceActor: "🗣️ Select Voice Actor",
+        lblNarrationStyle: "🎭 Narration Style & Emotions",
+        cardVoiceCtrl: "VOICE CONTROLS",
+        lblSpeed: "Speech Speed",
+        lblPitch: "Voice Pitch",
+        cardAspect: "VIDEO ASPECT GUIDE",
+        cardMixer: "AMBIENT MUSIC MIXER",
+        lblMusicVol: "Music Volume",
+        btnGenerate: "✨ Generate AI Audio",
+        lblAudioResult: "🎵 Generated Audio Results",
+        btnDownload: "📥 Download Options",
+        placeholder: "Type your video script here...",
+        tipsTitle: "💡 Gemini's Pro Tips",
         tips: [
-            "Use 'Emotional / Deep' style for ghost stories to get better narrative tones.",
-            "Adjust Speech Speed to 0.9x or 1.0x for a more natural narration flow.",
-            "Ensure your script length is under 1500 words for the premium rendering quality."
-        ],
-        styles: ["Plain", "Melancholic", "Suspenseful", "Formal / Professional", "Warm Storyteller", "Energetic", "Playful / Humorous"]
+            "Use 'Emotional / Deep' style for storytelling to get better resonances.",
+            "Keep Speech Speed at 0.9x or 1.0x for the most natural human-like flow.",
+            "For optimal voice quality, keep your script under 1500 characters per batch."
+        ]
     },
     th: {
-        subBrand: "Every story deserves a voice.",
-        menuHome: "🏠 หน้าแรก", menuProjects: "📁 โปรเจกต์ของฉัน", menuFavorites: "💜 รายการโปรด", menuHistory: "⏳ ประวัติการใช้งาน", menuSettings: "⚙️ ตั้งค่า",
-        welcome: "Welcome to", presetLabel: "CONTENT PRESETS", storyPlaceholder: "กรอกบทบรรยายของคุณที่นี่...", charCount: " ตัวอักษร",
-        lblVoiceActor: "🗣️ เลือกนักพากย์เสียง", lblNarrationStyle: "🎭 สไตล์เสียงและอารมณ์",
-        cardVoiceCtrl: "VOICE CONTROLS", cardAspect: "VIDEO ASPECT GUIDE", cardMixer: "AMBIENT MUSIC MIXER",
-        lblSpeed: "ความเร็วเสียง", lblPitch: "ระดับคีย์เสียง", lblMusicVol: "ความดังเพลงเบื้องหลัง",
-        generateBtn: "✨ สร้างเสียง AI Audio", lblAudioResult: "🎵 ผลลัพธ์เสียงที่สร้างขึ้น", btnDownload: "📥 ดาวน์โหลด (.MP3 & .SRT)",
+        welcome: "ยินดีต้อนรับสู่",
+        presetLabel: "CONTENT PRESETS",
+        lblVoiceActor: "🗣️ เลือกนักพากย์เสียง",
+        lblNarrationStyle: "🎭 สไตล์เสียงและอารมณ์",
+        cardVoiceCtrl: "VOICE CONTROLS",
+        lblSpeed: "ความเร็วเสียง",
+        lblPitch: "ระดับเสียง",
+        cardAspect: "VIDEO ASPECT GUIDE",
+        cardMixer: "AMBIENT MUSIC MIXER",
+        lblMusicVol: "ระดับเสียงเพลง",
+        btnGenerate: "✨ สร้างเสียง AI",
+        lblAudioResult: "🎵 ผลลัพธ์เสียงที่สร้างขึ้น",
+        btnDownload: "📥 ตัวเลือกการดาวน์โหลด",
+        placeholder: "พิมพ์สคริปต์วิดีโอของคุณที่นี่...",
+        tipsTitle: "💡 Gemini's Pro Tips",
         tips: [
-            "ใช้สไตล์ 'Emotional / Deep' สำหรับเรื่องผีเพื่อให้ได้โทนเสียงที่ดีขึ้น",
-            "ปรับความเร็วเสียงเป็น 0.9x หรือ 1.0x เพื่อการบรรยายที่เป็นธรรมชาติมากขึ้น",
-            "ตรวจสอบให้แน่ใจว่าความยาวสคริปต์ของคุณไม่เกิน 1500 คำเพื่อคุณภาพที่ดีที่สุด"
-        ],
-        styles: ["ปกติ / Plain", "เศร้าหมอง", "ระทึกขวัญ", "ทางการ", "อบอุ่น", "พลังงานสูง", "ขี้เล่น"]
+            "ใช้สไตล์ 'Emotional / Deep' สำหรับการเล่าเรื่องเพื่อความสมจริงยิ่งขึ้น",
+            "ตั้งความเร็วเสียงไว้ที่ 0.9x หรือ 1.0x เพื่อให้ได้น้ำเสียงที่เป็นธรรมชาติที่สุด",
+            "เพื่อคุณภาพเสียงที่ดีที่สุด ควรให้สคริปต์มีความยาวไม่เกิน 1500 ตัวอักษร"
+        ]
     }
 };
 
-// --- DATABASE: 72 VOICES & 10 BGMS ---
-const voicesData = {
-    mm: [
-        { id: "mm_1", name: "မင်းသန့်", desc: "[ကျား] ရုပ်ရှင်သုံး နောက်ခံသံ", url: "preview_mm1.mp3" },
-        { id: "mm_2", name: "နဒီ", desc: "[မ] သတင်းနှင့် စာပေဖတ်ဟန်", url: "preview_mm2.mp3" },
-        { id: "mm_3", name: "ဦးမြတ်", desc: "[အဘိုး] ပုံပြင်ပြော နွေးထွေးသံ", url: "preview_mm3.mp3" }
-    ],
-    en: [
-        { id: "en_1", name: "David", desc: "[Male] Movie & Documentary", url: "preview_en1.mp3" },
-        { id: "en_2", name: "Aria", desc: "[Female] Deep Emotional", url: "preview_en2.mp3" },
-        { id: "en_3", name: "Leo", desc: "[Boy] Energetic Content Creator", url: "preview_en3.mp3" }
-    ],
-    th: [
-        { id: "th_1", name: "สมชาย (Somchai)", desc: "[ชาย] เสียงพากย์ภาพยนตร์", url: "preview_th1.mp3" },
-        { id: "th_2", name: "มะลิ (Mali)", desc: "[หญิง] เสียงนุ่มนวลชวนฝัน", url: "preview_th2.mp3" }
-    ]
-};
-
-const bgmTracks = [
-    { id: "none", name: "မသုံးပါ (None)" },
-    { id: "cyberpunk", name: "Cinematic Cyberpunk Beat" },
-    { id: "dark_ambient", name: "Dark Ambient Pad" },
-    { id: "cinematic", name: "Cinematic Beat" },
-    { id: "piano", name: "Inspiring Piano Uplift 🌟" },
-    { id: "violin", name: "Sad Violin & Cello 🌟" },
-    { id: "lofi", name: "Lofi Chill Hop 🌟" }
+// 2. Presets Data
+const presets = [
+    { id: "ttshort", icon: "🎵", name: "TtShort" },
+    { id: "ghost", icon: "👻", name: "Ghost Story" },
+    { id: "recap", icon: "🎬", name: "Movie Recap" },
+    { id: "story", icon: "📚", name: "Storyteller" }
 ];
 
-// Current States
-let currentLang = "mm";
-let selectedVoice = "";
-let selectedStyle = "";
-let selectedBgm = "none";
-let currentPlayingBtn = null;
+// 3. Fixed 8 Pure Myanmar Voice Actors (4 Males, 4 Females)
+const voiceActors = [
+    { id: "v1", name: "ကိုမြတ်ကျော် (Ko Myat Kyaw)", gender: "Male", accent: "Burmese (Standard)", age: "Adult" },
+    { id: "v2", name: "မသီရိမေ (Ma Thiri May)", gender: "Female", accent: "Burmese (Standard)", age: "Adult" },
+    { id: "v3", name: "ကိုမင်းသန့် (Ko Min Thant)", gender: "Male", accent: "Burmese (Modern)", age: "Young" },
+    { id: "v4", name: "မဆောင်းနှင်း (Ma Saung Hnin)", gender: "Female", accent: "Burmese (Soft)", age: "Young" },
+    { id: "v5", name: "ဦးအောင်မင်း (U Aung Min)", gender: "Male", accent: "Burmese (Deep-Radio)", age: "Senior" },
+    { id: "v6", name: "ဒေါ်နန်းဆု (Daw Nan Su)", gender: "Female", accent: "Burmese (Elegant)", age: "Senior" },
+    { id: "v7", name: "မောင်စည်သူ (Maung Sithu)", gender: "Male", accent: "Burmese (Energetic)", age: "Youth" },
+    { id: "v8", name: "မဖူးပွင့် (Ma Phue Pwint)", gender: "Female", accent: "Burmese (Cheerful)", age: "Youth" }
+];
+
+// 4. Complete 8 Narration Styles (Perfect Balanced for MM, EN, TH)
+const narrationStyles = [
+    { id: "plain", name: "ပုံမှန် / Plain / ทั่วไป" },
+    { id: "deep", name: "Emotional / Deep / อารมณ์ลึกซึ้ง" },
+    { id: "storytelling", name: "Storyteller / Narrative / เล่าเรื่อง" },
+    { id: "recap", name: "Movie Recap / Review / สรุปหนัง" },
+    { id: "energetic", name: "Energetic / Commercial / โฆษณาฮิต" },
+    { id: "whisper", name: "Soft Whisper / กระซิบเบาๆ" },
+    { id: "scary", name: "Horror / Suspense / สยองขวัญ" },
+    { id: "happy", name: "Cheerful / Happy / สดใสสนุกสนาน" }
+];
+
+// 5. Ambient Music Data
+const ambientMusic = [
+    { id: "none", name: "မသုံးပါ (None)" },
+    { id: "cyber", name: "Cinematic Cyberpunk Beat" },
+    { id: "lofi", name: "Chill Lofi Aesthetic" },
+    { id: "sad", name: "Emotional Piano & Violin" },
+    { id: "epic", name: "Epic Cinematic Trailer" }
+];
 
 // DOM Elements
-const audioPlayer = document.getElementById("globalAudioPlayer");
+let currentLang = "mm";
+let isPlaying = false;
+let audioTimeout = null;
 
-// --- INITIALIZATION ---
+// Initialize App
 document.addEventListener("DOMContentLoaded", () => {
-    switchLanguage("mm");
-    setupGlobalDropdownListeners();
-    setupSlidersAndAspects();
-    renderBgmTracks();
+    initLanguageDropdown();
+    initPresets();
+    initVoiceDropdown();
+    initStyleDropdown();
+    initMusicDropdown();
+    initEventListeners();
+    updateUIStrings();
 });
 
-// --- TRANSLATION ENGINE FUNCTION ---
-function switchLanguage(lang) {
-    currentLang = lang;
-    const dict = langData[lang];
-    
-    // Update Sidebar & UI Labels
-    document.getElementById("subBrandTxt").innerText = dict.subBrand;
-    document.getElementById("menuHome").innerText = dict.menuHome;
-    document.getElementById("menuProjects").innerText = dict.menuProjects;
-    document.getElementById("menuFavorites").innerText = dict.menuFavorites;
-    document.getElementById("menuHistory").innerText = dict.menuHistory;
-    document.getElementById("menuSettings").innerText = dict.menuSettings;
-    document.getElementById("welcomeTxt").innerText = dict.welcome;
-    document.getElementById("presetLabel").innerText = dict.presetLabel;
-    document.getElementById("storyInput").placeholder = dict.storyPlaceholder;
-    document.getElementById("lblVoiceActor").innerText = dict.lblVoiceActor;
-    document.getElementById("lblNarrationStyle").innerText = dict.lblNarrationStyle;
-    document.getElementById("cardVoiceCtrl").innerText = dict.cardVoiceCtrl;
-    document.getElementById("cardAspect").innerText = dict.cardAspect;
-    document.getElementById("cardMixer").innerText = dict.cardMixer;
-    document.getElementById("lblSpeed").innerText = dict.lblSpeed;
-    document.getElementById("lblPitch").innerText = dict.lblPitch;
-    document.getElementById("lblMusicVol").innerText = dict.lblMusicVol;
-    document.getElementById("generateBtn").innerText = dict.generateBtn;
-    document.getElementById("lblAudioResult").innerText = dict.lblAudioResult;
+// Dropdown Helper Function
+function setupCustomDropdown(triggerId, menuId, items, onSelect) {
+    const trigger = document.getElementById(triggerId);
+    const menu = document.getElementById(menuId);
+    if (!trigger || !menu) return;
 
-    // Update Tips List
-    const tipsUl = document.getElementById("tipsList");
-    tipsUl.innerHTML = "";
-    dict.tips.forEach(tip => {
-        const li = document.createElement("li");
-        li.innerText = tip;
-        tipsUl.appendChild(li);
+    trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeAllDropdowns();
+        menu.classList.toggle("show");
     });
 
-    // Reset Dropdown Triggers Spans
-    document.getElementById("voiceTriggerBtn").innerText = lang === "mm" ? "ရွေးချယ်ရန်..." : lang === "th" ? "เลือกนักพากย์..." : "Select Voice...";
-    
-    // Re-render Styles Dropdown Box
-    const styleMenu = document.getElementById("styleMenuBox");
-    styleMenu.innerHTML = "";
-    dict.styles.forEach((st, idx) => {
-        const item = document.createElement("div");
-        item.className = "dropdown-item";
-        item.innerText = st;
-        item.addEventListener("click", () => {
-            document.getElementById("styleTriggerBtn").innerText = st;
-            selectedStyle = st;
-            styleMenu.classList.remove("show");
+    menu.innerHTML = "";
+    items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "dropdown-item";
+        div.innerHTML = item.html || item.name;
+        div.addEventListener("click", () => {
+            onSelect(item);
+            trigger.innerHTML = item.triggerHtml || item.name;
+            menu.classList.remove("show");
         });
-        styleMenu.appendChild(item);
-    });
-    document.getElementById("styleTriggerBtn").innerText = dict.styles[0];
-
-    // Re-render Voice Custom Picker Window (MX Player Style Elements Inside)
-    renderVoicePicker(lang);
-}
-
-// --- RENDER VOICE ACTOR CUSTOM PICKER WINDOW ---
-function renderVoicePicker(lang) {
-    const voiceMenu = document.getElementById("voiceMenuBox");
-    voiceMenu.innerHTML = "";
-    const list = voicesData[lang] || [];
-
-    list.forEach(voice => {
-        const card = document.createElement("div");
-        card.className = "voice-picker-card";
-
-        // Left Side: MX Player Style Play/Pause Audio Preview Button
-        const playBtn = document.createElement("button");
-        playBtn.className = "picker-play-btn";
-        playBtn.innerHTML = "▶️";
-        playBtn.type = "button";
-        playBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); // Prevents closing dropdown window
-            handlePreviewPlay(voice.url, playBtn);
-        });
-
-        // Center Side: Voice Info Name Label
-        const info = document.createElement("div");
-        info.className = "picker-voice-info";
-        info.innerHTML = `<strong>${voice.name}</strong> <span style="font-size:11px; color:#8b80b6; display:block;">${voice.desc}</span>`;
-
-        // Right Side: Selection Confirmation Button
-        const selectBtn = document.createElement("button");
-        selectBtn.className = "picker-select-btn";
-        selectBtn.innerText = lang === "mm" ? "ယူမည်" : lang === "th" ? "เลือก" : "Select";
-        selectBtn.type = "button";
-        selectBtn.addEventListener("click", () => {
-            document.getElementById("voiceTriggerBtn").innerText = `${voice.name} ${voice.desc}`;
-            selectedVoice = voice.id;
-            voiceMenu.classList.remove("show"); // Close dropdown window only when user clicks select
-            stopPreview();
-        });
-
-        card.appendChild(playBtn);
-        card.appendChild(info);
-        card.appendChild(selectBtn);
-        voiceMenu.appendChild(card);
+        menu.appendChild(div);
     });
 }
 
-// --- AUDIO PREVIEW MANAGER (MX PLAYER STYLE HANDLING) ---
-function handlePreviewPlay(audioUrl, btn) {
-    if (currentPlayingBtn === btn) {
-        stopPreview();
-    } else {
-        stopPreview();
-        currentPlayingBtn = btn;
-        btn.innerHTML = "⏸️";
-        btn.classList.add("playing");
-        audioPlayer.src = audioUrl;
-        audioPlayer.play().catch(() => {
-            // Soft fail if file doesn't actually exist in local
-            console.log("Audio preview mock play started for: " + audioUrl);
-        });
-    }
+function closeAllDropdowns() {
+    document.querySelectorAll(".dropdown-menu-box").forEach(m => m.classList.remove("show"));
 }
 
-function stopPreview() {
-    if (currentPlayingBtn) {
-        currentPlayingBtn.innerHTML = "▶️";
-        currentPlayingBtn.classList.remove("playing");
-        currentPlayingBtn = null;
-    }
-    audioPlayer.pause();
-}
+document.addEventListener("click", closeAllDropdowns);
 
-// --- RENDER BGM TRACKS ---
-function renderBgmTracks() {
-    const bgmMenu = document.getElementById("musicMenuBox");
-    bgmMenu.innerHTML = "";
-    bgmTracks.forEach(track => {
-        const item = document.createElement("div");
-        item.className = "dropdown-item";
-        item.innerText = track.name;
-        item.addEventListener("click", () => {
-            document.getElementById("musicTriggerBtn").innerText = track.name;
-            selectedBgm = track.id;
-            bgmMenu.classList.remove("show");
-        });
-        bgmMenu.appendChild(item);
-    });
-}
-
-// --- FLOATING DROPDOWN WINDOWS TRIGGER CONTROLS ---
-function setupGlobalDropdownListeners() {
-    const dropdowns = [
-        { trigger: "langTriggerBtn", menu: "langMenuBox" },
-        { trigger: "voiceTriggerBtn", menu: "voiceMenuBox" },
-        { trigger: "styleTriggerBtn", menu: "styleMenuBox" },
-        { trigger: "musicTriggerBtn", menu: "musicMenuBox" }
+// Dropdown Initializations
+function initLanguageDropdown() {
+    const langs = [
+        { id: "mm", name: "🌐 မြန်မာ (MY) 🇲🇲" },
+        { id: "en", name: "🌐 English (US) 🇺🇸" },
+        { id: "th", name: "🌐 ไทย (TH) 🇹🇭" }
     ];
-
-    dropdowns.forEach(d => {
-        const btn = document.getElementById(d.trigger);
-        const menu = document.getElementById(d.menu);
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            // Close all other floating dropdown menus first
-            dropdowns.forEach(o => {
-                if(o.menu !== d.menu) document.getElementById(o.menu).classList.remove("show");
-            });
-            menu.classList.toggle("show");
-        });
-    });
-
-    // Language Dropdown Item clicks handling
-    document.querySelectorAll("#langMenuBox .dropdown-item").forEach(item => {
-        item.addEventListener("click", (e) => {
-            const selectedVal = item.getAttribute("data-value");
-            document.getElementById("langTriggerBtn").innerText = item.innerText;
-            switchLanguage(selectedVal);
-            document.getElementById("langMenuBox").classList.remove("show");
-        });
-    });
-
-    // Close any opened floating boxes when clicking out area anywhere
-    document.addEventListener("click", () => {
-        dropdowns.forEach(d => document.getElementById(d.menu).classList.remove("show"));
-        stopPreview();
+    setupCustomDropdown("langTriggerBtn", "langMenuBox", langs, (lang) => {
+        currentLang = lang.id;
+        updateUIStrings();
     });
 }
 
-// --- SLIDERS & ASPECT RATIO BOXES INITIAL PRESETS ---
-function setupSlidersAndAspects() {
-    // Character Counter
-    const tx = document.getElementById("storyInput");
-    tx.addEventListener("input", () => {
-        const mode = currentLang === "en" ? langData.en.charCount : currentLang === "th" ? langData.th.charCount : langData.mm.charCount;
-        document.getElementById("charCountLabel").innerText = `${tx.value.length} / 5000${mode}`;
+function initPresets() {
+    const container = document.getElementById("presetsContainer");
+    if (!container) return;
+    container.innerHTML = "";
+    presets.forEach(p => {
+        const btn = document.createElement("button");
+        btn.className = "preset-btn";
+        btn.innerHTML = `${p.icon} ${p.name}`;
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+        });
+        container.appendChild(btn);
     });
+}
 
-    // Sliders handling
+function initVoiceDropdown() {
+    const items = voiceActors.map(v => ({
+        id: v.id,
+        name: v.name,
+        html: `<div style="display:flex; justify-content:space-between; width:100%;">
+                <strong>${v.name}</strong>
+                <span style="font-size:11px; opacity:0.7;">${v.accent} (${v.gender})</span>
+               </div>`,
+        triggerHtml: `🗣️ ${v.name} (${v.accent})`
+    }));
+    setupCustomDropdown("voiceTriggerBtn", "voiceMenuBox", items, () => {});
+}
+
+function initStyleDropdown() {
+    setupCustomDropdown("styleTriggerBtn", "styleMenuBox", narrationStyles, () => {});
+}
+
+function initMusicDropdown() {
+    setupCustomDropdown("musicTriggerBtn", "musicMenuBox", ambientMusic, () => {});
+}
+
+// Event Listeners
+function initEventListeners() {
+    const textarea = document.getElementById("storyInput");
+    const charCount = document.getElementById("charCountLabel");
+    if (textarea && charCount) {
+        textarea.addEventListener("input", () => {
+            charCount.innerText = `${textarea.value.length} / 5000 စာလုံး`;
+        });
+    }
+
     const speed = document.getElementById("speedSlider");
-    speed.addEventListener("input", () => document.getElementById("speedVal").innerText = speed.value + "x");
+    const speedVal = document.getElementById("speedVal");
+    if (speed && speedVal) speed.addEventListener("input", () => speedVal.innerText = speed.value + "x");
 
     const pitch = document.getElementById("pitchSlider");
-    pitch.addEventListener("input", () => document.getElementById("pitchVal").innerText = (pitch.value > 0 ? "+" : "") + pitch.value);
+    const pitchVal = document.getElementById("pitchVal");
+    if (pitch && pitchVal) pitch.addEventListener("input", () => pitchVal.innerText = (pitch.value > 0 ? "+" : "") + pitch.value);
 
-    const mVol = document.getElementById("musicVolSlider");
-    mVol.addEventListener("input", () => document.getElementById("musicVolVal").innerText = mVol.value + "%");
+    const musicVol = document.getElementById("musicVolSlider");
+    const musicVolVal = document.getElementById("musicVolVal");
+    if (musicVol && musicVolVal) musicVol.addEventListener("input", () => musicVolVal.innerText = musicVol.value + "%");
 
-    // Aspect Ratios Boxes clicks handling
     document.querySelectorAll(".aspect-box").forEach(box => {
         box.addEventListener("click", () => {
             document.querySelectorAll(".aspect-box").forEach(b => b.classList.remove("active"));
             box.classList.add("active");
-            console.log("Selected Aspect Ratio: " + box.getAttribute("data-aspect"));
         });
     });
+
+    const genBtn = document.getElementById("generateBtn");
+    if (genBtn) genBtn.addEventListener("click", handleGeneration);
+
+    const playBtn = document.getElementById("resultPlayBtn");
+    if (playBtn) playBtn.addEventListener("click", toggleWaveformPlay);
+}
+
+// Language Translation Engine
+function updateUIStrings() {
+    const data = languages[currentLang];
+    if (!data) return;
+
+    document.getElementById("welcomeTxt").innerText = data.welcome;
+    document.getElementById("presetLabel").innerText = data.presetLabel;
+    document.getElementById("lblVoiceActor").innerText = data.lblVoiceActor;
+    document.getElementById("lblNarrationStyle").innerText = data.lblNarrationStyle;
+    document.getElementById("cardVoiceCtrl").innerText = data.cardVoiceCtrl;
+    document.getElementById("lblSpeed").innerText = data.lblSpeed;
+    document.getElementById("lblPitch").innerText = data.lblPitch;
+    document.getElementById("cardAspect").innerText = data.cardAspect;
+    document.getElementById("cardMixer").innerText = data.cardMixer;
+    document.getElementById("lblMusicVol").innerText = data.lblMusicVol;
+    document.getElementById("generateBtn").innerText = data.btnGenerate;
+    document.getElementById("lblAudioResult").innerText = data.lblAudioResult;
+    document.getElementById("downloadTriggerBtn").innerText = data.btnDownload;
+    document.getElementById("storyInput").placeholder = data.placeholder;
+
+    const tipsContainer = document.getElementById("tipsList");
+    if (tipsContainer) {
+        tipsContainer.innerHTML = "";
+        data.tips.forEach(tip => {
+            const li = document.createElement("li");
+            li.innerText = tip;
+            tipsContainer.appendChild(li);
+        });
+    }
+}
+
+// Timeline State Engine
+function setTimelineStep(step) {
+    document.querySelectorAll(".timeline-step").forEach(s => s.classList.remove("active"));
+    const line = document.getElementById("timelineLine");
+    
+    if (step === 'ready') {
+        document.getElementById("stepReady").classList.add("active");
+        if (line) line.style.width = "0%";
+    } else if (step === 'gen') {
+        document.getElementById("stepReady").classList.add("active");
+        document.getElementById("stepGen").classList.add("active");
+        if (line) line.style.width = "50%";
+    } else if (step === 'done') {
+        document.getElementById("stepReady").classList.add("active");
+        document.getElementById("stepGen").classList.add("active");
+        document.getElementById("stepDone").classList.add("active");
+        if (line) line.style.width = "100%";
+    }
+}
+
+// Handle AI Voice Generation Process
+function handleGeneration() {
+    const text = document.getElementById("storyInput").value.trim();
+    if (!text) {
+        alert(currentLang === "mm" ? "ကျေးဇူးပြု၍ ဇာတ်ညွှန်းတစ်ခုခု အရင်ရိုက်ထည့်ပါဦးဗျာ။" : "Please enter some text script first!");
+        return;
+    }
+
+    setTimelineStep('gen');
+    const genBtn = document.getElementById("generateBtn");
+    genBtn.disabled = true;
+    genBtn.innerText = currentLang === "mm" ? "⏳ အသံထုတ်လုပ်နေပါသည်..." : "⏳ Generating Audio...";
+
+    stopWaveformAnimation();
+    document.getElementById("resultPlayBtn").disabled = true;
+    document.getElementById("downloadTriggerBtn").disabled = true;
+
+    setTimeout(() => {
+        setTimelineStep('done');
+        genBtn.disabled = false;
+        genBtn.innerHTML = languages[currentLang].btnGenerate;
+
+        document.getElementById("resultPlayBtn").disabled = false;
+        document.getElementById("downloadTriggerBtn").disabled = false;
+        initDownloadDropdown();
+
+        alert(currentLang === "mm" ? "✨ AI အသံ ထုတ်လုပ်မှု အောင်မြင်စွာ ပြီးဆုံးပါပြီ။" : "✨ AI Audio successfully generated!");
+    }, 3000);
+}
+
+// Waveform Animation Control
+function toggleWaveformPlay() {
+    const playBtn = document.getElementById("resultPlayBtn");
+    if (!isPlaying) {
+        isPlaying = true;
+        playBtn.innerText = "⏸️";
+        startWaveformAnimation();
+        
+        audioTimeout = setTimeout(() => {
+            stopWaveformAnimation();
+        }, 8000);
+    } else {
+        stopWaveformAnimation();
+    }
+}
+
+function startWaveformAnimation() {
+    document.querySelectorAll(".wave-bar").forEach((bar, index) => {
+        bar.style.animation = `bounce 0.6s ease-in-out infinite alternate`;
+        bar.style.animationDelay = `${index * 0.05}s`;
+    });
+}
+
+function stopWaveformAnimation() {
+    isPlaying = false;
+    const playBtn = document.getElementById("resultPlayBtn");
+    if (playBtn) playBtn.innerText = "▶️";
+    document.querySelectorAll(".wave-bar").forEach(bar => {
+        bar.style.animation = "none";
+        bar.style.height = "8px";
+    });
+    if (audioTimeout) {
+        clearTimeout(audioTimeout);
+        audioTimeout = null;
+    }
+}
+
+// Download Options Dropdown Initializer
+function initDownloadDropdown() {
+    const trigger = document.getElementById("downloadTriggerBtn");
+    const menu = document.getElementById("downloadMenuBox");
+    if (!trigger || !menu) return;
+
+    trigger.onclick = (e) => {
+        e.stopPropagation();
+        menu.classList.toggle("show");
+    };
+
+    document.getElementById("dlMp3").onclick = () => alert("Downloading VoiceNest_Audio.mp3 ...");
+    document.getElementById("dlSrt").onclick = () => alert("Downloading VoiceNest_Subtitles.srt ...");
 }
