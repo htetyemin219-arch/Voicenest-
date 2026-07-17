@@ -1,9 +1,9 @@
 // ==========================================
-// VoiceNest Studio v2.3 - OneStepOn
-// Core Script Configuration (Perfect Balanced Version)
+// VoiceNest Studio v2.4 - OneStepOn
+// Core Script Configuration (Dynamic Language Sync)
 // ==========================================
 
-// 1. Fully Balanced Languages Data (8 Styles Each)
+// 1. Fully Balanced Languages Data
 const languages = {
     mm: {
         welcome: "Welcome to",
@@ -20,6 +20,9 @@ const languages = {
         lblAudioResult: "🎵 Generated Audio Results",
         btnDownload: "📥 Download Options",
         placeholder: "ဤနေရာတွင် သင့်ဗီဒီယိုဇာတ်ညွှန်းကို ရိုက်ထည့်ပါ...",
+        selectVoice: "ရွေးချယ်ရန်...",
+        selectStyle: "ပုံမှန် / Plain",
+        selectMusic: "မသုံးပါ (None)",
         tipsTitle: "💡 Gemini's Pro Tips",
         tips: [
             "သရုပ်ပြပြင် တာတ်လမ်းများအတွက် Emotional / Deep စတိုင်ကို သုံးပါက ပိုမိုကောင်းမွန်သော အသံထွက်ကို ရရှိနိုင်ပါသည်။",
@@ -42,6 +45,9 @@ const languages = {
         lblAudioResult: "🎵 Generated Audio Results",
         btnDownload: "📥 Download Options",
         placeholder: "Type your video script here...",
+        selectVoice: "Select Voice...",
+        selectStyle: "Plain / Normal",
+        selectMusic: "None",
         tipsTitle: "💡 Gemini's Pro Tips",
         tips: [
             "Use 'Emotional / Deep' style for storytelling to get better resonances.",
@@ -64,6 +70,9 @@ const languages = {
         lblAudioResult: "🎵 ผลลัพธ์เสียงที่สร้างขึ้น",
         btnDownload: "📥 ตัวเลือกการดาวน์โหลด",
         placeholder: "พิมพ์สคริปต์วิดีโอของคุณที่นี่...",
+        selectVoice: "เลือกนักพากย์...",
+        selectStyle: "ทั่วไป / Plain",
+        selectMusic: "ไม่ใช้เพลง (None)",
         tipsTitle: "💡 Gemini's Pro Tips",
         tips: [
             "ใช้สไตล์ 'Emotional / Deep' สำหรับการเล่าเรื่องเพื่อความสมจริงยิ่งขึ้น",
@@ -81,40 +90,100 @@ const presets = [
     { id: "story", icon: "📚", name: "Storyteller" }
 ];
 
-// 3. Fixed 8 Pure Myanmar Voice Actors (4 Males, 4 Females)
-const voiceActors = [
-    { id: "v1", name: "ကိုမြတ်ကျော် (Ko Myat Kyaw)", gender: "Male", accent: "Burmese (Standard)", age: "Adult" },
-    { id: "v2", name: "မသီရိမေ (Ma Thiri May)", gender: "Female", accent: "Burmese (Standard)", age: "Adult" },
-    { id: "v3", name: "ကိုမင်းသန့် (Ko Min Thant)", gender: "Male", accent: "Burmese (Modern)", age: "Young" },
-    { id: "v4", name: "မဆောင်းနှင်း (Ma Saung Hnin)", gender: "Female", accent: "Burmese (Soft)", age: "Young" },
-    { id: "v5", name: "ဦးအောင်မင်း (U Aung Min)", gender: "Male", accent: "Burmese (Deep-Radio)", age: "Senior" },
-    { id: "v6", name: "ဒေါ်နန်းဆု (Daw Nan Su)", gender: "Female", accent: "Burmese (Elegant)", age: "Senior" },
-    { id: "v7", name: "မောင်စည်သူ (Maung Sithu)", gender: "Male", accent: "Burmese (Energetic)", age: "Youth" },
-    { id: "v8", name: "မဖူးပွင့် (Ma Phue Pwint)", gender: "Female", accent: "Burmese (Cheerful)", age: "Youth" }
-];
+// 3. Multilingual Balanced Voice Actors Data
+const voiceActors = {
+    mm: [
+        { id: "mm_v1", name: "ကိုမြတ်ကျော်", gender: "Male", accent: "ဗမာ (စံနှုန်း)", age: "Adult" },
+        { id: "mm_v2", name: "မသီရိမေ", gender: "Female", accent: "ဗမာ (စံနှုန်း)", age: "Adult" },
+        { id: "mm_v3", name: "ကိုမင်းသန့်", gender: "Male", accent: "ဗမာ (ခေတ်ပေါ်)", age: "Young" },
+        { id: "mm_v4", name: "မဆောင်းနှင်း", gender: "Female", accent: "ဗမာ (နူးညံ့)", age: "Young" },
+        { id: "mm_v5", name: "ဦးအောင်မင်း", gender: "Male", accent: "ဗမာ (ရေဒီယိုအသံ)", age: "Senior" },
+        { id: "mm_v6", name: "ဒေါ်နန်းဆု", gender: "Female", accent: "ဗမာ (ယဉ်ကျေး)", age: "Senior" },
+        { id: "mm_v7", name: "မောင်စည်သူ", gender: "Male", accent: "ဗမာ (တက်ကြွ)", age: "Youth" },
+        { id: "mm_v8", name: "မဖူးပွင့်", gender: "Female", accent: "ဗမာ (ရွှင်လန်း)", age: "Youth" }
+    ],
+    en: [
+        { id: "en_v1", name: "James Connor", gender: "Male", accent: "US Standard", age: "Adult" },
+        { id: "en_v2", name: "Olivia Smith", gender: "Female", accent: "US Soft", age: "Adult" },
+        { id: "en_v3", name: "Liam Davies", gender: "Male", accent: "UK Standard", age: "Young" },
+        { id: "en_v4", name: "Emma Wilson", gender: "Female", accent: "UK Elegant", age: "Young" },
+        { id: "en_v5", name: "Robert Miller", gender: "Male", accent: "US Deep-Anchor", age: "Senior" },
+        { id: "en_v6", name: "Sophia Taylor", gender: "Female", accent: "US Professional", age: "Senior" },
+        { id: "en_v7", name: "Ethan Brown", gender: "Male", accent: "AU Accent", age: "Youth" },
+        { id: "en_v8", name: "Mia Johnson", gender: "Female", accent: "US Cheerful", age: "Youth" }
+    ],
+    th: [
+        { id: "th_v1", name: "สมชาย (Somchai)", gender: "Male", accent: "ไทยกลาง", age: "Adult" },
+        { id: "th_v2", name: "สมศรี (Somsri)", gender: "Female", accent: "ไทยกลาง", age: "Adult" },
+        { id: "th_v3", name: "ธนา (Thana)", gender: "Male", accent: "ไทยวัยรุ่น", age: "Young" },
+        { id: "th_v4", name: "ลิซ่า (Lisa)", gender: "Female", accent: "ไทยนุ่มนวล", age: "Young" },
+        { id: "th_v5", name: "ผู้ใหญ่หาญ (Harn)", gender: "Male", accent: "ไทยสุขุม", age: "Senior" },
+        { id: "th_v6", name: "แม่นภา (Napa)", gender: "Female", accent: "ไทยอาวุโส", age: "Senior" },
+        { id: "th_v7", name: "ก้อง (Kong)", gender: "Male", accent: "ไทยพลังงานสูง", age: "Youth" },
+        { id: "th_v8", name: "พลอย (Ploy)", gender: "Female", accent: "ไทยสดใส", age: "Youth" }
+    ]
+};
 
-// 4. Complete 8 Narration Styles (Perfect Balanced for MM, EN, TH)
-const narrationStyles = [
-    { id: "plain", name: "ပုံမှန် / Plain / ทั่วไป" },
-    { id: "deep", name: "Emotional / Deep / อารมณ์ลึกซึ้ง" },
-    { id: "storytelling", name: "Storyteller / Narrative / เล่าเรื่อง" },
-    { id: "recap", name: "Movie Recap / Review / สรุปหนัง" },
-    { id: "energetic", name: "Energetic / Commercial / โฆษณาฮิต" },
-    { id: "whisper", name: "Soft Whisper / กระซิบเบาๆ" },
-    { id: "scary", name: "Horror / Suspense / สยองขวัญ" },
-    { id: "happy", name: "Cheerful / Happy / สดใสสนุกสนาน" }
-];
+// 4. Multilingual Balanced Narration Styles
+const narrationStyles = {
+    mm: [
+        { id: "plain", name: "ပုံမှန် / Plain" },
+        { id: "deep", name: "Emotional / Deep (ခံစားချက်အပြည့်)" },
+        { id: "storytelling", name: "Storyteller / Narrative (ပုံပြောသူဟန်)" },
+        { id: "recap", name: "Movie Recap / Review (ဇာတ်လမ်းချုပ်ဟန်)" },
+        { id: "energetic", name: "Energetic / Commercial (ကြော်ငြာဟန်)" },
+        { id: "whisper", name: "Soft Whisper (တိုးတိုးလေးပြော)" },
+        { id: "scary", name: "Horror / Suspense (သည်းထိတ်ရင်ဖို)" },
+        { id: "happy", name: "Cheerful / Happy (ပျော်ပျော်ရွှင်ရွှင်)" }
+    ],
+    en: [
+        { id: "plain", name: "Plain / Normal Flow" },
+        { id: "deep", name: "Emotional / Deep Resonance" },
+        { id: "storytelling", name: "Storyteller / Narrative" },
+        { id: "recap", name: "Movie Recap / Review Style" },
+        { id: "energetic", name: "Energetic / Commercial Promo" },
+        { id: "whisper", name: "Soft Whisper / ASMR" },
+        { id: "scary", name: "Horror / Suspense Thriller" },
+        { id: "happy", name: "Cheerful / Happy Tone" }
+    ],
+    th: [
+        { id: "plain", name: "ทั่วไป / Plain" },
+        { id: "deep", name: "เน้นอารมณ์ / Deep" },
+        { id: "storytelling", name: "นักเล่าเรื่อง / Storyteller" },
+        { id: "recap", name: "สรุปเนื้อหา / Movie Recap" },
+        { id: "energetic", name: "พลังงานสูง / Commercial" },
+        { id: "whisper", name: "เสียงกระซิบ / Whisper" },
+        { id: "scary", name: "สยองขวัญ / Horror" },
+        { id: "happy", name: "สดใสสนุกสนาน / Happy" }
+    ]
+};
 
 // 5. Ambient Music Data
-const ambientMusic = [
-    { id: "none", name: "မသုံးပါ (None)" },
-    { id: "cyber", name: "Cinematic Cyberpunk Beat" },
-    { id: "lofi", name: "Chill Lofi Aesthetic" },
-    { id: "sad", name: "Emotional Piano & Violin" },
-    { id: "epic", name: "Epic Cinematic Trailer" }
-];
+const ambientMusic = {
+    mm: [
+        { id: "none", name: "မသုံးပါ (None)" },
+        { id: "cyber", name: "Cinematic Cyberpunk Beat" },
+        { id: "lofi", name: "Chill Lofi Aesthetic" },
+        { id: "sad", name: "Emotional Piano & Violin" },
+        { id: "epic", name: "Epic Cinematic Trailer" }
+    ],
+    en: [
+        { id: "none", name: "None" },
+        { id: "cyber", name: "Cinematic Cyberpunk Beat" },
+        { id: "lofi", name: "Chill Lofi Aesthetic" },
+        { id: "sad", name: "Emotional Piano & Violin" },
+        { id: "epic", name: "Epic Cinematic Trailer" }
+    ],
+    th: [
+        { id: "none", name: "ไม่ใช้เพลง (None)" },
+        { id: "cyber", name: "Cinematic Cyberpunk Beat" },
+        { id: "lofi", name: "Chill Lofi Aesthetic" },
+        { id: "sad", name: "Emotional Piano & Violin" },
+        { id: "epic", name: "Epic Cinematic Trailer" }
+    ]
+};
 
-// DOM Elements
+// DOM Elements & State
 let currentLang = "mm";
 let isPlaying = false;
 let audioTimeout = null;
@@ -123,11 +192,8 @@ let audioTimeout = null;
 document.addEventListener("DOMContentLoaded", () => {
     initLanguageDropdown();
     initPresets();
-    initVoiceDropdown();
-    initStyleDropdown();
-    initMusicDropdown();
     initEventListeners();
-    updateUIStrings();
+    updateUIStrings(); // This will auto-render voice, style and music options
 });
 
 // Dropdown Helper Function
@@ -136,11 +202,11 @@ function setupCustomDropdown(triggerId, menuId, items, onSelect) {
     const menu = document.getElementById(menuId);
     if (!trigger || !menu) return;
 
-    trigger.addEventListener("click", (e) => {
+    trigger.onclick = (e) => {
         e.stopPropagation();
         closeAllDropdowns();
         menu.classList.toggle("show");
-    });
+    };
 
     menu.innerHTML = "";
     items.forEach(item => {
@@ -159,10 +225,8 @@ function setupCustomDropdown(triggerId, menuId, items, onSelect) {
 function closeAllDropdowns() {
     document.querySelectorAll(".dropdown-menu-box").forEach(m => m.classList.remove("show"));
 }
-
 document.addEventListener("click", closeAllDropdowns);
 
-// Dropdown Initializations
 function initLanguageDropdown() {
     const langs = [
         { id: "mm", name: "🌐 မြန်မာ (MY) 🇲🇲" },
@@ -191,8 +255,10 @@ function initPresets() {
     });
 }
 
-function initVoiceDropdown() {
-    const items = voiceActors.map(v => ({
+// DYNAMIC RE-RENDER ENGINES
+function renderVoiceDropdown() {
+    const currentActors = voiceActors[currentLang];
+    const items = currentActors.map(v => ({
         id: v.id,
         name: v.name,
         html: `<div style="display:flex; justify-content:space-between; width:100%;">
@@ -201,15 +267,57 @@ function initVoiceDropdown() {
                </div>`,
         triggerHtml: `🗣️ ${v.name} (${v.accent})`
     }));
+    
+    document.getElementById("voiceTriggerBtn").innerHTML = languages[currentLang].selectVoice;
     setupCustomDropdown("voiceTriggerBtn", "voiceMenuBox", items, () => {});
 }
 
-function initStyleDropdown() {
-    setupCustomDropdown("styleTriggerBtn", "styleMenuBox", narrationStyles, () => {});
+function renderStyleDropdown() {
+    const currentStyles = narrationStyles[currentLang];
+    document.getElementById("styleTriggerBtn").innerHTML = languages[currentLang].selectStyle;
+    setupCustomDropdown("styleTriggerBtn", "styleMenuBox", currentStyles, () => {});
 }
 
-function initMusicDropdown() {
-    setupCustomDropdown("musicTriggerBtn", "musicMenuBox", ambientMusic, () => {});
+function renderMusicDropdown() {
+    const currentMusic = ambientMusic[currentLang];
+    document.getElementById("musicTriggerBtn").innerHTML = languages[currentLang].selectMusic;
+    setupCustomDropdown("musicTriggerBtn", "musicMenuBox", currentMusic, () => {});
+}
+
+// Language Update Orchestrator
+function updateUIStrings() {
+    const data = languages[currentLang];
+    if (!data) return;
+
+    document.getElementById("welcomeTxt").innerText = data.welcome;
+    document.getElementById("presetLabel").innerText = data.presetLabel;
+    document.getElementById("lblVoiceActor").innerText = data.lblVoiceActor;
+    document.getElementById("lblNarrationStyle").innerText = data.lblNarrationStyle;
+    document.getElementById("cardVoiceCtrl").innerText = data.cardVoiceCtrl;
+    document.getElementById("lblSpeed").innerText = data.lblSpeed;
+    document.getElementById("lblPitch").innerText = data.lblPitch;
+    document.getElementById("cardAspect").innerText = data.cardAspect;
+    document.getElementById("cardMixer").innerText = data.cardMixer;
+    document.getElementById("lblMusicVol").innerText = data.lblMusicVol;
+    document.getElementById("generateBtn").innerText = data.btnGenerate;
+    document.getElementById("lblAudioResult").innerText = data.lblAudioResult;
+    document.getElementById("downloadTriggerBtn").innerText = data.btnDownload;
+    document.getElementById("storyInput").placeholder = data.placeholder;
+
+    // Trigger Re-rendering lists for dropdowns dynamically
+    renderVoiceDropdown();
+    renderStyleDropdown();
+    renderMusicDropdown();
+
+    const tipsContainer = document.getElementById("tipsList");
+    if (tipsContainer) {
+        tipsContainer.innerHTML = "";
+        data.tips.forEach(tip => {
+            const li = document.createElement("li");
+            li.innerText = tip;
+            tipsContainer.appendChild(li);
+        });
+    }
 }
 
 // Event Listeners
@@ -246,37 +354,6 @@ function initEventListeners() {
 
     const playBtn = document.getElementById("resultPlayBtn");
     if (playBtn) playBtn.addEventListener("click", toggleWaveformPlay);
-}
-
-// Language Translation Engine
-function updateUIStrings() {
-    const data = languages[currentLang];
-    if (!data) return;
-
-    document.getElementById("welcomeTxt").innerText = data.welcome;
-    document.getElementById("presetLabel").innerText = data.presetLabel;
-    document.getElementById("lblVoiceActor").innerText = data.lblVoiceActor;
-    document.getElementById("lblNarrationStyle").innerText = data.lblNarrationStyle;
-    document.getElementById("cardVoiceCtrl").innerText = data.cardVoiceCtrl;
-    document.getElementById("lblSpeed").innerText = data.lblSpeed;
-    document.getElementById("lblPitch").innerText = data.lblPitch;
-    document.getElementById("cardAspect").innerText = data.cardAspect;
-    document.getElementById("cardMixer").innerText = data.cardMixer;
-    document.getElementById("lblMusicVol").innerText = data.lblMusicVol;
-    document.getElementById("generateBtn").innerText = data.btnGenerate;
-    document.getElementById("lblAudioResult").innerText = data.lblAudioResult;
-    document.getElementById("downloadTriggerBtn").innerText = data.btnDownload;
-    document.getElementById("storyInput").placeholder = data.placeholder;
-
-    const tipsContainer = document.getElementById("tipsList");
-    if (tipsContainer) {
-        tipsContainer.innerHTML = "";
-        data.tips.forEach(tip => {
-            const li = document.createElement("li");
-            li.innerText = tip;
-            tipsContainer.appendChild(li);
-        });
-    }
 }
 
 // Timeline State Engine
