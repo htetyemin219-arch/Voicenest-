@@ -1,163 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceNest Studio v3.5 Pro</title>
+    <title>VoiceNest Studio v3.5</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="dark-theme">
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fa-solid fa-microphone-lines"></i>
+                <span>VoiceNest</span>
+                <span class="badge-pro">v3.5 Pro</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary"><i class="fa-solid fa-floppy-disk"></i> Save Project</button>
+                <button class="btn-icon"><i class="fa-solid fa-gear"></i></button>
+            </div>
+        </header>
 
-    <!-- Top Navigation -->
-    <header class="navbar">
-        <div class="logo">
-            <i class="fa-solid fa-microphone-lines"></i> VoiceNest <span>v3.5 Pro</span>
-        </div>
-        <div class="nav-controls">
-            <button id="saveProjectBtn" class="btn btn-secondary"><i class="fa-solid fa-floppy-disk"></i> <span data-i18n="save_project">Save Project</span></button>
-            <button id="openSettingsBtn" class="btn btn-icon"><i class="fa-solid fa-gear"></i></button>
-        </div>
-    </header>
-
-    <!-- Main Content Container -->
-    <main class="container">
-        
-        <!-- Text Input Section -->
-        <section class="input-section">
-            <textarea id="scriptInput" placeholder="Enter your text here to generate audio..."></textarea>
-        </div>
-
-        <!-- 9-Grid Selectors -->
-        <section class="grid-container">
-            
-            <!-- Voice Actors Section (9 Items) -->
-            <div class="selector-box">
-                <h3 data-i18n="select_voice">Voice Actors (9 Options)</h3>
-                <div class="grid-9" id="voiceGrid"></div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Text Input -->
+            <div class="text-input-section">
+                <textarea placeholder="Enter your text here to generate audio..."></textarea>
             </div>
 
-            <!-- Styles Section (9 Items) -->
-            <div class="selector-box">
-                <h3 data-i18n="select_style">Voice Styles (9 Options)</h3>
-                <div class="grid-9" id="styleGrid"></div>
-            </div>
-
-            <!-- Background Music Section (9 Items) -->
-            <div class="selector-box">
-                <h3 data-i18n="select_music">Background Music (9 Options)</h3>
-                <div class="grid-9" id="musicGrid"></div>
-            </div>
-
-        </section>
-
-        <!-- Player & Generate Action Bar -->
-        <section class="action-bar">
-            <button id="generateBtn" class="btn btn-primary btn-large">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="generate">Generate Audio</span>
-            </button>
-            
-            <div class="player-container">
-                <button id="mainPlayBtn" class="btn btn-circle"><i class="fa-solid fa-play"></i></button>
-                <div class="timeline-bar">
-                    <input type="range" id="seekSlider" value="0" min="0" max="100">
-                </div>
-                <span id="timeDisplay">00:00 / 00:00</span>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Modal: Pro Tabbed Settings -->
-    <div id="settingsModal" class="modal">
-        <div class="modal-content tabbed-dashboard">
-            <div class="modal-header">
-                <h2><i class="fa-solid fa-sliders"></i> Studio Dashboard</h2>
-                <span class="close-btn" id="closeSettings">&times;</span>
-            </div>
-            
-            <div class="dashboard-body">
-                <!-- Sidebar Tabs -->
-                <div class="tab-sidebar">
-                    <button class="tab-btn active" data-tab="tab-audio"><i class="fa-solid fa-volume-high"></i> Audio & Render</button>
-                    <button class="tab-btn" data-tab="tab-engine"><i class="fa-solid fa-microchip"></i> Engine & API</button>
-                    <button class="tab-btn" data-tab="tab-favorites"><i class="fa-solid fa-heart"></i> Favorites & Projects</button>
-                    <button class="tab-btn" data-tab="tab-plan"><i class="fa-solid fa-crown"></i> Workspace Plan</button>
+            <!-- Grid Options -->
+            <div class="options-grid">
+                <!-- Voice Actors -->
+                <div class="option-card">
+                    <h3>Voice Actors (9 Options)</h3>
+                    <div class="grid-3x3">
+                        <button class="grid-item active">Aung Aung <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Su Su <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Thura <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Mya Mya <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">David (EN) <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Emma (EN) <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Kenshiro <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Nisha <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Somchai (TH) <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                    </div>
                 </div>
 
-                <!-- Tab Contents -->
-                <div class="tab-content-container">
-                    
-                    <!-- Tab 1: Audio Settings -->
-                    <div id="tab-audio" class="tab-content active">
-                        <h3>Audio Preferences</h3>
-                        <div class="form-group">
-                            <label>Language Interface:</label>
-                            <select id="langSelect">
-                                <option value="en">English</option>
-                                <option value="mm">မြန်မာ (Myanmar)</option>
-                                <option value="th">ไทย (Thai)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Export Format:</label>
-                            <select id="formatSelect">
-                                <option value="mp3">MP3 (320kbps Studio)</option>
-                                <option value="wav">WAV (Uncompressed HD)</option>
-                            </select>
-                        </div>
+                <!-- Voice Styles -->
+                <div class="option-card">
+                    <h3>Voice Styles (9 Options)</h3>
+                    <div class="grid-3x3">
+                        <button class="grid-item active">Natural Story <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Emotional News <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Whisper Soft <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Dramatic Epic <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Calm Meditation <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Energetic Ad <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Horror Tale <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Childish Cute <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Radio Announcer <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
                     </div>
+                </div>
 
-                    <!-- Tab 2: Engine Settings -->
-                    <div id="tab-engine" class="tab-content">
-                        <h3>AI Engine Profile</h3>
-                        <p>Status: <span class="badge badge-success">Gemini Native Multimodal Engine Active 🟢</span></p>
-                        <div class="form-group">
-                            <label>Latency Mode:</label>
-                            <select>
-                                <option>Real-time Streaming</option>
-                                <option>High-Quality Batch Render</option>
-                            </select>
-                        </div>
+                <!-- Background Music -->
+                <div class="option-card">
+                    <h3>Background Music (9 Options)</h3>
+                    <div class="grid-3x3">
+                        <button class="grid-item active">Soft Piano <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Cinematic Ambient <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Lo-Fi Chill <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Acoustic Guitar <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Epic Drums <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Sad Violin <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Inspirational Pop <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item">Nature Rain <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
+                        <button class="grid-item locked">Cyberpunk Synth <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
                     </div>
-
-                    <!-- Tab 3: Saved & Favorites -->
-                    <div id="tab-favorites" class="tab-content">
-                        <h3>Saved Projects & Favorites</h3>
-                        <div id="savedProjectsList" class="saved-list">
-                            <p class="empty-msg">No saved project drafts found.</p>
-                        </div>
-                    </div>
-
-                    <!-- Tab 4: Plan Upgrade -->
-                    <div id="tab-plan" class="tab-content">
-                        <h3>Current Plan: Free Tier</h3>
-                        <p>Monthly Quota Used: <strong>1,200 / 10,000 chars</strong></p>
-                        <button class="btn btn-gold"><i class="fa-solid fa-gem"></i> Upgrade to Pro ($19/mo)</button>
-                    </div>
-
                 </div>
             </div>
+        </main>
 
-            <div class="modal-footer">
-                <button id="saveSettingsBtn" class="btn btn-primary"><i class="fa-solid fa-check"></i> Save System Settings</button>
+        <!-- Player Bar -->
+        <footer class="player-bar">
+            <button class="btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Audio</button>
+            <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+            <div class="progress-bar">
+                <div class="progress"></div>
             </div>
-        </div>
+            <span class="time">00:00 / 00:00</span>
+        </footer>
     </div>
-
-    <!-- Modal: Premium Lock Alert -->
-    <div id="lockModal" class="modal">
-        <div class="modal-content mini-modal">
-            <span class="close-btn" id="closeLock">&times;</span>
-            <div class="lock-body">
-                <i class="fa-solid fa-lock lock-icon"></i>
-                <h3>Premium Feature Locked</h3>
-                <p>This voice/style item is available exclusively on the <strong>Studio Pro Plan</strong>.</p>
-                <button class="btn btn-gold btn-full"><i class="fa-solid fa-crown"></i> Unlock Now</button>
-            </div>
-        </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>
