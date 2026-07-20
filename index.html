@@ -1,96 +1,176 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceNest Studio v3.5</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoiceNest Studio v3.5</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <i class="fa-solid fa-microphone-lines"></i>
-                <span>VoiceNest</span>
-                <span class="badge-pro">v3.5 Pro</span>
-            </div>
-            <div class="header-actions">
-                <button class="btn-secondary"><i class="fa-solid fa-floppy-disk"></i> Save Project</button>
-                <button class="btn-icon"><i class="fa-solid fa-gear"></i></button>
-            </div>
-        </header>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-microphone-lines logo-icon"></i>
+        <div class="brand-text">
+          <h2>VoiceNest</h2>
+          <p>Every story deserves a voice.</p>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active"><i class="fa-solid fa-fire"></i> Home</a>
+        <a href="#" class="nav-item"><i class="fa-solid fa-folder"></i> My Projects</a>
+        <a href="#" class="nav-item"><i class="fa-solid fa-heart"></i> Favorites</a>
+        <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+      </nav>
+    </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Text Input -->
-            <div class="text-input-section">
-                <textarea placeholder="Enter your text here to generate audio..."></textarea>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="welcome-text">
+          <span>WELCOME TO</span>
+          <h1>VoiceNest Studio <small>v3.5</small></h1>
+        </div>
+        <div class="header-badges">
+          <span class="badge lang-badge"><i class="fa-solid fa-globe"></i> English (US) 🇺🇸</span>
+          <span class="badge plan-badge"><i class="fa-solid fa-crown"></i> FREE PLAN</span>
+        </div>
+      </header>
+
+      <!-- Content Presets -->
+      <section class="section">
+        <label class="section-label">CONTENT PRESETS</label>
+        <div class="preset-tags">
+          <button class="tag active"><i class="fa-solid fa-music"></i> TtShort</button>
+          <button class="tag"><i class="fa-solid fa-ghost"></i> Ghost Story</button>
+          <button class="tag"><i class="fa-solid fa-film"></i> Movie Recap</button>
+          <button class="tag"><i class="fa-solid fa-book-open"></i> Storyteller</button>
+        </div>
+      </section>
+
+      <!-- Text Input Area -->
+      <section class="section">
+        <div class="textarea-wrapper">
+          <textarea id="scriptInput" placeholder="Type your video script here..."></textarea>
+          <span class="char-count">0 / 5000 characters</span>
+        </div>
+      </section>
+
+      <!-- Voice & Style Selectors -->
+      <div class="grid-2col">
+        <div class="form-group">
+          <label><i class="fa-solid fa-user"></i> Select Voice Actor</label>
+          <select id="voiceSelect">
+            <option value="">Select Voice...</option>
+            <option value="aung">Aung Aung (Myanmar)</option>
+            <option value="susu">Su Su (Myanmar)</option>
+            <option value="david">David (English)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-masks-theater"></i> Narration Style & Emotions</label>
+          <select id="styleSelect">
+            <option value="normal">Plain / Normal</option>
+            <option value="emotional">Emotional / Deep</option>
+            <option value="dramatic">Dramatic Epic</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Controls Grid -->
+      <div class="grid-3col">
+        <!-- Voice Controls -->
+        <div class="card">
+          <h3>VOICE CONTROLS</h3>
+          <div class="slider-group">
+            <div class="slider-label"><span>Speech Speed</span> <span id="speedVal">1.0x</span></div>
+            <input type="range" id="speedSlider" min="0.5" max="2.0" step="0.1" value="1.0">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Voice Pitch</span> <span id="pitchVal">0</span></div>
+            <input type="range" id="pitchSlider" min="-10" max="10" step="1" value="0">
+          </div>
+          <button class="btn-sub"><i class="fa-solid fa-play"></i> Listen Preview</button>
+        </div>
+
+        <!-- Video Aspect Guide -->
+        <div class="card">
+          <h3>VIDEO ASPECT GUIDE</h3>
+          <div class="aspect-options">
+            <div class="aspect-box active">
+              <i class="fa-solid fa-mobile-screen"></i>
+              <span>9:16</span>
+              <small>Shorts</small>
             </div>
-
-            <!-- Grid Options -->
-            <div class="options-grid">
-                <!-- Voice Actors -->
-                <div class="option-card">
-                    <h3>Voice Actors (9 Options)</h3>
-                    <div class="grid-3x3">
-                        <button class="grid-item active">Aung Aung <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Su Su <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Thura <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Mya Mya <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">David (EN) <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Emma (EN) <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Kenshiro <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Nisha <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Somchai (TH) <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                    </div>
-                </div>
-
-                <!-- Voice Styles -->
-                <div class="option-card">
-                    <h3>Voice Styles (9 Options)</h3>
-                    <div class="grid-3x3">
-                        <button class="grid-item active">Natural Story <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Emotional News <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Whisper Soft <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Dramatic Epic <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Calm Meditation <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Energetic Ad <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Horror Tale <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Childish Cute <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Radio Announcer <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                    </div>
-                </div>
-
-                <!-- Background Music -->
-                <div class="option-card">
-                    <h3>Background Music (9 Options)</h3>
-                    <div class="grid-3x3">
-                        <button class="grid-item active">Soft Piano <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Cinematic Ambient <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Lo-Fi Chill <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Acoustic Guitar <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Epic Drums <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Sad Violin <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Inspirational Pop <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item">Nature Rain <div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                        <button class="grid-item locked">Cyberpunk Synth <i class="fa-solid fa-lock lock-icon"></i><div class="controls"><i class="fa-solid fa-play"></i><i class="fa-regular fa-heart"></i></div></button>
-                    </div>
-                </div>
+            <div class="aspect-box">
+              <i class="fa-solid fa-tv"></i>
+              <span>16:9</span>
+              <small>Movie</small>
             </div>
-        </main>
-
-        <!-- Player Bar -->
-        <footer class="player-bar">
-            <button class="btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Audio</button>
-            <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-            <div class="progress-bar">
-                <div class="progress"></div>
+            <div class="aspect-box">
+              <i class="fa-solid fa-square"></i>
+              <span>1:1</span>
+              <small>Square</small>
             </div>
-            <span class="time">00:00 / 00:00</span>
-        </footer>
-    </div>
-    <script src="script.js"></script>
+          </div>
+        </div>
+
+        <!-- Ambient Music Mixer -->
+        <div class="card">
+          <h3>AMBIENT MUSIC MIXER</h3>
+          <div class="form-group">
+            <select id="bgmSelect">
+              <option value="none">None</option>
+              <option value="piano">Soft Piano</option>
+              <option value="lofi">Lo-Fi Chill</option>
+            </select>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Music Volume</span> <span id="volVal">30%</span></div>
+            <input type="range" id="volSlider" min="0" max="100" value="30">
+          </div>
+        </div>
+      </div>
+
+      <!-- Gemini Pro Tips -->
+      <div class="pro-tips-card">
+        <h4><i class="fa-solid fa-lightbulb"></i> Gemini's Pro Tips</h4>
+        <ul>
+          <li>Use 'Emotional / Deep' style for storytelling to get better resonances.</li>
+          <li>Keep Speech Speed at 0.9x or 1.0x for the most natural human-like flow.</li>
+          <li>For optimal voice quality, keep your script under 1500 characters per batch.</li>
+        </ul>
+      </div>
+
+      <!-- Action Button -->
+      <button class="btn-generate"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Audio</button>
+
+      <!-- Stepper Status -->
+      <div class="status-stepper">
+        <div class="step active"><span></span> Ready</div>
+        <div class="step-line"></div>
+        <div class="step"><span></span> Generating...</div>
+        <div class="step-line"></div>
+        <div class="step"><span></span> Done</div>
+      </div>
+
+      <!-- Result Player -->
+      <div class="result-card">
+        <div class="result-header">
+          <span><i class="fa-solid fa-music"></i> Generated Audio Results</span>
+          <button class="btn-sub"><i class="fa-solid fa-download"></i> Download Options</button>
+        </div>
+        <div class="player-controls">
+          <button class="btn-play-main"><i class="fa-solid fa-play"></i></button>
+          <input type="range" class="audio-progress" value="0">
+          <span class="time">00:00 / 00:00</span>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
