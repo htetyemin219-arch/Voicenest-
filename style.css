@@ -26,7 +26,7 @@ body {
   min-height: 100vh;
 }
 
-/* Sidebar Styling */
+/* Sidebar */
 .sidebar {
   width: 240px;
   background-color: var(--sidebar-bg);
@@ -70,9 +70,12 @@ body {
   gap: 12px;
   padding: 12px 16px;
   color: var(--text-sub);
-  text-decoration: none;
+  background: transparent;
+  border: none;
   border-radius: 12px;
   font-size: 14px;
+  cursor: pointer;
+  text-align: left;
   transition: all 0.2s;
 }
 
@@ -81,7 +84,7 @@ body {
   color: #fff;
 }
 
-/* Main Dashboard Area */
+/* Dashboard Main Layout */
 .main-content {
   flex: 1;
   padding: 32px;
@@ -103,35 +106,68 @@ body {
   font-weight: 600;
 }
 
-.welcome-text h1 {
+.gradient-title {
   font-size: 26px;
+  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.welcome-text small {
+.gradient-title small {
   font-size: 14px;
   color: var(--text-sub);
+  -webkit-text-fill-color: var(--text-sub);
 }
 
 .header-badges {
   display: flex;
   gap: 12px;
+  align-items: center;
 }
 
-.badge {
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 12px;
+.lang-selector-wrapper {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.badge-select {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+  cursor: pointer;
+}
+
+.badge-select option {
+  background: var(--card-bg);
+  color: #fff;
 }
 
 .plan-badge {
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 12px;
   background: rgba(124, 58, 237, 0.2);
   color: var(--accent-light);
-  border-color: var(--accent-purple);
+  border: 1px solid var(--accent-purple);
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Form & Input Layouts */
+.plan-badge.premium {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border-color: #f59e0b;
+}
+
+/* Section Components */
 .section-label {
   font-size: 11px;
   color: var(--text-sub);
@@ -153,13 +189,15 @@ body {
   border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.tag.active {
+.tag.active, .tag:hover {
   border-color: var(--accent-purple);
   background: rgba(124, 58, 237, 0.15);
 }
 
+/* Auto Byte Bar & Textarea */
 .textarea-wrapper {
   position: relative;
 }
@@ -171,18 +209,30 @@ textarea {
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 16px;
+  padding-bottom: 36px;
   color: #fff;
   font-size: 14px;
   resize: none;
   outline: none;
 }
 
-.char-count {
+.auto-byte-info {
   position: absolute;
-  bottom: 12px;
+  bottom: 10px;
   right: 16px;
+  left: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
   font-size: 11px;
   color: var(--text-sub);
+  background: rgba(19, 17, 41, 0.8);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.auto-byte-info strong {
+  color: var(--accent-light);
 }
 
 .grid-2col {
@@ -208,7 +258,7 @@ textarea {
   color: var(--text-sub);
 }
 
-select {
+select, .text-input {
   width: 100%;
   padding: 12px;
   background: var(--card-bg);
@@ -216,6 +266,10 @@ select {
   border-radius: 8px;
   color: #fff;
   outline: none;
+}
+
+select option {
+  background: var(--sidebar-bg);
 }
 
 .card {
@@ -250,16 +304,22 @@ select {
 input[type="range"] {
   accent-color: var(--accent-purple);
   width: 100%;
+  cursor: pointer;
 }
 
 .btn-sub {
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--border-color);
   color: #fff;
-  padding: 8px;
+  padding: 8px 12px;
   border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-sub:hover {
+  background: rgba(255,255,255,0.1);
 }
 
 .aspect-options {
@@ -286,7 +346,7 @@ input[type="range"] {
   background: rgba(124, 58, 237, 0.2);
 }
 
-/* Pro Tips Card */
+/* Pro Tips */
 .pro-tips-card {
   background: rgba(124, 58, 237, 0.05);
   border: 1px solid rgba(124, 58, 237, 0.3);
@@ -318,9 +378,14 @@ input[type="range"] {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Status Stepper & Player */
+.btn-generate:hover {
+  background: #6d28d9;
+}
+
+/* Stepper Status */
 .status-stepper {
   display: flex;
   align-items: center;
@@ -341,6 +406,7 @@ input[type="range"] {
   margin: 0 16px;
 }
 
+/* Audio Result & Download Menu */
 .result-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -349,6 +415,45 @@ input[type="range"] {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.download-dropdown-wrapper {
+  position: relative;
+}
+
+.download-menu {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 190px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.download-menu button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-menu button:hover {
+  background: var(--accent-purple);
+}
+
+.hidden {
+  display: none !important;
 }
 
 .result-header {
@@ -383,7 +488,51 @@ input[type="range"] {
   color: var(--text-sub);
 }
 
-/* Mobile Responsive */
+/* Modal Styling */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--sidebar-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: 420px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 @media (max-width: 768px) {
   .sidebar { display: none; }
   .grid-2col, .grid-3col { grid-template-columns: 1fr; }
