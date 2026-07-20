@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Sidebar -->
+    <!-- Sidebar Navigation -->
     <aside class="sidebar">
       <div class="brand">
         <i class="fa-solid fa-microphone-lines logo-icon"></i>
@@ -19,24 +19,33 @@
         </div>
       </div>
       <nav class="nav-menu">
-        <a href="#" class="nav-item active"><i class="fa-solid fa-fire"></i> Home</a>
-        <a href="#" class="nav-item"><i class="fa-solid fa-folder"></i> My Projects</a>
-        <a href="#" class="nav-item"><i class="fa-solid fa-heart"></i> Favorites</a>
-        <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+        <button class="nav-item active" id="navHome" data-tab="home"><i class="fa-solid fa-fire"></i> Home</button>
+        <button class="nav-item" id="navProjects" data-tab="projects"><i class="fa-solid fa-folder"></i> My Projects</button>
+        <button class="nav-item" id="navFavorites" data-tab="favorites"><i class="fa-solid fa-heart"></i> Favorites</button>
+        <button class="nav-item" id="navSettings" data-tab="settings"><i class="fa-solid fa-gear"></i> Settings</button>
       </nav>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main Content Area -->
     <main class="main-content">
       <!-- Top Bar -->
       <header class="top-bar">
         <div class="welcome-text">
           <span>WELCOME TO</span>
-          <h1>VoiceNest Studio <small>v3.5</small></h1>
+          <h1 class="gradient-title">VoiceNest Studio <small>v3.5</small></h1>
         </div>
         <div class="header-badges">
-          <span class="badge lang-badge"><i class="fa-solid fa-globe"></i> English (US) 🇺🇸</span>
-          <span class="badge plan-badge"><i class="fa-solid fa-crown"></i> FREE PLAN</span>
+          <!-- 3 Languages Selector -->
+          <div class="lang-selector-wrapper">
+            <i class="fa-solid fa-globe"></i>
+            <select id="langSelect" class="badge-select">
+              <option value="en-US">English (US) 🇺🇸</option>
+              <option value="my">Myanmar 🇲🇲</option>
+              <option value="ja">Japanese 🇯🇵</option>
+            </select>
+          </div>
+          <!-- Interactive Plan Badge -->
+          <button class="badge plan-badge" id="planToggleBtn"><i class="fa-solid fa-crown"></i> <span id="planText">FREE PLAN</span></button>
         </div>
       </header>
 
@@ -44,38 +53,43 @@
       <section class="section">
         <label class="section-label">CONTENT PRESETS</label>
         <div class="preset-tags">
-          <button class="tag active"><i class="fa-solid fa-music"></i> TtShort</button>
-          <button class="tag"><i class="fa-solid fa-ghost"></i> Ghost Story</button>
-          <button class="tag"><i class="fa-solid fa-film"></i> Movie Recap</button>
-          <button class="tag"><i class="fa-solid fa-book-open"></i> Storyteller</button>
+          <button class="tag active" data-preset="ttshort"><i class="fa-solid fa-music"></i> TtShort</button>
+          <button class="tag" data-preset="ghost"><i class="fa-solid fa-ghost"></i> Ghost Story</button>
+          <button class="tag" data-preset="recap"><i class="fa-solid fa-film"></i> Movie Recap</button>
+          <button class="tag" data-preset="storyteller"><i class="fa-solid fa-book-open"></i> Storyteller</button>
         </div>
       </section>
 
-      <!-- Text Input Area -->
+      <!-- Text Input & Auto-Byte Sync Area -->
       <section class="section">
         <div class="textarea-wrapper">
-          <textarea id="scriptInput" placeholder="Type your video script here..."></textarea>
-          <span class="char-count">0 / 5000 characters</span>
+          <textarea id="scriptInput" placeholder="Type or paste your video script here..."></textarea>
+          <div class="auto-byte-info">
+            <span id="charCount">0 / 5000 chars</span> | 
+            <span>Est. Duration: <strong id="estTime">0s</strong></span> | 
+            <span>Data Size: <strong id="byteSize">0 KB</strong></span>
+          </div>
         </div>
       </section>
 
-      <!-- Voice & Style Selectors -->
+      <!-- Voice & 9 Narration Styles Selectors -->
       <div class="grid-2col">
         <div class="form-group">
-          <label><i class="fa-solid fa-user"></i> Select Voice Actor</label>
-          <select id="voiceSelect">
-            <option value="">Select Voice...</option>
-            <option value="aung">Aung Aung (Myanmar)</option>
-            <option value="susu">Su Su (Myanmar)</option>
-            <option value="david">David (English)</option>
-          </select>
+          <label><i class="fa-solid fa-user"></i> Select Voice Actor (9 Actors)</label>
+          <select id="voiceSelect"></select>
         </div>
         <div class="form-group">
-          <label><i class="fa-solid fa-masks-theater"></i> Narration Style & Emotions</label>
+          <label><i class="fa-solid fa-masks-theater"></i> Narration Style & Emotions (9 Styles)</label>
           <select id="styleSelect">
-            <option value="normal">Plain / Normal</option>
-            <option value="emotional">Emotional / Deep</option>
-            <option value="dramatic">Dramatic Epic</option>
+            <option value="plain">1. Plain / Normal Narration</option>
+            <option value="emotional">2. Emotional / Deep Storytelling</option>
+            <option value="dramatic">3. Dramatic Epic</option>
+            <option value="whisper">4. Soft Whispering</option>
+            <option value="horror">5. Horror Mystery & Dark</option>
+            <option value="cinematic">6. Cinematic Trailer</option>
+            <option value="storyteller">7. Classic Storyteller</option>
+            <option value="energetic">8. Energetic Commercial</option>
+            <option value="soft">9. Soft & Calming Voice</option>
           </select>
         </div>
       </div>
@@ -93,24 +107,24 @@
             <div class="slider-label"><span>Voice Pitch</span> <span id="pitchVal">0</span></div>
             <input type="range" id="pitchSlider" min="-10" max="10" step="1" value="0">
           </div>
-          <button class="btn-sub"><i class="fa-solid fa-play"></i> Listen Preview</button>
+          <button class="btn-sub" id="previewBtn"><i class="fa-solid fa-play"></i> Listen Preview</button>
         </div>
 
         <!-- Video Aspect Guide -->
         <div class="card">
           <h3>VIDEO ASPECT GUIDE</h3>
           <div class="aspect-options">
-            <div class="aspect-box active">
+            <div class="aspect-box active" data-aspect="9:16">
               <i class="fa-solid fa-mobile-screen"></i>
               <span>9:16</span>
               <small>Shorts</small>
             </div>
-            <div class="aspect-box">
+            <div class="aspect-box" data-aspect="16:9">
               <i class="fa-solid fa-tv"></i>
               <span>16:9</span>
               <small>Movie</small>
             </div>
-            <div class="aspect-box">
+            <div class="aspect-box" data-aspect="1:1">
               <i class="fa-solid fa-square"></i>
               <span>1:1</span>
               <small>Square</small>
@@ -118,14 +132,20 @@
           </div>
         </div>
 
-        <!-- Ambient Music Mixer -->
+        <!-- Ambient Music Mixer (9 Track Options) -->
         <div class="card">
-          <h3>AMBIENT MUSIC MIXER</h3>
+          <h3>AMBIENT MUSIC MIXER (9 TRACKS)</h3>
           <div class="form-group">
             <select id="bgmSelect">
-              <option value="none">None</option>
-              <option value="piano">Soft Piano</option>
-              <option value="lofi">Lo-Fi Chill</option>
+              <option value="none">1. None (No BGM)</option>
+              <option value="piano">2. Soft Piano Ambient</option>
+              <option value="lofi">3. Lo-Fi Chill Beats</option>
+              <option value="epic">4. Epic Cinematic Drums</option>
+              <option value="horror">5. Horror Suspense Ambient</option>
+              <option value="acoustic">6. Acoustic Peaceful Guitar</option>
+              <option value="meditation">7. Deep Meditation Drone</option>
+              <option value="jazz">8. Midnight Smooth Jazz</option>
+              <option value="cyber">9. Cyberpunk Synth Wave</option>
             </select>
           </div>
           <div class="slider-group">
@@ -139,38 +159,79 @@
       <div class="pro-tips-card">
         <h4><i class="fa-solid fa-lightbulb"></i> Gemini's Pro Tips</h4>
         <ul>
-          <li>Use 'Emotional / Deep' style for storytelling to get better resonances.</li>
-          <li>Keep Speech Speed at 0.9x or 1.0x for the most natural human-like flow.</li>
-          <li>For optimal voice quality, keep your script under 1500 characters per batch.</li>
+          <li>Auto-byte estimation calculates expected audio size and duration based on your text input.</li>
+          <li>For optimal storytelling, set narration style to 'Emotional' and background BGM to 'Soft Piano'.</li>
+          <li>You can switch between MP3 Audio or SRT Subtitle files during download options.</li>
         </ul>
       </div>
 
       <!-- Action Button -->
-      <button class="btn-generate"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Audio</button>
+      <button class="btn-generate" id="generateBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Audio</button>
 
       <!-- Stepper Status -->
-      <div class="status-stepper">
-        <div class="step active"><span></span> Ready</div>
+      <div class="status-stepper" id="statusStepper">
+        <div class="step active" id="stepReady"><span>●</span> Ready</div>
         <div class="step-line"></div>
-        <div class="step"><span></span> Generating...</div>
+        <div class="step" id="stepGenerating"><span>●</span> Generating...</div>
         <div class="step-line"></div>
-        <div class="step"><span></span> Done</div>
+        <div class="step" id="stepDone"><span>●</span> Done</div>
       </div>
 
       <!-- Result Player -->
-      <div class="result-card">
+      <div class="result-card hidden" id="resultCard">
         <div class="result-header">
           <span><i class="fa-solid fa-music"></i> Generated Audio Results</span>
-          <button class="btn-sub"><i class="fa-solid fa-download"></i> Download Options</button>
+          <div class="download-dropdown-wrapper">
+            <button class="btn-sub" id="downloadBtn"><i class="fa-solid fa-download"></i> Download Options <i class="fa-solid fa-chevron-down"></i></button>
+            <div class="download-menu hidden" id="downloadMenu">
+              <button id="dlMp3"><i class="fa-solid fa-file-audio"></i> Download MP3 Audio</button>
+              <button id="dlSrt"><i class="fa-solid fa-file-lines"></i> Download SRT Subtitle</button>
+            </div>
+          </div>
         </div>
         <div class="player-controls">
-          <button class="btn-play-main"><i class="fa-solid fa-play"></i></button>
-          <input type="range" class="audio-progress" value="0">
-          <span class="time">00:00 / 00:00</span>
+          <button class="btn-play-main" id="playResultBtn"><i class="fa-solid fa-play"></i></button>
+          <input type="range" class="audio-progress" id="audioProgress" value="0" min="0" max="100">
+          <span class="time" id="timeDisplay">00:00 / 00:00</span>
         </div>
       </div>
     </main>
   </div>
+
+  <!-- Settings Modal (Connected with Home Logic) -->
+  <div class="modal-backdrop hidden" id="settingsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-gear"></i> VoiceNest Studio Settings</h3>
+        <button class="modal-close" id="closeSettings">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Gemini API Key</label>
+          <input type="password" id="apiKeyInput" placeholder="Enter API Key for live AI generation..." class="text-input">
+        </div>
+        <div class="form-group">
+          <label>Default Audio Quality</label>
+          <select id="qualitySelect">
+            <option value="320">320kbps Studio Master</option>
+            <option value="192">192kbps Standard Quality</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Default Speech Speed</label>
+          <select id="defaultSpeedSelect">
+            <option value="1.0">1.0x Normal Speed</option>
+            <option value="0.9">0.9x Storytelling Recommended</option>
+            <option value="1.2">1.2x Fast Track</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-generate" id="saveSettingsBtn">Save & Apply to Home</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
