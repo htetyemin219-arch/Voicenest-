@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. 3 Languages & 9 Voice Actors System
+
+  // 1. DATA CONFIGURATION (4 LANGUAGES, 9 VOICES EACH, 9 STYLES, 9 BG TRACKS)
   const voiceData = {
     'en-US': [
       { id: 'david', name: '1. David (US Male)' },
@@ -33,154 +34,195 @@ document.addEventListener('DOMContentLoaded', () => {
       { id: 'taichi', name: '7. Taichi (Japanese Energetic)' },
       { id: 'mei', name: '8. Mei (Japanese Calm Whisper)' },
       { id: 'sora', name: '9. Sora (Japanese Commercial)' }
+    ],
+    'th': [
+      { id: 'somchai', name: '1. Somchai (Thai Male)' },
+      { id: 'ploy', name: '2. Ploy (Thai Female)' },
+      { id: 'kitti', name: '3. Kitti (Thai Deep Story)' },
+      { id: 'malee', name: '4. Malee (Thai Soft Voice)' },
+      { id: 'arthit', name: '5. Arthit (Thai Dramatic)' },
+      { id: 'chaya', name: '6. Chaya (Thai Energetic)' },
+      { id: 'sunan', name: '7. Sunan (Thai Calming)' },
+      { id: 'niran', name: '8. Niran (Thai Ghost Story)' },
+      { id: 'daw', name: '9. Daw (Thai Commercial)' }
     ]
   };
 
-  const langSelect = document.getElementById('langSelect');
-  const voiceSelect = document.getElementById('voiceSelect');
+  const styleOptions = [
+    { id: 'none', name: '-- None (Default Pitch) --' },
+    { id: 'plain', name: '1. Plain & Natural' },
+    { id: 'emotional', name: '2. Emotional & Deep' },
+    { id: 'dramatic', name: '3. Dramatic Movie Trailer' },
+    { id: 'whispering', name: '4. Soft Whispering' },
+    { id: 'horror', name: '5. Dark Horror Suspense' },
+    { id: 'cinematic', name: '6. Cinematic Epic' },
+    { id: 'storyteller', name: '7. Calm Storyteller' },
+    { id: 'energetic', name: '8. High Energy Hype' },
+    { id: 'soft', name: '9. Gentle Commercial' }
+  ];
 
-  function updateVoices(lang) {
-    if (!voiceSelect) return;
-    voiceSelect.innerHTML = '';
-    const voices = voiceData[lang] || voiceData['en-US'];
-    voices.forEach(v => {
+  const bgMusicOptions = [
+    { id: 'none', name: '-- None (No Music) --' },
+    { id: 'piano', name: '1. Soft Ambient Piano' },
+    { id: 'lofi', name: '2. Lo-Fi Chill Beats' },
+    { id: 'epic', name: '3. Epic Cinematic Drums' },
+    { id: 'horror', name: '4. Dark Horror Atmosphere' },
+    { id: 'acoustic', name: '5. Gentle Acoustic Guitar' },
+    { id: 'meditation', name: '6. Deep Meditation Pad' },
+    { id: 'jazz', name: '7. Smooth Midnight Jazz' },
+    { id: 'cyberpunk', name: '8. Cyberpunk Synthwave' },
+    { id: 'nature', name: '9. Calming Nature Water' }
+  ];
+
+  // DOM ELEMENTS
+  const langSelect = document.getElementById('langSelect');
+  const modalLangSelect = document.getElementById('modalLangSelect');
+  const voiceActorSelect = document.getElementById('voiceActorSelect');
+  const styleSelect = document.getElementById('styleSelect');
+  const bgMusicSelect = document.getElementById('bgMusicSelect');
+  const scriptInput = document.getElementById('scriptInput');
+  const charCount = document.getElementById('charCount');
+  const byteCount = document.getElementById('byteCount');
+  const estDuration = document.getElementById('estDuration');
+  const byteProgressBar = document.getElementById('byteProgressBar');
+  const speedSlider = document.getElementById('speedSlider');
+  const speedVal = document.getElementById('speedVal');
+  const pitchSlider = document.getElementById('pitchSlider');
+  const pitchVal = document.getElementById('pitchVal');
+  const downloadDropdownBtn = document.getElementById('downloadDropdownBtn');
+  const downloadMenu = document.getElementById('downloadMenu');
+
+  // 2. DYNAMIC POPULATE OPTIONS
+  function populateVoices(langKey) {
+    voiceActorSelect.innerHTML = '';
+    const list = voiceData[langKey] || voiceData['en-US'];
+    list.forEach(v => {
       const opt = document.createElement('option');
       opt.value = v.id;
       opt.textContent = v.name;
-      voiceSelect.appendChild(opt);
+      voiceActorSelect.appendChild(opt);
     });
   }
 
-  if (langSelect) {
-    updateVoices(langSelect.value);
-    langSelect.addEventListener('change', (e) => updateVoices(e.target.value));
+  function populateStaticSelects() {
+    styleSelect.innerHTML = '';
+    styleOptions.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name;
+      styleSelect.appendChild(opt);
+    });
+
+    bgMusicSelect.innerHTML = '';
+    bgMusicOptions.forEach(b => {
+      const opt = document.createElement('option');
+      opt.value = b.id;
+      opt.textContent = b.name;
+      bgMusicSelect.appendChild(opt);
+    });
   }
 
-  // 2. Auto-Byte Calculator Logic
-  const scriptInput = document.getElementById('scriptInput');
-  const charCount = document.getElementById('charCount');
-  const estTime = document.getElementById('estTime');
-  const byteSize = document.getElementById('byteSize');
-  const speedSlider = document.getElementById('speedSlider');
+  // 3. LANGUAGE SYNC SYSTEM
+  langSelect.addEventListener('change', (e) => {
+    const selectedLang = e.target.value;
+    modalLangSelect.value = selectedLang;
+    populateVoices(selectedLang);
+  });
 
-  function calculateAutoByte() {
-    if (!scriptInput) return;
+  modalLangSelect.addEventListener('change', (e) => {
+    const selectedLang = e.target.value;
+    langSelect.value = selectedLang;
+    populateVoices(selectedLang);
+  });
+
+  // 4. AUTO-BYTE & DURATION CALCULATOR LOGIC
+  scriptInput.addEventListener('input', updateByteInfo);
+  speedSlider.addEventListener('input', () => {
+    speedVal.textContent = speedSlider.value + 'x';
+    updateByteInfo();
+  });
+
+  pitchSlider.addEventListener('input', () => {
+    pitchVal.textContent = pitchSlider.value;
+  });
+
+  function updateByteInfo() {
     const text = scriptInput.value;
-    const len = text.length;
-    const speed = parseFloat(speedSlider ? speedSlider.value : 1.0);
+    const chars = text.length;
+    const bytes = new Blob([text]).size;
+    const kb = (bytes / 1024).toFixed(2);
 
-    // Estimation: ~15 chars per second adjusted by speech speed
-    const seconds = len > 0 ? Math.ceil((len / 15) / speed) : 0;
-    // Estimation: ~24 KB per second of 192kbps MP3 audio
-    const kb = Math.ceil(seconds * 24);
+    // Calculate Estimated Duration based on words/speed
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    const speed = parseFloat(speedSlider.value) || 1.0;
+    const seconds = ((words / 2.5) / speed).toFixed(1);
 
-    if (charCount) charCount.textContent = `${len} / 5000 chars`;
-    if (estTime) estTime.textContent = seconds >= 60 ? `${Math.floor(seconds/60)}m ${seconds%60}s` : `${seconds}s`;
-    if (byteSize) byteSize.textContent = `${kb} KB`;
+    charCount.textContent = chars;
+    byteCount.textContent = kb + ' KB';
+    estDuration.textContent = seconds + 's';
+
+    // Update Progress Bar (Max 1000 chars standard limit)
+    const pct = Math.min((chars / 1000) * 100, 100);
+    byteProgressBar.style.width = pct + '%';
   }
 
-  if (scriptInput) scriptInput.addEventListener('input', calculateAutoByte);
+  // 5. DOWNLOAD MENU TOGGLE
+  downloadDropdownBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    downloadMenu.classList.toggle('hidden');
+  });
 
-  // 3. Sliders & Live Speed Sync
-  const speedVal = document.getElementById('speedVal');
-  if (speedSlider && speedVal) {
-    speedSlider.addEventListener('input', (e) => {
-      speedVal.textContent = `${parseFloat(e.target.value).toFixed(1)}x`;
-      calculateAutoByte();
-    });
-  }
+  document.addEventListener('click', () => {
+    downloadMenu.classList.add('hidden');
+  });
 
-  const pitchSlider = document.getElementById('pitchSlider');
-  const pitchVal = document.getElementById('pitchVal');
-  if (pitchSlider && pitchVal) {
-    pitchSlider.addEventListener('input', (e) => pitchVal.textContent = e.target.value);
-  }
+  // 6. MODALS MANAGEMENT
+  document.getElementById('openSettingsBtn').onclick = () => showModal('settingsModal');
+  document.getElementById('openProjectsBtn').onclick = () => showModal('projectsModal');
+  document.getElementById('openFavsBtn').onclick = () => showModal('favsModal');
 
-  const volSlider = document.getElementById('volSlider');
-  const volVal = document.getElementById('volVal');
-  if (volSlider && volVal) {
-    volSlider.addEventListener('input', (e) => volVal.textContent = `${e.target.value}%`);
-  }
-
-  // 4. Plan Toggle (Free / Premium)
+  // PLAN TOGGLE LIVE SYNC
   const planToggleBtn = document.getElementById('planToggleBtn');
   const planText = document.getElementById('planText');
-  if (planToggleBtn && planText) {
-    planToggleBtn.addEventListener('click', () => {
-      if (planToggleBtn.classList.contains('premium')) {
-        planToggleBtn.classList.remove('premium');
-        planText.textContent = 'FREE PLAN';
-      } else {
-        planToggleBtn.classList.add('premium');
-        planText.textContent = 'PREMIUM PRO';
-      }
-    });
-  }
+  planToggleBtn.addEventListener('click', () => {
+    if (planToggleBtn.classList.contains('free-plan')) {
+      planToggleBtn.classList.remove('free-plan');
+      planToggleBtn.classList.add('pro-plan');
+      planText.textContent = 'PREMIUM PRO';
+    } else {
+      planToggleBtn.classList.remove('pro-plan');
+      planToggleBtn.classList.add('free-plan');
+      planText.textContent = 'FREE PLAN';
+    }
+  });
 
-  // 5. Download Options Menu Toggle (MP3 / SRT)
-  const downloadBtn = document.getElementById('downloadBtn');
-  const downloadMenu = document.getElementById('downloadMenu');
-  const dlMp3 = document.getElementById('dlMp3');
-  const dlSrt = document.getElementById('dlSrt');
-
-  if (downloadBtn && downloadMenu) {
-    downloadBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      downloadMenu.classList.toggle('hidden');
-    });
-    document.addEventListener('click', () => downloadMenu.classList.add('hidden'));
-  }
-
-  if (dlMp3) {
-    dlMp3.addEventListener('click', () => alert('Downloading Generated .MP3 Audio file...'));
-  }
-  if (dlSrt) {
-    dlSrt.addEventListener('click', () => alert('Downloading Generated .SRT Subtitle file...'));
-  }
-
-  // 6. Settings Modal connected to Home
-  const navSettings = document.getElementById('navSettings');
-  const settingsModal = document.getElementById('settingsModal');
-  const closeSettings = document.getElementById('closeSettings');
-  const saveSettingsBtn = document.getElementById('saveSettingsBtn');
-  const defaultSpeedSelect = document.getElementById('defaultSpeedSelect');
-
-  if (navSettings && settingsModal) {
-    navSettings.addEventListener('click', () => settingsModal.classList.remove('hidden'));
-  }
-  if (closeSettings && settingsModal) {
-    closeSettings.addEventListener('click', () => settingsModal.classList.add('hidden'));
-  }
-  if (saveSettingsBtn && settingsModal) {
-    saveSettingsBtn.addEventListener('click', () => {
-      if (defaultSpeedSelect && speedSlider) {
-        speedSlider.value = defaultSpeedSelect.value;
-        speedVal.textContent = `${parseFloat(defaultSpeedSelect.value).toFixed(1)}x`;
-        calculateAutoByte();
-      }
-      alert('Settings Applied to Home Dashboard!');
-      settingsModal.classList.add('hidden');
-    });
-  }
-
-  // 7. Preview & Generation Controls
-  const previewBtn = document.getElementById('previewBtn');
-  if (previewBtn) {
-    previewBtn.addEventListener('click', () => {
-      alert(`Playing Audio Preview with Voice Actor: ${voiceSelect.options[voiceSelect.selectedIndex].text}`);
-    });
-  }
-
-  const generateBtn = document.getElementById('generateBtn');
-  const resultCard = document.getElementById('resultCard');
-  if (generateBtn && resultCard) {
-    generateBtn.addEventListener('click', () => {
-      generateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing Audio & Auto-Byte...';
-      setTimeout(() => {
-        generateBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Audio';
-        resultCard.classList.remove('hidden');
-        alert('Audio Generated Successfully!');
-      }, 1500);
-    });
-  }
+  // INITIALIZE STUDIO
+  populateVoices('en-US');
+  populateStaticSelects();
+  updateByteInfo();
 });
+
+// GLOBAL HELPER FUNCTIONS
+function showModal(id) {
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+function insertSSML(tag) {
+  const textarea = document.getElementById('scriptInput');
+  textarea.value += ' ' + tag + ' ';
+  textarea.dispatchEvent(new Event('input'));
+}
+
+function clearScript() {
+  const textarea = document.getElementById('scriptInput');
+  textarea.value = '';
+  textarea.dispatchEvent(new Event('input'));
+}
+
+function previewCurrentAudio(type) {
+  alert(`🎧 Previewing current ${type.toUpperCase()} selection...`);
+}
