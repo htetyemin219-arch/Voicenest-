@@ -1,228 +1,268 @@
-document.addEventListener('DOMContentLoaded', () => {
+/* ==========================================================================
+   VOICENEST STUDIO v3.5 PRO - JAVASCRIPT ENGINE & LOCALIZATION
+   ================================================================---------- */
 
-  // 1. DATA CONFIGURATION (4 LANGUAGES, 9 VOICES EACH, 9 STYLES, 9 BG TRACKS)
-  const voiceData = {
-    'en-US': [
-      { id: 'david', name: '1. David (US Male)' },
-      { id: 'sarah', name: '2. Sarah (US Female)' },
-      { id: 'michael', name: '3. Michael (US Deep Narration)' },
-      { id: 'emily', name: '4. Emily (US Soft Storytelling)' },
-      { id: 'james', name: '5. James (US Cinematic)' },
-      { id: 'jessica', name: '6. Jessica (US Energetic)' },
-      { id: 'robert', name: '7. Robert (US Dark Drama)' },
-      { id: 'amanda', name: '8. Amanda (US Whisper)' },
-      { id: 'brian', name: '9. Brian (US News Commercial)' }
-    ],
-    'my': [
-      { id: 'aung', name: '1. Aung Aung (Myanmar Male)' },
-      { id: 'susu', name: '2. Su Su (Myanmar Female)' },
-      { id: 'thura', name: '3. Thura (Myanmar Soft Story)' },
-      { id: 'kyaw', name: '4. Kyaw Kyaw (Myanmar Deep Voice)' },
-      { id: 'mya', name: '5. Mya Mya (Myanmar Dramatic)' },
-      { id: 'zaw', name: '6. Zaw Zaw (Myanmar Energetic)' },
-      { id: 'hlahla', name: '7. Hla Hla (Myanmar Calming)' },
-      { id: 'hein', name: '8. Hein Htet (Myanmar Ghost Story)' },
-      { id: 'nilar', name: '9. Nilar (Myanmar Commercial)' }
-    ],
-    'ja': [
-      { id: 'kenji', name: '1. Kenji (Japanese Male)' },
-      { id: 'yuki', name: '2. Yuki (Japanese Female)' },
-      { id: 'hiroshi', name: '3. Hiroshi (Japanese Anime Male)' },
-      { id: 'sakura', name: '4. Sakura (Japanese Soft Female)' },
-      { id: 'ryo', name: '5. Ryo (Japanese Deep Narrator)' },
-      { id: 'hana', name: '6. Hana (Japanese Emotion)' },
-      { id: 'taichi', name: '7. Taichi (Japanese Energetic)' },
-      { id: 'mei', name: '8. Mei (Japanese Calm Whisper)' },
-      { id: 'sora', name: '9. Sora (Japanese Commercial)' }
-    ],
-    'th': [
-      { id: 'somchai', name: '1. Somchai (Thai Male)' },
-      { id: 'ploy', name: '2. Ploy (Thai Female)' },
-      { id: 'kitti', name: '3. Kitti (Thai Deep Story)' },
-      { id: 'malee', name: '4. Malee (Thai Soft Voice)' },
-      { id: 'arthit', name: '5. Arthit (Thai Dramatic)' },
-      { id: 'chaya', name: '6. Chaya (Thai Energetic)' },
-      { id: 'sunan', name: '7. Sunan (Thai Calming)' },
-      { id: 'niran', name: '8. Niran (Thai Ghost Story)' },
-      { id: 'daw', name: '9. Daw (Thai Commercial)' }
-    ]
-  };
-
-  const styleOptions = [
-    { id: 'none', name: '-- None (Default Pitch) --' },
-    { id: 'plain', name: '1. Plain & Natural' },
-    { id: 'emotional', name: '2. Emotional & Deep' },
-    { id: 'dramatic', name: '3. Dramatic Movie Trailer' },
-    { id: 'whispering', name: '4. Soft Whispering' },
-    { id: 'horror', name: '5. Dark Horror Suspense' },
-    { id: 'cinematic', name: '6. Cinematic Epic' },
-    { id: 'storyteller', name: '7. Calm Storyteller' },
-    { id: 'energetic', name: '8. High Energy Hype' },
-    { id: 'soft', name: '9. Gentle Commercial' }
-  ];
-
-  const bgMusicOptions = [
-    { id: 'none', name: '-- None (No Music) --' },
-    { id: 'piano', name: '1. Soft Ambient Piano' },
-    { id: 'lofi', name: '2. Lo-Fi Chill Beats' },
-    { id: 'epic', name: '3. Epic Cinematic Drums' },
-    { id: 'horror', name: '4. Dark Horror Atmosphere' },
-    { id: 'acoustic', name: '5. Gentle Acoustic Guitar' },
-    { id: 'meditation', name: '6. Deep Meditation Pad' },
-    { id: 'jazz', name: '7. Smooth Midnight Jazz' },
-    { id: 'cyberpunk', name: '8. Cyberpunk Synthwave' },
-    { id: 'nature', name: '9. Calming Nature Water' }
-  ];
-
-  // DOM ELEMENTS
-  const langSelect = document.getElementById('langSelect');
-  const modalLangSelect = document.getElementById('modalLangSelect');
-  const voiceActorSelect = document.getElementById('voiceActorSelect');
-  const styleSelect = document.getElementById('styleSelect');
-  const bgMusicSelect = document.getElementById('bgMusicSelect');
-  const scriptInput = document.getElementById('scriptInput');
-  const charCount = document.getElementById('charCount');
-  const byteCount = document.getElementById('byteCount');
-  const estDuration = document.getElementById('estDuration');
-  const byteProgressBar = document.getElementById('byteProgressBar');
-  const speedSlider = document.getElementById('speedSlider');
-  const speedVal = document.getElementById('speedVal');
-  const pitchSlider = document.getElementById('pitchSlider');
-  const pitchVal = document.getElementById('pitchVal');
-  const downloadDropdownBtn = document.getElementById('downloadDropdownBtn');
-  const downloadMenu = document.getElementById('downloadMenu');
-
-  // 2. DYNAMIC POPULATE OPTIONS
-  function populateVoices(langKey) {
-    voiceActorSelect.innerHTML = '';
-    const list = voiceData[langKey] || voiceData['en-US'];
-    list.forEach(v => {
-      const opt = document.createElement('option');
-      opt.value = v.id;
-      opt.textContent = v.name;
-      voiceActorSelect.appendChild(opt);
-    });
-  }
-
-  function populateStaticSelects() {
-    styleSelect.innerHTML = '';
-    styleOptions.forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = s.id;
-      opt.textContent = s.name;
-      styleSelect.appendChild(opt);
-    });
-
-    bgMusicSelect.innerHTML = '';
-    bgMusicOptions.forEach(b => {
-      const opt = document.createElement('option');
-      opt.value = b.id;
-      opt.textContent = b.name;
-      bgMusicSelect.appendChild(opt);
-    });
-  }
-
-  // 3. LANGUAGE SYNC SYSTEM
-  langSelect.addEventListener('change', (e) => {
-    const selectedLang = e.target.value;
-    modalLangSelect.value = selectedLang;
-    populateVoices(selectedLang);
-  });
-
-  modalLangSelect.addEventListener('change', (e) => {
-    const selectedLang = e.target.value;
-    langSelect.value = selectedLang;
-    populateVoices(selectedLang);
-  });
-
-  // 4. AUTO-BYTE & DURATION CALCULATOR LOGIC
-  scriptInput.addEventListener('input', updateByteInfo);
-  speedSlider.addEventListener('input', () => {
-    speedVal.textContent = speedSlider.value + 'x';
-    updateByteInfo();
-  });
-
-  pitchSlider.addEventListener('input', () => {
-    pitchVal.textContent = pitchSlider.value;
-  });
-
-  function updateByteInfo() {
-    const text = scriptInput.value;
-    const chars = text.length;
-    const bytes = new Blob([text]).size;
-    const kb = (bytes / 1024).toFixed(2);
-
-    // Calculate Estimated Duration based on words/speed
-    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-    const speed = parseFloat(speedSlider.value) || 1.0;
-    const seconds = ((words / 2.5) / speed).toFixed(1);
-
-    charCount.textContent = chars;
-    byteCount.textContent = kb + ' KB';
-    estDuration.textContent = seconds + 's';
-
-    // Update Progress Bar (Max 1000 chars standard limit)
-    const pct = Math.min((chars / 1000) * 100, 100);
-    byteProgressBar.style.width = pct + '%';
-  }
-
-  // 5. DOWNLOAD MENU TOGGLE
-  downloadDropdownBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    downloadMenu.classList.toggle('hidden');
-  });
-
-  document.addEventListener('click', () => {
-    downloadMenu.classList.add('hidden');
-  });
-
-  // 6. MODALS MANAGEMENT
-  document.getElementById('openSettingsBtn').onclick = () => showModal('settingsModal');
-  document.getElementById('openProjectsBtn').onclick = () => showModal('projectsModal');
-  document.getElementById('openFavsBtn').onclick = () => showModal('favsModal');
-
-  // PLAN TOGGLE LIVE SYNC
-  const planToggleBtn = document.getElementById('planToggleBtn');
-  const planText = document.getElementById('planText');
-  planToggleBtn.addEventListener('click', () => {
-    if (planToggleBtn.classList.contains('free-plan')) {
-      planToggleBtn.classList.remove('free-plan');
-      planToggleBtn.classList.add('pro-plan');
-      planText.textContent = 'PREMIUM PRO';
-    } else {
-      planToggleBtn.classList.remove('pro-plan');
-      planToggleBtn.classList.add('free-plan');
-      planText.textContent = 'FREE PLAN';
+// Localization Dictionary (EN, MY, JA, TH)
+const i18nDict = {
+    en: {
+        script_title: "Voice Script Workspace",
+        pause: "Pause",
+        emphasis: "Emphasis",
+        clear: "Clear",
+        chars: "Chars",
+        voice_selection: "Voice Actor Selection (9-Scale Pro)",
+        narration_style: "Narration Style & Emotion",
+        ambient_music: "Ambient Background Music",
+        bg_volume: "Background Vol:",
+        speed: "Speed:",
+        pitch: "Pitch:",
+        generate_btn: "GENERATE STUDIO VOICE",
+        engine_ready: "Voice Engine Ready",
+        export: "Export"
+    },
+    my: {
+        script_title: "အသံသွင်းစာသား လုပ်ငန်းခွင်",
+        pause: "ခဏရပ်",
+        emphasis: "အလေးပေး",
+        clear: "ဖျက်မည်",
+        chars: "စာလုံးရေ",
+        voice_selection: "အသံရှင် ရွေးချယ်မှု (9-Scale Pro)",
+        narration_style: "အသံနေအသံထားနှင့် ခံစားချက်",
+        ambient_music: "နောက်ခံ တီးလုံးတေးသွား",
+        bg_volume: "နောက်ခံအသံအကျယ်:",
+        speed: "အမြန်နှုန်း:",
+        pitch: "အသံအနိမ့်အမြင့်:",
+        generate_btn: "စတူဒီယို အသံဖိုင် ဖန်တီးမည်",
+        engine_ready: "အသံစနစ် အဆင်သင့်ဖြစ်ပါပြီ",
+        export: "ထုတ်ယူမည်"
+    },
+    ja: {
+        script_title: "音声スクリプト ワークスペース",
+        pause: "一時停止",
+        emphasis: "強調",
+        clear: "クリア",
+        chars: "文字",
+        voice_selection: "声優選択 (9スケールプロ)",
+        narration_style: "ナレーションスタイル＆感情",
+        ambient_music: "アンビエントBGM",
+        bg_volume: "BGM音量:",
+        speed: "速度:",
+        pitch: "ピッチ:",
+        generate_btn: "スタジオ音声を生成",
+        engine_ready: "音声エンジン準備完了",
+        export: "エクスポート"
+    },
+    th: {
+        script_title: "พื้นที่ทำงานสคริปต์เสียง",
+        pause: "หยุดชั่วคราว",
+        emphasis: "เน้นเสียง",
+        clear: "ล้าง",
+        chars: "ตัวอักษร",
+        voice_selection: "เลือกนักพากย์ (9-Scale Pro)",
+        narration_style: "สไตล์การเล่าเรื่องและอารมณ์",
+        ambient_music: "เพลงประกอบรอบข้าง",
+        bg_volume: "ระดับเสียง BG:",
+        speed: "ความเร็ว:",
+        pitch: "ระดับเสียงสูงต่ำ:",
+        generate_btn: "สร้างเสียงสตูดิโอ",
+        engine_ready: "เครื่องมือเสียงพร้อมใช้งาน",
+        export: "ส่งออก"
     }
-  });
+};
 
-  // INITIALIZE STUDIO
-  populateVoices('en-US');
-  populateStaticSelects();
-  updateByteInfo();
+let currentTier = 'free'; // 'free' or 'premium'
+let charLimits = { free: 2000, premium: 10000 };
+let currentLang = 'my';
+let isPlaying = false;
+
+// Initialize App
+document.addEventListener('DOMContentLoaded', () => {
+    updateScriptMetrics();
+    switchLanguage('my');
 });
 
-// GLOBAL HELPER FUNCTIONS
-function showModal(id) {
-  document.getElementById(id).classList.remove('hidden');
+// Update Script Metrics & Byte Progress
+function updateScriptMetrics() {
+    const text = document.getElementById('scriptInput').value;
+    const charCount = text.length;
+    const maxLimit = charLimits[currentTier];
+
+    document.getElementById('charCounter').textContent = charCount.toLocaleString();
+    document.getElementById('maxCharLimit').textContent = maxLimit.toLocaleString();
+    
+    // Size KB calculation
+    const sizeKB = (new Blob([text]).size / 1024).toFixed(2);
+    document.getElementById('sizeCounter').textContent = sizeKB + ' KB';
+
+    // Estimated duration calculation (approx 15 chars per second)
+    const estSec = (charCount / 14).toFixed(1);
+    document.getElementById('durationCounter').textContent = estSec + 's';
+
+    // Progress bar fill
+    const percentage = Math.min((charCount / maxLimit) * 100, 100);
+    const fillBar = document.getElementById('byteProgressBar');
+    fillBar.style.width = percentage + '%';
+    
+    if (percentage > 85) {
+        fillBar.style.background = 'var(--danger)';
+    } else {
+        fillBar.style.background = 'var(--accent-cyan)';
+    }
 }
 
-function closeModal(id) {
-  document.getElementById(id).classList.add('hidden');
-}
-
-function insertSSML(tag) {
-  const textarea = document.getElementById('scriptInput');
-  textarea.value += ' ' + tag + ' ';
-  textarea.dispatchEvent(new Event('input'));
-}
-
+// Clear Script
 function clearScript() {
-  const textarea = document.getElementById('scriptInput');
-  textarea.value = '';
-  textarea.dispatchEvent(new Event('input'));
+    document.getElementById('scriptInput').value = '';
+    updateScriptMetrics();
 }
 
-function previewCurrentAudio(type) {
-  alert(`🎧 Previewing current ${type.toUpperCase()} selection...`);
+// Insert SSML Tag
+function insertSSMLTag(tag) {
+    const textarea = document.getElementById('scriptInput');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const val = textarea.value;
+    
+    let tagText = tag === 'pause' ? '[pause: 1s]' : '[emphasis]';
+    textarea.value = val.substring(0, start) + tagText + val.substring(end);
+    textarea.focus();
+    updateScriptMetrics();
 }
+
+// Story Presets
+function applyPreset(type) {
+    const textarea = document.getElementById('scriptInput');
+    if (type === 'ghost') {
+        textarea.value = "တိတ်ဆိတ်ခြောက်ခြားဖွယ် ညတစ်ည... ရွာစွန်ဘုန်းကြီးကျောင်းဟောင်းလေးဆီကနေ လူသူကင်းမဲ့နေချိန် တိုးညှင်းတဲ့ အသံတွေ ထွက်ပေါ်လာခဲ့တယ်...";
+        document.getElementById('voiceActorSelect').value = "6"; // Hein Htet Ghost Story
+        document.getElementById('narrationStyleSelect').value = "suspense";
+        document.getElementById('ambientMusicSelect').value = "horror";
+    } else if (type === 'recap') {
+        textarea.value = "ဒီနေ့မှာတော့ ရုပ်ရှင်ဇာတ်ကားသစ်ကြီးရဲ့ အံ့သြဖွယ် အလှည့်အပြောင်းတွေကို တစ်ခုချင်းစီ ဆက်လက် တင်ဆက်ပေးသွားမှာ ဖြစ်ပါတယ်...";
+        document.getElementById('voiceActorSelect').value = "1";
+        document.getElementById('narrationStyleSelect').value = "energetic";
+        document.getElementById('ambientMusicSelect').value = "cinematic";
+    } else if (type === 'mystery') {
+        textarea.value = "သိပ္ပံပညာရှင်တွေတောင် ယနေ့တိုင် အဖြေမရှာနိုင်သေးတဲ့ စကြာဝဠာရဲ့ လျှို့ဝှက်ဆန်းကြယ် ရေအောက် နက်နဲရာ အချက်ပြမှုများ...";
+        document.getElementById('voiceActorSelect').value = "7"; // Mystery Deep Voice
+        document.getElementById('narrationStyleSelect').value = "documentary";
+        document.getElementById('ambientMusicSelect').value = "mystery";
+    } else if (type === 'story') {
+        textarea.value = "ရှေးဟောင်း ပုံပြင် ရာဇဝင်တစ်ပုဒ်ကို ပြန်လည်ပြောပြရမယ်ဆိုရင်ဖြင့် ကာလများစွာက စတင်ခဲ့ပါတယ်...";
+        document.getElementById('voiceActorSelect').value = "3";
+        document.getElementById('narrationStyleSelect').value = "dramatic";
+        document.getElementById('ambientMusicSelect').value = "sciFi";
+    } else if (type === 'none') {
+        textarea.value = "";
+        document.getElementById('ambientMusicSelect').value = "none";
+    }
+    updateScriptMetrics();
+}
+
+// Aspect Ratio Selector
+function setAspectRatio(ratio, btn) {
+    document.querySelectorAll('.ratio-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+// Sliders Value Update
+function updateSliderVal(type, val) {
+    if (type === 'bgVol') {
+        document.getElementById('bgVolVal').textContent = val + '%';
+    } else if (type === 'speed') {
+        document.getElementById('speedVal').textContent = val + 'x';
+    } else if (type === 'pitch') {
+        document.getElementById('pitchVal').textContent = (val > 0 ? '+' + val : val);
+    }
+}
+
+// Settings Bottom Sheet Drawer Controls
+function openSettingsDrawer() {
+    document.getElementById('settingsDrawerOverlay').classList.add('show');
+    document.getElementById('settingsBottomDrawer').classList.add('show');
+}
+
+function closeSettingsDrawer() {
+    document.getElementById('settingsDrawerOverlay').classList.remove('show');
+    document.getElementById('settingsBottomDrawer').classList.remove('show');
+}
+
+// Plan Tier Switcher
+function setPlanTier(tier) {
+    currentTier = tier;
+    const badge = document.getElementById('planBadge');
+    const badgeText = document.getElementById('planBadgeText');
+    
+    if (tier === 'premium') {
+        badge.className = "plan-badge premium";
+        badgeText.textContent = "PREMIUM PRO";
+        document.getElementById('tierPremBtn').classList.add('active');
+        document.getElementById('tierFreeBtn').classList.remove('active');
+        document.getElementById('bitrateSelect').value = "320";
+    } else {
+        badge.className = "plan-badge free";
+        badgeText.textContent = "FREE PLAN";
+        document.getElementById('tierFreeBtn').classList.add('active');
+        document.getElementById('tierPremBtn').classList.remove('active');
+        document.getElementById('bitrateSelect').value = "128";
+    }
+    updateScriptMetrics();
+}
+
+function saveSettings() {
+    closeSettingsDrawer();
+    alert("Pro Settings successfully applied!");
+}
+
+// Language Switcher (Real-time i18n)
+function switchLanguage(lang) {
+    currentLang = lang;
+    document.getElementById('mainLangSelector').value = lang;
+    document.getElementById('settingsLangSelect').value = lang;
+
+    const dict = i18nDict[lang];
+    if (!dict) return;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+            el.textContent = dict[key];
+        }
+    });
+}
+
+// Export Menu Toggle
+function toggleExportMenu() {
+    document.getElementById('exportMenu').classList.toggle('show');
+}
+
+// Play / Pause Simulation
+function togglePlayPause() {
+    isPlaying = !isPlaying;
+    const btn = document.getElementById('playPauseBtn');
+    btn.innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+}
+
+// Generate Voice Action
+function generateStudioVoice() {
+    const text = document.getElementById('scriptInput').value.trim();
+    if (!text) {
+        alert("ကျေးဇူးပြု၍ စာသားအနည်းဆုံး ရိုက်ထည့်ပါ!");
+        return;
+    }
+    alert("Voice Engine မှ အသံဖိုင်ကို စတင် ထုတ်လုပ်နေပါပြီ... ခေတ္တစောင့်ဆိုင်းပေးပါ။");
+    isPlaying = true;
+    document.getElementById('playPauseBtn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+}
+
+function previewAudio(type) {
+    alert("Previewing " + type + " sample audio...");
+}
+
+function exportAudio(format) {
+    toggleExportMenu();
+    alert("Exporting audio in ." + format.toUpperCase() + " format successfully!");
+}
+
+function openProjectsModal() { alert("Projects modal opened."); }
+function openFavoritesModal() { alert("Favorites modal opened."); }
