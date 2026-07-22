@@ -1,236 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VoiceNest Studio v3.5 Pro</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceNest Studio v3.5 Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="dark-theme">
+<body>
 
-  <!-- TOP HEADER -->
-  <header class="app-header">
-    <div class="logo-container">
-      <i class="fa-solid fa-compact-disc logo-icon glow-effect"></i>
-      <h1 class="logo-text">VoiceNest <span class="highlight">Studio v3.5 Pro</span></h1>
-    </div>
-
-    <div class="header-controls">
-      <!-- Plan Toggle -->
-      <button id="planToggleBtn" class="plan-badge free-plan">
-        <i class="fa-solid fa-crown"></i> <span id="planText">FREE PLAN</span>
-      </button>
-
-      <!-- Global Language Switcher -->
-      <div class="lang-selector-wrapper">
-        <i class="fa-solid fa-globe"></i>
-        <select id="langSelect" class="badge-select">
-          <option value="en-US">English (US) 🇺🇸</option>
-          <option value="my">Myanmar 🇲🇲</option>
-          <option value="ja">Japanese 🇯🇵</option>
-          <option value="th">Thai 🇹🇭</option>
-        </select>
-      </div>
-
-      <!-- Settings & Tabs Buttons -->
-      <button id="openProjectsBtn" class="icon-btn" title="My Projects"><i class="fa-solid fa-folder-open"></i></button>
-      <button id="openFavsBtn" class="icon-btn" title="Favorites"><i class="fa-solid fa-star"></i></button>
-      <button id="openSettingsBtn" class="icon-btn" title="Settings"><i class="fa-solid fa-gear"></i></button>
-    </div>
-  </header>
-
-  <!-- MAIN WORKSPACE -->
-  <main class="studio-container">
-    
-    <!-- LEFT PANEL: SCRIPT INPUT & TOOLS -->
-    <section class="panel script-panel">
-      <div class="panel-header">
-        <h2><i class="fa-solid fa-pen-nib"></i> Voice Script Workspace</h2>
-        <div class="ssml-tools">
-          <button class="tool-chip" onclick="insertSSML('[pause=1s]')">+ 1s Pause</button>
-          <button class="tool-chip" onclick="insertSSML('[emphasis=high]')">+ Emphasis</button>
-          <button class="tool-chip" onclick="clearScript()">Clear</button>
-        </div>
-      </div>
-
-      <textarea id="scriptInput" placeholder="Enter or paste your narration script here... (Supports English, Myanmar, Japanese & Thai)"></textarea>
-
-      <!-- Auto-Byte & Info Bar -->
-      <div class="byte-bar-container">
-        <div class="byte-info">
-          <span><i class="fa-solid fa-font"></i> Chars: <b id="charCount">0</b></span>
-          <span><i class="fa-solid fa-hard-drive"></i> Size: <b id="byteCount">0 KB</b></span>
-          <span><i class="fa-solid fa-clock"></i> Est. Duration: <b id="estDuration">0.0s</b></span>
-        </div>
-        <div class="byte-progress-bg">
-          <div id="byteProgressBar" class="byte-progress-fill" style="width: 0%;"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- RIGHT PANEL: VOICE & AUDIO CONTROLS -->
-    <section class="panel controls-panel">
-      
-      <!-- Voice Actor Selection Panel -->
-      <div class="control-group">
-        <label><i class="fa-solid fa-microphone-lines"></i> Voice Actor Selection (9-Scale Options)</label>
-        <div class="inline-control-row">
-          <select id="voiceActorSelect" class="styled-select"></select>
-          <button class="preview-btn" onclick="previewCurrentAudio('voice')" title="Preview Voice"><i class="fa-solid fa-play"></i> 🎧</button>
-          <button class="fav-toggle-btn" id="favVoiceBtn" title="Favorite Voice"><i class="fa-regular fa-star"></i></button>
-        </div>
-      </div>
-
-      <!-- Narration Style & Emotion Panel -->
-      <div class="control-group">
-        <label><i class="fa-solid fa-masks-theater"></i> Narration Style & Emotion</label>
-        <div class="inline-control-row">
-          <select id="styleSelect" class="styled-select"></select>
-          <button class="preview-btn" onclick="previewCurrentAudio('style')" title="Preview Style"><i class="fa-solid fa-play"></i> 🎧</button>
-        </div>
-      </div>
-
-      <!-- Background Music Mixer Panel -->
-      <div class="control-group">
-        <label><i class="fa-solid fa-music"></i> Ambient Background Music</label>
-        <div class="inline-control-row">
-          <select id="bgMusicSelect" class="styled-select"></select>
-          <button class="preview-btn" onclick="previewCurrentAudio('bg')" title="Preview Music"><i class="fa-solid fa-play"></i> 🎧</button>
-        </div>
-        <div class="slider-row">
-          <span>BG Vol:</span>
-          <input type="range" id="bgVolumeSlider" min="0" max="100" value="30">
-          <span id="bgVolValue">30%</span>
-        </div>
-      </div>
-
-      <!-- Speech Speed & Pitch Controls -->
-      <div class="control-group dual-sliders">
-        <div class="slider-col">
-          <label><i class="fa-solid fa-gauge-high"></i> Speed: <span id="speedVal">1.0x</span></label>
-          <input type="range" id="speedSlider" min="0.5" max="2.0" step="0.1" value="1.0">
-        </div>
-        <div class="slider-col">
-          <label><i class="fa-solid fa-sliders"></i> Pitch: <span id="pitchVal">0</span></label>
-          <input type="range" id="pitchSlider" min="-5" max="5" step="1" value="0">
-        </div>
-      </div>
-
-      <!-- Generate Button -->
-      <button id="generateBtn" class="generate-btn glow-btn">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> GENERATE STUDIO VOICE
-      </button>
-
-    </section>
-
-  </main>
-
-  <!-- VOICE RESULTS & DYNAMIC AUDIO PLAYER ZONE -->
-  <section class="results-section">
-    <div class="result-card glow-border" id="resultCard">
-      <div class="result-header">
-        <div class="status-indicator">
-          <span class="pulse-dot"></span>
-          <span id="resultStatusText">Voice Engine Ready</span>
+    <!-- Header Navigation Bar -->
+    <header class="app-header">
+        <div class="brand-box">
+            <div class="logo-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+            <h1 class="brand-title">VoiceNest <span class="version-tag">v3.5 Pro</span></h1>
         </div>
         
-        <!-- Download Options Dropdown -->
-        <div class="download-dropdown-wrapper">
-          <button id="downloadDropdownBtn" class="download-main-btn"><i class="fa-solid fa-download"></i> Export <i class="fa-solid fa-chevron-down"></i></button>
-          <div id="downloadMenu" class="download-menu hidden">
-            <a href="#" id="downloadMp3Btn"><i class="fa-solid fa-file-audio"></i> Download Audio (.MP3)</a>
-            <a href="#" id="downloadSrtBtn"><i class="fa-solid fa-file-lines"></i> Download Subtitle (.SRT)</a>
-          </div>
-        </div>
-      </div>
+        <div class="header-actions">
+            <!-- Live Plan Tier Badge (Clickable to open settings) -->
+            <button id="planBadge" class="plan-badge free" onclick="openSettingsDrawer()">
+                <i class="fa-solid fa-crown"></i> <span id="planBadgeText">FREE PLAN</span>
+            </button>
 
-      <!-- Interactive Equalizer & Scrubber -->
-      <div class="player-core">
-        <button id="playPauseResultBtn" class="player-play-btn"><i class="fa-solid fa-play"></i></button>
-        <div class="visualizer-container">
-          <div class="rgb-equalizer">
-            <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-            <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
-          </div>
-          <input type="range" id="audioScrubber" value="0" max="100" class="scrubber-input">
+            <!-- Language Switcher -->
+            <div class="lang-selector-wrapper">
+                <select id="mainLangSelector" onchange="switchLanguage(this.value)">
+                    <option value="en">English 🇬🇧</option>
+                    <option value="my" selected>Myanmar 🇲🇦</option>
+                    <option value="ja">Japanese 🇯🇵</option>
+                    <option value="th">Thai 🇹🇭</option>
+                </select>
+            </div>
+
+            <!-- Action Icons -->
+            <button class="icon-btn" onclick="openProjectsModal()" title="Projects"><i class="fa-solid fa-folder-open"></i></button>
+            <button class="icon-btn" onclick="openFavoritesModal()" title="Favorites"><i class="fa-solid fa-star"></i></button>
+            <button class="icon-btn settings-trigger" onclick="openSettingsDrawer()" title="Settings"><i class="fa-solid fa-gear"></i></button>
         </div>
-        <span id="audioTimer" class="time-display">00:00 / 00:00</span>
-      </div>
+    </header>
+
+    <!-- Main Studio Workspace Container -->
+    <main class="studio-container">
+
+        <!-- Left Column: Script Workspace -->
+        <section class="workspace-card">
+            <div class="card-header">
+                <h2><i class="fa-solid fa-pen-nib"></i> <span data-i18n="script_title">Voice Script Workspace</span></h2>
+                <div class="quick-tools">
+                    <button class="tool-chip" onclick="insertSSMLTag('pause')"><i class="fa-solid fa-pause"></i> <span data-i18n="pause">Pause</span></button>
+                    <button class="tool-chip" onclick="insertSSMLTag('emphasis')"><i class="fa-solid fa-bolt"></i> <span data-i18n="emphasis">Emphasis</span></button>
+                    <button class="tool-chip clear-btn" onclick="clearScript()"><i class="fa-solid fa-trash-can"></i> <span data-i18n="clear">Clear</span></button>
+                </div>
+            </div>
+
+            <!-- Story Presets Tags (Ghost Story, Recap, Sci-Fi, etc.) -->
+            <div class="preset-tags-scroller">
+                <button class="preset-tag" onclick="applyPreset('ghost')">👻 Ghost Story</button>
+                <button class="preset-tag" onclick="applyPreset('recap')">🎬 Movie Recap</button>
+                <button class="preset-tag" onclick="applyPreset('mystery')">🕵️ Mystery / Sci-Fi</button>
+                <button class="preset-tag" onclick="applyPreset('story')">📖 Storytelling</button>
+                <button class="preset-tag" onclick="applyPreset('none')">❌ Clear Preset</button>
+            </div>
+
+            <!-- Text Area Input -->
+            <textarea id="scriptInput" placeholder="Enter or paste your narration script here... (Supports Ghost Stories, Mysteries, Recaps & More)" oninput="updateScriptMetrics()"></textarea>
+
+            <!-- Video Aspect Ratio Selector Chips -->
+            <div class="aspect-ratio-selector">
+                <span class="ratio-label"><i class="fa-solid fa-crop"></i> Aspect Ratio:</span>
+                <button class="ratio-chip active" onclick="setAspectRatio('16:9', this)">16:9 (YouTube)</button>
+                <button class="ratio-chip" onclick="setAspectRatio('9:16', this)">9:16 (Shorts/TikTok)</button>
+                <button class="ratio-chip" onclick="setAspectRatio('1:1', this)">1:1 (Square)</button>
+            </div>
+
+            <!-- Live Metrics & Byte Progress Bar -->
+            <div class="metrics-footer">
+                <div class="metrics-info">
+                    <span><i class="fa-solid fa-font"></i> <strong id="charCounter">0</strong> / <span id="maxCharLimit">2,000</span> <span data-i18n="chars">Chars</span></span>
+                    <span><i class="fa-solid fa-file-lines"></i> <strong id="sizeCounter">0.00 KB</strong></span>
+                    <span><i class="fa-solid fa-clock"></i> <strong id="durationCounter">0.0s</strong></span>
+                </div>
+                <div class="byte-progress-track">
+                    <div id="byteProgressBar" class="byte-progress-fill"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Pro Control Center -->
+        <section class="controls-card">
+            
+            <!-- Voice Actor Selection (9-Scale Options including Mystery/Horror) -->
+            <div class="control-group">
+                <label><i class="fa-solid fa-microphone"></i> <span data-i18n="voice_selection">Voice Actor Selection (9-Scale Pro)</span></label>
+                <div class="select-with-preview">
+                    <select id="voiceActorSelect" class="glass-select">
+                        <option value="1">1. Aung Aung (Myanmar Male)</option>
+                        <option value="2">2. Su Su (Myanmar Female)</option>
+                        <option value="3">3. Thura (Myanmar Soft Story)</option>
+                        <option value="4">4. Kyaw Kyaw (Myanmar Deep Voice)</option>
+                        <option value="5">5. Mya Mya (Myanmar Dramatic)</option>
+                        <option value="6">6. Hein Htet (Myanmar Ghost Story)</option>
+                        <option value="7">7. Mystery Deep Voice (Sci-Fi / Unexplained)</option>
+                        <option value="8">8. Dark Horror Suspense (Creepy Narrator)</option>
+                        <option value="9">9. Nilar (Myanmar Commercial Pro)</option>
+                    </select>
+                    <button class="preview-btn" onclick="previewAudio('voice')" title="Preview Voice"><i class="fa-solid fa-headphones"></i></button>
+                </div>
+            </div>
+
+            <!-- Narration Style & Emotion -->
+            <div class="control-group">
+                <label><i class="fa-solid fa-masks-theater"></i> <span data-i18n="narration_style">Narration Style & Emotion</span></label>
+                <div class="select-with-preview">
+                    <select id="narrationStyleSelect" class="glass-select">
+                        <option value="plain">1. Plain & Natural</option>
+                        <option value="suspense">2. Suspenseful & Creepy</option>
+                        <option value="documentary">3. Documentary / Sci-Fi Discovery</option>
+                        <option value="dramatic">4. Dramatic Storyteller</option>
+                        <option value="energetic">5. Energetic Recap</option>
+                    </select>
+                    <button class="preview-btn" onclick="previewAudio('style')" title="Preview Style"><i class="fa-solid fa-headphones"></i></button>
+                </div>
+            </div>
+
+            <!-- Ambient Background Music -->
+            <div class="control-group">
+                <label><i class="fa-solid fa-music"></i> <span data-i18n="ambient_music">Ambient Background Music</span></label>
+                <div class="select-with-preview">
+                    <select id="ambientMusicSelect" class="glass-select" onchange="toggleAmbientMusicState()">
+                        <option value="none">-- None (No Music) --</option>
+                        <option value="horror">Dark Horror Ambient Drone</option>
+                        <option value="sciFi">Deep Space Sci-Fi Pad</option>
+                        <option value="mystery">Unsolved Mystery Suspense</option>
+                        <option value="cinematic">Epic Cinematic Orchestral</option>
+                    </select>
+                    <button class="preview-btn" onclick="previewAudio('ambient')" title="Preview Music"><i class="fa-solid fa-headphones"></i></button>
+                </div>
+            </div>
+
+            <!-- Volume Control Slider -->
+            <div class="slider-group">
+                <div class="slider-label-row">
+                    <span><i class="fa-solid fa-volume-high"></i> <span data-i18n="bg_volume">Background Vol:</span></span>
+                    <strong id="bgVolVal">30%</strong>
+                </div>
+                <input type="range" id="bgVolSlider" min="0" max="100" value="30" oninput="updateSliderVal('bgVol', this.value)">
+            </div>
+
+            <!-- Speed & Pitch Sliders -->
+            <div class="sliders-grid">
+                <div class="slider-group">
+                    <div class="slider-label-row">
+                        <span><i class="fa-solid fa-gauge-high"></i> <span data-i18n="speed">Speed:</span></span>
+                        <strong id="speedVal">1.0x</strong>
+                    </div>
+                    <input type="range" id="speedSlider" min="0.5" max="2.0" step="0.1" value="1.0" oninput="updateSliderVal('speed', this.value)">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label-row">
+                        <span><i class="fa-solid fa-sliders"></i> <span data-i18n="pitch">Pitch:</span></span>
+                        <strong id="pitchVal">0</strong>
+                    </div>
+                    <input type="range" id="pitchSlider" min="-10" max="10" value="0" oninput="updateSliderVal('pitch', this.value)">
+                </div>
+            </div>
+
+            <!-- Generate Voice Button -->
+            <button class="generate-btn" onclick="generateStudioVoice()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="generate_btn">GENERATE STUDIO VOICE</span>
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Audio Player & Neon Waveform Output Bar -->
+    <footer class="player-footer">
+        <div class="player-status-row">
+            <span class="engine-status"><span class="pulse-dot"></span> <span data-i18n="engine_ready">Voice Engine Ready</span></span>
+            
+            <div class="export-dropdown-wrapper">
+                <button class="export-btn" onclick="toggleExportMenu()">
+                    <i class="fa-solid fa-download"></i> <span data-i18n="export">Export</span> <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div id="exportMenu" class="glass-dropdown-menu">
+                    <a href="#" onclick="exportAudio('mp3')"><i class="fa-solid fa-file-audio"></i> Export MP3 (HD)</a>
+                    <a href="#" onclick="exportAudio('wav')" id="wavExportOpt"><i class="fa-solid fa-file-waveform"></i> Export WAV (Master)</a>
+                    <a href="#" onclick="exportAudio('srt')"><i class="fa-solid fa-closed-captioning"></i> Export Subtitles (SRT)</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Waveform Player -->
+        <div class="player-main-bar">
+            <button id="playPauseBtn" class="play-main-btn" onclick="togglePlayPause()"><i class="fa-solid fa-play"></i></button>
+            
+            <!-- Neon Waveform Bars Visualizer -->
+            <div class="neon-waveform-container" onclick="seekAudio(event)">
+                <div class="wave-bar" style="height: 30%;"></div>
+                <div class="wave-bar" style="height: 60%;"></div>
+                <div class="wave-bar" style="height: 90%;"></div>
+                <div class="wave-bar" style="height: 45%;"></div>
+                <div class="wave-bar" style="height: 75%;"></div>
+                <div class="wave-bar" style="height: 100%;"></div>
+                <div class="wave-bar" style="height: 50%;"></div>
+                <div class="wave-bar" style="height: 80%;"></div>
+                <div class="wave-bar" style="height: 40%;"></div>
+                <div class="wave-bar" style="height: 65%;"></div>
+            </div>
+
+            <div class="audio-timer"><span id="currentTime">00:00</span> / <span id="totalDuration">00:00</span></div>
+        </div>
+        <div class="progress-bar-track" onclick="seekAudio(event)">
+            <div id="audioProgressFill" class="progress-bar-fill"></div>
+        </div>
+    </footer>
+
+    <!-- Bottom Sheet Settings Drawer (Glassmorphism Pro) -->
+    <div id="settingsDrawerOverlay" class="drawer-overlay" onclick="closeSettingsDrawer()"></div>
+    <div id="settingsBottomDrawer" class="bottom-sheet-drawer">
+        <div class="drawer-drag-handle"></div>
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-sliders"></i> Pro Studio Settings</h3>
+            <button class="close-drawer-btn" onclick="closeSettingsDrawer()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="drawer-body">
+            
+            <!-- Plan Tier Switcher -->
+            <div class="settings-field">
+                <label>Plan Subscription Tier</label>
+                <div class="plan-toggle-container">
+                    <button id="tierFreeBtn" class="tier-pill active" onclick="setPlanTier('free')">Free Plan (2k Chars)</button>
+                    <button id="tierPremBtn" class="tier-pill" onclick="setPlanTier('premium')">💎 Premium Pro (10k Chars)</button>
+                </div>
+            </div>
+
+            <!-- API Key Input -->
+            <div class="settings-field">
+                <label>Gemini / TTS API Key</label>
+                <input type="password" id="apiKeyInput" class="glass-input" placeholder="Paste your API key here...">
+            </div>
+
+            <!-- Settings Language Sync -->
+            <div class="settings-field">
+                <label>Settings Language Sync</label>
+                <select id="settingsLangSelect" class="glass-select" onchange="switchLanguage(this.value)">
+                    <option value="en">English 🇬🇧</option>
+                    <option value="my" selected>Myanmar 🇲🇦</option>
+                    <option value="ja">Japanese 🇯🇵</option>
+                    <option value="th">Thai 🇹🇭</option>
+                </select>
+            </div>
+
+            <!-- Audio Quality Bitrate -->
+            <div class="settings-field">
+                <label>Audio Quality Bitrate</label>
+                <select id="bitrateSelect" class="glass-select">
+                    <option value="128">Standard (128 kbps - Free)</option>
+                    <option value="320">Studio Master (320 kbps - Pro)</option>
+                </select>
+            </div>
+
+            <!-- Default Speech Speed -->
+            <div class="settings-field">
+                <label>Default Speech Speed</label>
+                <input type="range" min="0.5" max="2.0" step="0.1" value="1.0" class="glass-range">
+            </div>
+
+            <button class="save-apply-btn" onclick="saveSettings()"><i class="fa-solid fa-check"></i> Save & Apply to Home</button>
+        </div>
     </div>
-  </section>
 
-  <!-- SETTINGS MODAL -->
-  <div id="settingsModal" class="modal-overlay hidden">
-    <div class="modal-content glass-card">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-sliders"></i> Pro Studio Settings</h3>
-        <button class="close-modal-btn" onclick="closeModal('settingsModal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        
-        <div class="setting-item">
-          <label>Gemini / TTS API Key</label>
-          <input type="password" id="modalApiKey" placeholder="Paste your API key here..." class="styled-input">
-        </div>
-
-        <div class="setting-item">
-          <label>Settings Language Sync</label>
-          <select id="modalLangSelect" class="styled-select">
-            <option value="en-US">English (US) 🇺🇸</option>
-            <option value="my">Myanmar 🇲🇲</option>
-            <option value="ja">Japanese 🇯🇵</option>
-            <option value="th">Thai 🇹🇭</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <label>Audio Quality Bitrate</label>
-          <select id="modalQualitySelect" class="styled-select">
-            <option value="128">Standard (128 kbps - Free)</option>
-            <option value="320">Studio HD (320 kbps - Pro Unlocked)</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <label>Default Speech Speed</label>
-          <input type="range" id="modalDefaultSpeed" min="0.5" max="2.0" step="0.1" value="1.0">
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button id="saveSettingsBtn" class="save-btn"><i class="fa-solid fa-check"></i> Save & Apply to Home</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MY PROJECTS MODAL -->
-  <div id="projectsModal" class="modal-overlay hidden">
-    <div class="modal-content glass-card">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-folder-open"></i> My Projects (History)</h3>
-        <button class="close-modal-btn" onclick="closeModal('projectsModal')">&times;</button>
-      </div>
-      <div class="modal-body" id="projectsList">
-        <p class="empty-msg">No saved voice projects yet.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- FAVORITES MODAL -->
-  <div id="favsModal" class="modal-overlay hidden">
-    <div class="modal-content glass-card">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-star"></i> Favorite Voices & Presets</h3>
-        <button class="close-modal-btn" onclick="closeModal('favsModal')">&times;</button>
-      </div>
-      <div class="modal-body" id="favsList">
-        <p class="empty-msg">No favorite voices added yet.</p>
-      </div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <!-- JavaScript Link -->
+    <script src="script.js"></script>
 </body>
 </html>
